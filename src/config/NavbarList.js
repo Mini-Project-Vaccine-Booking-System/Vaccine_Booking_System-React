@@ -30,11 +30,11 @@ const routes = [
         name: "Atur Tiket Vaksin ",
         icon: <FaUser />,
       },
-      // {
-      //   path: "/fitur/dua",
-      //   name: "Fitur2",
-      //   icon: <FaLock />,
-      // },
+      {
+        path: "/fitur/dua",
+        name: "Fitur2",
+        icon: <FaLock />,
+      },
       // {
       //   path: "/fitur/tigas",
       //   name: "Fitur3",
