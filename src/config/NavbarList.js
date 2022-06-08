@@ -8,6 +8,7 @@ import { BsCartCheck } from "react-icons/bs";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar";
+import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 const routes = [
   {
     path: "/",
@@ -21,12 +22,12 @@ const routes = [
   },
   {
     path: "/fitur",
-    name: "Fitur1",
+    name: "TIKET VASKSIN",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
-        path: "/fitur/satu",
-        name: "Fitur1 ",
+        path: "/fitur/tiketVaksin",
+        name: "Atur Tiket Vaksin ",
         icon: <FaUser />,
       },
       {
@@ -34,21 +35,21 @@ const routes = [
         name: "Fitur2",
         icon: <FaLock />,
       },
-      {
-        path: "/fitur/tigas",
-        name: "Fitur3",
-        icon: <FaMoneyBill />,
-      },
+      // {
+      //   path: "/fitur/tigas",
+      //   name: "Fitur3",
+      //   icon: <FaMoneyBill />,
+      // },
     ],
   },
-  {
-    path: "/order",
-    name: "Order",
-    icon: <BsCartCheck />,
-  },
+  // {
+  //   path: "/order",
+  //   name: "Order",
+  //   icon: <BsCartCheck />,
+  // },
   {
     path: "/fungsi",
-    name: "Fungsi",
+    name: "SETTING",
     icon: <BiCog />,
     exact: true,
     subRoutes: [
@@ -110,6 +111,23 @@ const NavBarList = ({ children }) => {
 
   return (
     <>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          ></IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Button className="" color="inherit" variant="outlined" >
+              Berita Terbaru
+            </Button>
+          </Typography>
+          <Button color="inherit" variant="outlined">Login</Button>
+        </Toolbar>
+      </AppBar>
       <div className="main-container">
         <motion.div
           animate={{
