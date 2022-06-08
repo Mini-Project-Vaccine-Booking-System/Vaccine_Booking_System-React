@@ -16,30 +16,25 @@ const routes = [
     icon: <FaHome />,
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: <FaUser />,
-  },
-  {
     path: "/fitur",
-    name: "TIKET VASKSIN",
+    name: "Menu",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
         path: "/fitur/tiketVaksin",
-        name: "Atur Tiket Vaksin ",
+        name: "Atur Sesi Tiket Vaksin ",
         icon: <FaUser />,
       },
       {
-        path: "/fitur/dua",
-        name: "Fitur2",
+        path: "/fitur/kelolaPesananTiket",
+        name: "Kelola Pesanan Tiket",
         icon: <FaLock />,
       },
-      // {
-      //   path: "/fitur/tigas",
-      //   name: "Fitur3",
-      //   icon: <FaMoneyBill />,
-      // },
+      {
+        path: "/fitur/aturVaksin",
+        name: "Atur Vaksin",
+        icon: <FaMoneyBill />,
+      },
     ],
   },
   // {
@@ -49,7 +44,7 @@ const routes = [
   // },
   {
     path: "/fungsi",
-    name: "SETTING",
+    name: "Setting",
     icon: <BiCog />,
     exact: true,
     subRoutes: [
@@ -131,12 +126,12 @@ const NavBarList = ({ children }) => {
       <div className="main-container">
         <motion.div
           animate={{
-            width: isOpen ? "200px" : "45px",
+            width: isOpen ? "300px" : "55px",
 
             transition: {
               duration: 0.5,
               type: "spring",
-              damping: 10,
+              damping: 15,
             },
           }}
           className={`sidebar `}
@@ -160,7 +155,26 @@ const NavBarList = ({ children }) => {
               <FaBars onClick={toggle} />
             </div>
           </div>
-          <div className="search">
+          <div className="profile">
+            <AnimatePresence>
+              {isOpen && (
+              <div class="flex justify-center my-10">
+                <div class="rounded-lg shadow-lg bg-white max-w-sm">
+                  {/* <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                    <img class="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/182.jpg" alt=""/>
+                  </a> */}
+                  <div class="p-6">
+                    <h5 class="text-gray-900 text-xl font-medium mb-2">RS PHC Surabaya</h5>
+                    <p class="text-gray-700 text-base mb-4">
+                      Surabaya, Jawa Timur
+                    </p>
+                  </div>
+                </div>
+              </div>  
+              )}
+            </AnimatePresence>
+          </div>
+          {/* <div className="search">
             <div className="search_icon">
               <BiSearch />
             </div>
@@ -176,7 +190,7 @@ const NavBarList = ({ children }) => {
                 />
               )}
             </AnimatePresence>
-          </div>
+          </div> */}
           <section className="routes">
             {routes.map((route, index) => {
               if (route.subRoutes) {

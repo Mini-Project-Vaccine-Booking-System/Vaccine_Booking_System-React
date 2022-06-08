@@ -49,6 +49,49 @@ export default function Home(props) {
   };
   console.log(props);
   return (
+    <div className="ml-5 mt-5">
+      <h1 className="text-3xl font-medium mb-10">Dashboard</h1>
+      <div className="flex flex-row justify-evenly mb-10">
+        <div class="flex justify-center">
+          <div class="rounded-lg shadow-lg bg-white max-w-sm ">
+            <a href="#!">
+              <img class="rounded-t-lg max-w-10 max-h-12 mt-5 mx-20" src="https://cdn.discordapp.com/attachments/816934520837898244/983999004650131466/1176251.png" alt=""/>
+            </a>
+            <div class="p-6">
+              <h5 class="text-gray-900 text-xl font-medium mb-2">Positif COVID-19</h5>
+              <p class="text-gray-700 text-base mb-4">
+                1.234.532
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="rounded-lg shadow-lg bg-white max-w-sm ">
+            <a href="#!">
+              <img class="rounded-t-lg max-w-10 max-h-12 mt-5 mx-20" src="https://cdn.discordapp.com/attachments/816934520837898244/983999004650131466/1176251.png" alt=""/>
+            </a>
+            <div class="p-6">
+              <h5 class="text-gray-900 text-xl font-medium mb-2">Sembuh</h5>
+              <p class="text-gray-700 text-base mb-4">
+                1.234.532
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="rounded-lg shadow-lg bg-white max-w-sm ">
+            <a href="#!">
+              <img class="rounded-t-lg max-w-10 max-h-12 mt-5 mx-20" src="https://cdn.discordapp.com/attachments/816934520837898244/983999004650131466/1176251.png" alt=""/>
+            </a>
+            <div class="p-6">
+              <h5 class="text-gray-900 text-xl font-medium mb-2">Meninggal</h5>
+              <p class="text-gray-700 text-base mb-4">
+                1.234.532
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
@@ -71,5 +114,6 @@ export default function Home(props) {
         <JumlahVaksinRS/>
       </TabPanel>
     </Box>
+    </div>
   );
 }

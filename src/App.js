@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import NavBarList from "./config/NavbarList";
 import { Dashboard } from "./pages/Dashboard";
 import { AturTiketVaksin } from "./pages/aturTiketVaksin/pendaftaran/AturTiketVaksin";
+import { KelolaPesananTiket } from "./pages/kelolaPesananTiket/KelolaPesananTiket";
+import { AturVaksin } from "./pages/aturVaksin/aturVaksin";
 import { FiturDua } from "./pages/FiturDua";
 
 function App() {
@@ -14,7 +16,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fitur/tiketVaksin" element={<AturTiketVaksin />} />
-          <Route path="/fitur/Dua" element={<FiturDua />} />
+          <Route path="/fitur/kelolaPesananTiket" element={<KelolaPesananTiket />} />
+          <Route path="/fitur/aturVaksin" element={<AturVaksin />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="*" element={<> 404 Not Found</>} />
         </Routes>
