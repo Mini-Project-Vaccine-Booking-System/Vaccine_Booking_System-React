@@ -106,7 +106,7 @@ const NavBarList = ({ children }) => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="" className="sticky -top-0 z-10">
         <Toolbar>
           <IconButton
             size="large"

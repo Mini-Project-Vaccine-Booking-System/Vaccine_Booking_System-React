@@ -49,7 +49,7 @@ export default function Home(props) {
   };
   console.log(props);
   return (
-    <div className="ml-5 mt-5">
+    <div className="ml-5 mt-5 ">
       <h1 className="text-3xl font-medium mb-10">Dashboard</h1>
       <div className="flex flex-row justify-evenly mb-10">
         <div class="flex justify-center">
