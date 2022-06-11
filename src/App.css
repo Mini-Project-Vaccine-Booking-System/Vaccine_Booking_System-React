@@ -21,8 +21,9 @@ main {
 .sidebar {
   background: rgba(102, 167, 255, 0.1);
   color: rgb(0, 0, 0);
-  height: 100vh;
+  height: 1000px;
   overflow-y: auto;
+  /* position:fixed; */
 }
 
 .top_section {

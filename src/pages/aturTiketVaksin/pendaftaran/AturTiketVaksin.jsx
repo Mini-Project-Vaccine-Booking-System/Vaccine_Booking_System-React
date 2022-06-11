@@ -140,7 +140,7 @@ export const AturTiketVaksin = () => {
                         Selanjutnya
                       </Button> */}
                       {activeStep !== steps.length &&
-                        (completed[activeStep] ? (
+                        (completed[activeStep === steps.length] ? (
                           `Sudah Selesai`
                         ) : (
                           <Button
@@ -150,9 +150,10 @@ export const AturTiketVaksin = () => {
                           >
                             {completedSteps() === totalSteps() - 1
                               ? "Kirim"
-                              : "Selanjutnya"}
+                              : "Selanjutnyaa"}
                           </Button>
-                        ))}
+                        )
+                        )}
                     </div>
                   </div>
                 </div>
