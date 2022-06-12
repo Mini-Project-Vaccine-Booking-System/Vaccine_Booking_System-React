@@ -12,13 +12,14 @@ import { FormTiketVaksin } from "./FormTiketVaksin";
 import { KonfirmasiDataTiket } from "./KonfirmasiDataTiket";
 import StepButton from '@mui/material/StepButton';
 import { TanggalVaksin } from "./TanggalVaksin";
+import { TiketVaksinBerhasil } from "./TiketVaksinBerhasil"
 
 function getSteps() {
   return [
     "Atur Tanggal Vaksin",
     "Atur Jenis Vaksin",
-    "Isi Formulir",
     "Konfirmasi Data Tiket",
+    "Tiket Vaksin Berhasil",
   ];
 }
 function getStepContent(step) {
@@ -28,9 +29,9 @@ function getStepContent(step) {
     case 1:
       return <FormTiketVaksin />;
     case 2:
-      return "apa";
-    case 3:
       return <KonfirmasiDataTiket />;
+    case 3:
+      return <TiketVaksinBerhasil />;
     default:
       return "tidak di ketahui";
   }
@@ -115,7 +116,7 @@ export const AturTiketVaksin = () => {
             </Box>
           </div>
           <div className="p-10 text-center">
-            <h1>Atur Tanggal Vaksin</h1>
+            {/* <h1>Atur Tanggal Vaksin</h1> */}
             <div className="flex content-end">
               {allStepsCompleted() ? (
                 <div>
