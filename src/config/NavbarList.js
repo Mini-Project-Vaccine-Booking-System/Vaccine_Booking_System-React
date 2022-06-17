@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
@@ -9,6 +10,13 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
 const routes = [
   {
     path: "/",
@@ -66,6 +74,10 @@ const routes = [
     ],
   },
 ];
+const Transition = React.forwardRef(function Transition(props, ref) {
+  console.log("propss", props)
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const NavBarList = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -103,7 +115,15 @@ const NavBarList = ({ children }) => {
       },
     },
   };
+  // handle Login Popup
+  const [openLog, setOpenLog] = useState(false);
+  const handleClickOpenLog = () => {
+    setOpenLog(true);
+  };
 
+  const handleCloseLog = () => {
+    setOpenLog(false);
+  };
   return (
     <>
       <AppBar position="" className="sticky -top-0 z-10">
@@ -155,7 +175,7 @@ const NavBarList = ({ children }) => {
               <FaBars onClick={toggle} />
             </div>
           </div>
-          <div className="profile">
+          <div className="profile m-5">
             <AnimatePresence>
               {isOpen && (
               <div class="flex justify-center my-10">
@@ -164,7 +184,7 @@ const NavBarList = ({ children }) => {
                     <img class="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/182.jpg" alt=""/>
                   </a> */}
                   <div class="p-6">
-                    <h5 class="text-gray-900 text-xl font-medium mb-2">RS PHC Surabaya</h5>
+                    <h5 class="text-gray-900 text-10 font-medium m-2 ">RS PHC Surabaya</h5>
                     <p class="text-gray-700 text-base mb-4">
                       Surabaya, Jawa Timur
                     </p>

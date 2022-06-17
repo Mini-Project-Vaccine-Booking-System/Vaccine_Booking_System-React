@@ -10,9 +10,10 @@ import TextField from "@mui/material/TextField";
 import { JenisVaksin } from "./JenisVaksin";
 import { FormTiketVaksin } from "./FormTiketVaksin";
 import { KonfirmasiDataTiket } from "./KonfirmasiDataTiket";
-import StepButton from '@mui/material/StepButton';
+import StepButton from "@mui/material/StepButton";
 import { TanggalVaksin } from "./TanggalVaksin";
-import { TiketVaksinBerhasil } from "./TiketVaksinBerhasil"
+import { TiketVaksinBerhasil } from "./TiketVaksinBerhasil";
+import { Container } from "@mui/material";
 
 function getSteps() {
   return [
@@ -93,76 +94,62 @@ export const AturTiketVaksin = () => {
   };
 
   return (
-    <React.Fragment className="flex justify-center">
-      <Paper elevation={3} className="h-full w-full">
-        <div className="p-5 container">
-          <div className="text-center">
-            <Box sx={{ width: "100%" }}>
-              <Stepper
-                alternativeLabel
-                activeStep={activeStep}
-              >
-                {steps.map((label, index) => (
-                  <Step key={label}>
-                    <StepButton
-                      onClick={handleStep(index)}
-                      completed={completed[index]}
-                    >
-                      {label}
-                    </StepButton>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
-          </div>
-          <div className="p-10 text-center">
-            {/* <h1>Atur Tanggal Vaksin</h1> */}
-            <div className="flex content-end">
-              {allStepsCompleted() ? (
-                <div>
-                  Selesai
-                  <Button onClick={handleReset}>Reset</Button>
-                </div>
-              ) : (
-                <div>
-                  {getStepContent(activeStep)}
-                  <div className="flex justify-end">
-                    <div>
-                      <Button disabled={activeStep === 0} onClick={handleBack}>
-                        Kembali
-                      </Button>
-                    </div>
-                    <div>
-                      {/* <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                      >
-                        Selanjutnya
-                      </Button> */}
-                      {activeStep !== steps.length &&
-                        (completed[activeStep === steps.length] ? (
-                          `Sudah Selesai`
-                        ) : (
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleComplete}
-                          >
-                            {completedSteps() === totalSteps() - 1
-                              ? "Kirim"
-                              : "Selanjutnyaa"}
-                          </Button>
-                        )
-                        )}
-                    </div>
+    <Container className=" w-full text-right ">
+      <div className="p- h-screen mt-5">
+        <div className="text-center">
+          <Box>
+            <Stepper alternativeLabel activeStep={activeStep}>
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepButton
+                    onClick={handleStep(index)}
+                    completed={completed[index]}
+                  >
+                    {label}
+                  </StepButton>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
+        </div>
+        <div className="p-10 text-center flex justify-center">
+          {/* <h1>Atur Tanggal Vaksin</h1> */}
+          <div className="flex content-end">
+            {allStepsCompleted() ? (
+              <div>
+                <Button onClick={handleReset}>Reset</Button>
+              </div>
+            ) : (
+              <div className=" w-512 h-208 ">
+                <div>{getStepContent(activeStep)}</div>
+                <div className="flex items-end justify-end pt-113">
+                  <div className="flex justify-center">
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
+                      Kembali
+                    </Button>
                   </div>
+                  {activeStep !== steps.length &&
+                    (completed[activeStep === steps.length] ? (
+                      `Sudah Selesai`
+                    ) : (
+                      <div>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleComplete}
+                        >
+                          {completedSteps() === totalSteps() - 1
+                            ? "Kirim"
+                            : "Selanjutnyaa"}
+                        </Button>
+                      </div>
+                    ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
-      </Paper>
-    </React.Fragment>
+      </div>
+    </Container>
   );
 };

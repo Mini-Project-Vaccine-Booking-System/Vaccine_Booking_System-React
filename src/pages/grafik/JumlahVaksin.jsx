@@ -1,40 +1,73 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
 export const JumlahVaksin = (props) => {
-  const [grafik, setGrafik] = useState({
-    chart: {
-      id: "apexcharts-example",
-    },
-    xaxis: {
-      categories: [
-        "jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "Mei",
-        "Jun",
-        "Jul",
-        "Agust",
-        "Sept",
-        "Nov",
-        "Des",
-      ],
-    },
-  });
-  const [series, setSeries] = useState([
-    {
-      name: "Data Vaksin",
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 202, 205],
-    },
-  ]);
+
+  const [dataUser, setDataUser] = useState([])
+  useEffect(() => {
+    axios.get("https://jsonplaceholder.typicode.com/todos")
+      .then(response => {
+        console.log("response", response)
+        setDataUser(response.data)
+      }).catch(e => {
+        alert(e);
+      })
+  }, [])
+
+  const seriesData = [];
+  const options = {};
+
+  
+  dataUser.map((val) => {
+    seriesData.push(
+      {
+        x: val.id,  
+        y: val.postId  
+      }
+      );
+    });
+    const series = [{ data: seriesData }];
+
+  // useEffect(() => {
+  //   const id = [];
+  //   const postId = [];
+  //   axios
+  //     .get('https://jsonplaceholder.typicode.com/todos')
+  //     .then((response) => {
+  //       console.log("res", response);
+  //       response.data.map((item) => {
+  //         console.log("item", item);
+  //         id.push(item.id);
+  //         postId.push(item.postId);
+  //       });
+  //       setGrafik({
+  //         chart: {
+  //           id: "apexcharts-example",
+  //         },
+  //         xaxis: {
+  //           categories: id,
+  //         },
+  //       });
+  //       setSeries({
+  //         name: "Data Vaksin",
+  //         data: postId,
+  //       });
+  //       console.log("id", id)
+  //     })
+  //     .catch((error) => {
+  //       alert(error);
+  //       console.log("err", error);
+  //     });
+  // },[]);
+
   return (
     <React.Fragment>
       <div>
         <Chart
-          options={grafik}
+          options={options}
           series={series}
-          type="bar"
+          type="treemap"
           width={1000}
           height={500}
         />

@@ -41,10 +41,10 @@ export const FormTiketVaksin = () => {
   console.log("cek vaksin 2", vaksin2)
 
   return (
-    <div>
+    <div className=''>
       <h1>Pilih Jenis Vaksin</h1>
-      <div>
-        <div className='flex flex-row'>
+      <div className=''>
+        <div className='flex flex-row justify-center'>
           <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="jenisVaksin1">Jenis Vaksin</InputLabel>
             <Select
@@ -82,7 +82,7 @@ export const FormTiketVaksin = () => {
         </div>
 
 
-        <div className='flex flex-row'>
+        <div className='flex flex-row justify-center'>
           <FormControl sx={{ m: 1, width: 300 }}>
             <InputLabel id="jenisVaksin2">Jenis Vaksin</InputLabel>
             <Select

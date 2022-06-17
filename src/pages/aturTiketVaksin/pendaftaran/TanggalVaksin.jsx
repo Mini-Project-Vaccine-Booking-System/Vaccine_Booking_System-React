@@ -29,7 +29,7 @@ export const TanggalVaksin = () => {
 
   return (
     <VaksinContext.Provider value={waktuAwal}>
-      <div>
+      <div className="">
         <h1>Atur Tanggal Vaksin</h1>
         <div className="p-5">
           <TextField
