@@ -38,7 +38,7 @@ function getStepContent(step) {
   }
 }
 
-export const AturTiketVaksin = () => {
+export const AturTiketVaksin = (props) => {
   // const [tanggalAwal, setTanggalAwal] = usestate();
   // const [tanggalAkhir, setTanggalAkhir] = usestate();
 

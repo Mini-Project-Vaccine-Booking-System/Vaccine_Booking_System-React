@@ -45,7 +45,7 @@ export const FormTiketVaksin = () => {
       <h1>Pilih Jenis Vaksin</h1>
       <div className=''>
         <div className='flex flex-row justify-center'>
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl fullWidth sx={{ m: 1 }}>
             <InputLabel id="jenisVaksin1">Jenis Vaksin</InputLabel>
             <Select
               labelId="jenisVaksin1"
@@ -83,7 +83,7 @@ export const FormTiketVaksin = () => {
 
 
         <div className='flex flex-row justify-center'>
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl fullWidth sx={{ m: 1 }}>
             <InputLabel id="jenisVaksin2">Jenis Vaksin</InputLabel>
             <Select
               labelId="jenisVaksin2"
