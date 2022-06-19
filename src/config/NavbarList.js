@@ -17,6 +17,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
+import "./navbar.css"
+
 const routes = [
   {
     path: "/",
@@ -126,21 +128,15 @@ const NavBarList = ({ children }) => {
   };
   return (
     <>
-      <AppBar position="" className="sticky -top-0 z-10">
+      <AppBar 
+        position="static" 
+        style={{
+          backgroundColor: "white",
+          fontFamily: "Inter",
+          boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          ></IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Button className="" color="inherit" variant="outlined" >
-              Berita Terbaru
-            </Button>
-          </Typography>
-          <Button color="inherit" variant="outlined">Login</Button>
+            <h1 className="navbar-brand ml-8">VaksinQu</h1>
         </Toolbar>
       </AppBar>
       <div className="main-container">

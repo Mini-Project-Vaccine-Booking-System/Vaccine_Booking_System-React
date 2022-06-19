@@ -1,0 +1,50 @@
+.kelolaPesananTiket {
+  font-family: "Inter", sans-serif;
+}
+
+.navigasi {
+  font-size: 13px;
+}
+
+.kelolaPesananTiket h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 34px;
+}
+
+/* .kelolaPesananTiket {
+    background-color: salmon;
+    width: 80%;
+  } */
+
+.kelolaPesananTiket th {
+  font-size: 20px;
+}
+
+.kelolaPesananTiket td {
+  font-size: 17px;
+}
+
+.kelolaPesananTiket table {
+  border-radius: 1em;
+  overflow: hidden;
+}
+
+.kelolaPesananTiket tr th {
+  height: 70px;
+}
+
+.kelolaPesananTiket tr td {
+  height: 60px;
+}
+
+.modalKelolaPesananTiket h3 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+}
+
+.modalKelolaPesananTiket button {
+  font-size: 18px;
+  font-weight: 400;
+}

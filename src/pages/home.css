@@ -1,0 +1,19 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.cardPositifCovid {
+  background-color: rgba(2, 109, 225, 1);
+}
+
+.cardSembuh {
+  background-color: rgba(99, 154, 178, 1);
+}
+
+.cardMeninggal {
+  background-color: rgba(170, 207, 181, 1);
+}
+
+.fontTiny {
+  font-size: 12px;
+}
