@@ -7,6 +7,7 @@ import { AturTiketVaksin } from "./pages/aturTiketVaksin/pendaftaran/AturTiketVa
 import { KelolaPesananTiket } from "./pages/kelolaPesananTiket/KelolaPesananTiket";
 import { AturVaksin } from "./pages/aturVaksin/aturVaksin";
 import { FiturDua } from "./pages/FiturDua";
+import Berita from "./pages/berita/Berita";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/fitur/tiketVaksin" element={<AturTiketVaksin />} />
           <Route path="/fitur/kelolaPesananTiket" element={<KelolaPesananTiket />} />
           <Route path="/fitur/aturVaksin" element={<AturVaksin />} />
+          <Route path="/berita/Berita" element={<Berita />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="*" element={<> 404 Not Found</>} />
         </Routes>
