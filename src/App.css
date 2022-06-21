@@ -39,11 +39,15 @@ main {
   padding: 15px 10px;
 }
 .logo {
-  font-size: 18px;
+  font-family: "Inter", sans-serif;
+  font-size: 21px;
+  color: rgba(138, 138, 138, 1);
+  font-weight: 600;
   line-height: 0;
 }
 .bars {
   width: 30px;
+  color: rgba(138, 138, 138, 1);
 }
 .hide {
   display: none;
@@ -81,17 +85,19 @@ main {
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .link:hover {
-  border-right: 4px solid white;
-  background: rgb(45, 51, 89);
+  border-right: 4px solid rgba(2, 109, 225, 1);
+  color: rgba(2, 109, 225, 1);
+  /* background: rgb(45, 51, 89); */
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .active {
-  border-right: 4px solid white;
-  background: rgb(45, 51, 89);
+  border-right: 4px solid rgba(2, 109, 225, 1);
+  /* background: rgb(45, 51, 89); */
+  color: rgba(2, 109, 225, 1);
 }
 .link_text {
   white-space: nowrap;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .menu {
@@ -113,5 +119,5 @@ main {
 }
 .menu_container .link {
   padding-left: 20px;
-  border-bottom: #fff 0.5px solid;
+  /* border-bottom: #fff 0.5px solid; */
 }

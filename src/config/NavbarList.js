@@ -1,11 +1,17 @@
 import * as React from 'react';
 import { NavLink } from "react-router-dom";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
-import { MdMessage } from "react-icons/md";
+
+import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaTicketAlt, FaBookOpen } from "react-icons/fa";
+import { MdMessage, MdDashboard } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
+import { AiFillHeart, AiTwotoneFileExclamation, AiFillSetting } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
+import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
+import { IoLogOut } from "react-icons/io5"
+import { IoMdNotifications } from "react-icons/io"
+import { TextField, FormControl, InputLabel } from '@mui/material';
+
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar";
@@ -23,27 +29,31 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    icon: <FaHome />,
+    icon: <MdDashboard />,
   },
   {
     path: "/fitur",
     name: "Menu",
-    icon: <AiTwotoneFileExclamation />,
+    icon: <TbVaccineBottle 
+              style={{
+                marginLeft: "-3px",
+              }}
+              size="22px"/>,
     subRoutes: [
       {
         path: "/fitur/tiketVaksin",
         name: "Atur Sesi Tiket Vaksin ",
-        icon: <FaUser />,
+        icon: <FaTicketAlt />,
       },
       {
         path: "/fitur/kelolaPesananTiket",
         name: "Kelola Pesanan Tiket",
-        icon: <FaLock />,
+        icon: <FaBookOpen />,
       },
       {
         path: "/fitur/aturVaksin",
         name: "Atur Vaksin",
-        icon: <FaMoneyBill />,
+        icon: <TbVaccine />,
       },
     ],
   },
@@ -54,26 +64,9 @@ const routes = [
   // },
   {
     path: "/fungsi",
-    name: "Setting",
-    icon: <BiCog />,
-    exact: true,
-    subRoutes: [
-      {
-        path: "/fungsi/satu",
-        name: "Fungsi1",
-        icon: <FaUser />,
-      },
-      {
-        path: "/fungsi/dua",
-        name: "Fungsi2",
-        icon: <FaLock />,
-      },
-      {
-        path: "/fungsi/tiga",
-        name: "Fungsi3",
-        icon: <FaMoneyBill />,
-      },
-    ],
+    name: "Logout",
+    icon: <IoLogOut />,
+    
   },
 ];
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -135,14 +128,28 @@ const NavBarList = ({ children }) => {
           fontFamily: "Inter",
           boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         }}>
-        <Toolbar>
-            <h1 className="navbar-brand ml-8">VaksinQu</h1>
+          <Toolbar>
+            <div className='flex flex-row justify-between navbar'>
+              <div>
+                <h1 className="navbar-brand ml-8">VaksinQu</h1>
+              </div>
+              <div className='flex flex-row-reverse justify-end items-center'>
+                <div className='flex flex-row justify-end items-center navbar-icon'>
+                  <IoMdNotifications className='mr-10'/>
+                  <AiFillSetting />
+                </div>
+                <div className='flex flex-row items-center'>
+                  <BiSearch className="search-icon"/>
+                  <input placeholder='search...'></input>
+                </div>
+              </div>
+            </div>
         </Toolbar>
       </AppBar>
       <div className="main-container">
         <motion.div
           animate={{
-            width: isOpen ? "300px" : "55px",
+            width: isOpen ? "400px" : "55px",
 
             transition: {
               duration: 0.5,
@@ -160,14 +167,14 @@ const NavBarList = ({ children }) => {
                   initial="hidden"
                   animate="show"
                   exit="hidden"
-                  className="logo"
+                  className="logo ml-5"
                 >
                   VaksinQu
                 </motion.h1>
               )}
             </AnimatePresence>
 
-            <div className="bars">
+            <div className="bars ml-6">
               <FaBars onClick={toggle} />
             </div>
           </div>
@@ -175,13 +182,11 @@ const NavBarList = ({ children }) => {
             <AnimatePresence>
               {isOpen && (
               <div class="flex justify-center my-10">
-                <div class="rounded-lg shadow-lg bg-white max-w-sm">
-                  {/* <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                    <img class="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/182.jpg" alt=""/>
-                  </a> */}
-                  <div class="p-6">
-                    <h5 class="text-gray-900 text-10 font-medium m-2 ">RS PHC Surabaya</h5>
-                    <p class="text-gray-700 text-base mb-4">
+                <div class="rounded-lg shadow-lg bg-blue-400 w-176">
+                  <div class="p-10">
+                    <img src="https://thumbs.dreamstime.com/b/hospital-building-modern-parking-lot-59693686.jpg" className='w-53 h-53 mb-10 rounded-lg'/>
+                    <h5 class="text-white text-sm font-medium ">RS PHC Surabaya</h5>
+                    <p class="text-white text-10 mb-4">
                       Surabaya, Jawa Timur
                     </p>
                   </div>
@@ -207,7 +212,7 @@ const NavBarList = ({ children }) => {
               )}
             </AnimatePresence>
           </div> */}
-          <section className="routes">
+          <section className="routes ml-5">
             {routes.map((route, index) => {
               if (route.subRoutes) {
                 return (
