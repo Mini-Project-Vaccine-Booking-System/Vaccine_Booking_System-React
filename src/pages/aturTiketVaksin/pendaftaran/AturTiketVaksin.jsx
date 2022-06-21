@@ -23,30 +23,37 @@ function getSteps() {
     "Tiket Vaksin Berhasil",
   ];
 }
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <TanggalVaksin />;
-    case 1:
-      return <FormTiketVaksin />;
-    case 2:
-      return <KonfirmasiDataTiket />;
-    case 3:
-      return <TiketVaksinBerhasil />;
-    default:
-      return "tidak di ketahui";
-  }
-}
+
 
 export const AturTiketVaksin = (props) => {
   // const [tanggalAwal, setTanggalAwal] = usestate();
   // const [tanggalAkhir, setTanggalAkhir] = usestate();
 
   // const FORMAT = "yyyy/MM/dd"
-
-  // const handleSubmit = () => console.log(textValue);
+  const { aturTanggalVaksin1, aturJenisVkasin2, konfirmasiDataTiket } = props;
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
+  const [sendForm, setSendForm] = useState({
+    aturTanggalVaksin1,
+    aturJenisVkasin2,
+    konfirmasiDataTiket
+  });
+
+  function getStepContent(step) {
+    const isLastStep = (activeStep === steps.length - 1);
+    switch (step) {
+      case 0:
+        return <TanggalVaksin {...sendForm} activeStep={activeStep}/>;
+      case 1:
+        return <FormTiketVaksin />;
+      case 2:
+        return <KonfirmasiDataTiket />;
+      case 3:
+        return <TiketVaksinBerhasil />;
+      default:
+        return "tidak di ketahui";
+    }
+  }
   const steps = getSteps();
 
   const totalSteps = () => {
@@ -65,16 +72,18 @@ export const AturTiketVaksin = (props) => {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = () => {
+  const handleNext = (newValues) => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
+    setSendForm(...sendForm, ...newValues);
   };
 
-  const handleBack = () => {
+  const handleBack = (newValues) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setSendForm(...sendForm, ...newValues);
   };
 
   const handleStep = (step) => () => {
