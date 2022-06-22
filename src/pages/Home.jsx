@@ -7,9 +7,9 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import { JumlahVaksin } from "./grafik/JumlahVaksin";
-import { JumlahPaparanCovid } from "./grafik/JumlahPaparanCovid";
-import { JumlahVaksinRS } from "./grafik/JumlahVaksinRS";
+import { Gejala } from "./grafik/Gejala";
+import { Perawatan } from "./grafik/Perawatan";
+import { Pencegahan } from "./grafik/Pencegahan";
 
 import "./home.css"
 import { useState, useEffect } from "react";
@@ -159,10 +159,10 @@ export default function Home(props) {
                   </div>
             </div>
             <div className="flex flex-row items-center">
-              <img src="https://cdn.discordapp.com/attachments/816934520837898244/987747322345701476/Activity.png"></img>
-              <h2 className="text-17 font-600 ml-10 mt-4">Statistik Perkembangan COVID-19</h2>
+              <img src="https://cdn.discordapp.com/attachments/816934520837898244/989046377990467604/Info.png"></img>
+              <h2 className="text-17 font-600 ml-10 mt-4">Tentang Penyakit Coronavirus (COVID-19)</h2>
             </div>
-            <p className="fontTiny ml-8 my-5">Statistik Covid-19 di Indonesia dalam satu minggu terakhir</p>
+            <p className="fontTiny ml-8 my-5">Informasi mengenai gejala yang timbul, cara penyembuhan, dan pencegahan dari penyakit coronavirus</p>
 
             <Box sx={{ width: "100%" }}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -171,19 +171,19 @@ export default function Home(props) {
                   onChange={handleChange}
                   aria-label="basic tabs example"
                 >
-                  <Tab label="Data Vaksin" {...a11yProps(0)} />
-                  <Tab label="Peningkatan paparan Covid" {...a11yProps(1)} />
-                  <Tab label="Jumlah VaksinQu" {...a11yProps(2)} />
+                  <Tab label="Gejala" {...a11yProps(0)} />
+                  <Tab label="Perawatan" {...a11yProps(1)} />
+                  <Tab label="Pencegahan" {...a11yProps(2)} />
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
-                <JumlahVaksin />
+                <Gejala />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <JumlahPaparanCovid />
+                <Perawatan />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <JumlahVaksinRS/>
+                <Pencegahan/>
               </TabPanel>
             </Box>
           </div>

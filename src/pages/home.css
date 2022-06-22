@@ -17,3 +17,12 @@
 .fontTiny {
   font-size: 12px;
 }
+
+.MuiTypography-root {
+  font-family: "Inter", sans-serif !important;
+  /* background-color: red; */
+}
+
+.MuiButtonBase-root {
+  font-family: "Inter", sans-serif !important;
+}
