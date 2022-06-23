@@ -14,20 +14,18 @@ import Login from "./pages/login/Login"
 function App() {
   return (
     <Router>
-      <NavBarList>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/fitur/tiketVaksin" element={<AturTiketVaksin />} />
           <Route path="/fitur/sesiTersedia" element={<SesiTersedia />} />
           <Route path="/fitur/kelolaPesananTiket" element={<KelolaPesananTiket />} />
           <Route path="/fitur/aturVaksin" element={<AturVaksin />} />
           <Route path="/berita/:title" element={<Berita />} />
-          <Route path="/" element={<Dashboard />} />
+          {/* <Route path="/" element={<Dashboard />} /> */}
           <Route path="*" element={<> 404 Not Found</>} />
         </Routes>
-      </NavBarList>
     </Router>
   );
 }

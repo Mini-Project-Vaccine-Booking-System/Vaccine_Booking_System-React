@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Axios } from "axios";
 import { initialValue } from '../initialValue'
+import NavBarList from "../../config/NavbarList";
 
 
 function Berita() {
@@ -46,64 +47,65 @@ function Berita() {
   }, []);
 
   return (
-
-    <>
-    <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title}</span></p>
-    <div class="grid lg:grid-cols-4 grid-cols-1">
-      <div class="flex flex-wrap col-span-3">
-        <div class="p-10 flex flex-col items-start"> 
-          <h5 class="text-gray-500 mt-5">{source.name} - {publishedAt}</h5> 
-          <h2 class="font-bold sm:text-3xl text-xs title-font text-gray-900 mt-4 mb-4">{title}</h2>
-          <h5 class="text-gray-500 mb-7" >Penulis : {author} | Editor : Unknown</h5>
-          <img src={urlToImage}/>
-          <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 195)}.... Baca selengkapknya di <a href={url} target="_blank">{url}</a></p>
-        </div> 
-      </div>
-      <div className=' lg:ml-12'>
-        <div className="flex flex-row items-center">
-          <img src="https://cdn.discordapp.com/attachments/816934520837898244/987747322345701476/Activity.png"></img>
-          <h2 className="text-17 font-600 ml-10 mt-4 text-grey-700">Berita Terkait</h2>
+    <NavBarList>
+      <>
+      <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title}</span></p>
+      <div class="grid lg:grid-cols-4 grid-cols-1">
+        <div class="flex flex-wrap col-span-3">
+          <div class="p-10 flex flex-col items-start"> 
+            <h5 class="text-gray-500 mt-5">{source.name} - {publishedAt}</h5> 
+            <h2 class="font-bold sm:text-3xl text-xs title-font text-gray-900 mt-4 mb-4">{title}</h2>
+            <h5 class="text-gray-500 mb-7" >Penulis : {author} | Editor : Unknown</h5>
+            <img src={urlToImage}/>
+            <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 195)}.... Baca selengkapknya di <a href={url} target="_blank">{url}</a></p>
+          </div> 
         </div>
-        <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
-        <div className='flex flex-row flex-wrap p-10 justify-evenly lg:justify-start'>
-        {dataBerita.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
-          {/* <div 
-            className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
-            style={{
-              backgroundImage: `url(${urlToImage})`
-            }}
-          >
-            <div 
-              className="w-224 h-160 rounded-lg z-10 p-7 lg:w-192 lg:h-112"
-              style={{
-                background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
-              }}
-            >
-              <h6 className="text-white text-11 font-500">test</h6>
-              <p className="fontTiny text-white font-200">test</p>
-            </div>
+        <div className=' lg:ml-12'>
+          <div className="flex flex-row items-center">
+            <img src="https://cdn.discordapp.com/attachments/816934520837898244/987747322345701476/Activity.png"></img>
+            <h2 className="text-17 font-600 ml-10 mt-4 text-grey-700">Berita Terkait</h2>
           </div>
-          <div 
-            className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
-            style={{
-              backgroundImage: `url(${urlToImage})`
-            }}
-          >
-            <div 
-              className="w-224 h-160 rounded-lg z-10 p-7 lg:w-192 lg:h-112"
+          <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
+          <div className='flex flex-row flex-wrap p-10 justify-evenly lg:justify-start'>
+          {dataBerita.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
+            {/* <div 
+              className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
               style={{
-                background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
+                backgroundImage: `url(${urlToImage})`
               }}
             >
-              <h6 className="text-white text-11 font-500">test</h6>
-              <p className="fontTiny text-white font-200">test</p>
+              <div 
+                className="w-224 h-160 rounded-lg z-10 p-7 lg:w-192 lg:h-112"
+                style={{
+                  background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
+                }}
+              >
+                <h6 className="text-white text-11 font-500">test</h6>
+                <p className="fontTiny text-white font-200">test</p>
+              </div>
             </div>
-          </div> */}
+            <div 
+              className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
+              style={{
+                backgroundImage: `url(${urlToImage})`
+              }}
+            >
+              <div 
+                className="w-224 h-160 rounded-lg z-10 p-7 lg:w-192 lg:h-112"
+                style={{
+                  background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
+                }}
+              >
+                <h6 className="text-white text-11 font-500">test</h6>
+                <p className="fontTiny text-white font-200">test</p>
+              </div>
+            </div> */}
 
+          </div>
         </div>
       </div>
-    </div>
-    </>
+      </>
+    </NavBarList>
   )
 }
 

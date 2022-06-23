@@ -14,6 +14,7 @@ import StepButton from "@mui/material/StepButton";
 import { TanggalVaksin } from "./TanggalVaksin";
 import { TiketVaksinBerhasil } from "./TiketVaksinBerhasil";
 import { Container } from "@mui/material";
+import NavBarList from "../../../config/NavbarList";
 
 function getSteps() {
   return [
@@ -158,61 +159,63 @@ export const AturTiketVaksin = () => {
   };
 
   return (
-    <Container className=" w-full text-right mt-32">
-      <div className="h-screen mt-5 ">
-        <div className="text-center">
-          <Box className="">
-            <Stepper alternativeLabel activeStep={activeStep}>
-              {steps.map((label, index) => (
-                <Step key={label}>
-                  <StepButton
-                    onClick={handleStep(index)}
-                    completed={completed[index]}
-                  >
-                    {label}
-                  </StepButton>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-        </div>
-        <div className="p-10 text-center flex justify-center">
-          <div className="flex content-end w-full">
-            {allStepsCompleted() ? (
-              <div>
-                <Button onClick={handleReset}>Reset</Button>
-              </div>
-            ) : (
-              <div className=" w-full p-10">
-                <div>{getStepContent(activeStep)}</div>
-                <div className="flex items-end justify-end mt-80">
-                  <div className="flex justify-center">
-                    <Button disabled={activeStep === 0} onClick={handleBack}>
-                      Kembali
-                    </Button>
-                  </div>
-                  {activeStep !== steps.length &&
-                    (completed[activeStep === steps.length] ? (
-                      `Sudah Selesai`
-                    ) : (
-                      <div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleComplete}
-                        >
-                          {completedSteps() === totalSteps() - 1
-                            ? "Kirim"
-                            : "Selanjutnyaa"}
-                        </Button>
-                      </div>
-                    ))}
+    <NavBarList>
+      <Container className=" w-full text-right mt-32">
+        <div className="h-screen mt-5 ">
+          <div className="text-center">
+            <Box className="">
+              <Stepper alternativeLabel activeStep={activeStep}>
+                {steps.map((label, index) => (
+                  <Step key={label}>
+                    <StepButton
+                      onClick={handleStep(index)}
+                      completed={completed[index]}
+                    >
+                      {label}
+                    </StepButton>
+                  </Step>
+                ))}
+              </Stepper>
+            </Box>
+          </div>
+          <div className="p-10 text-center flex justify-center">
+            <div className="flex content-end w-full">
+              {allStepsCompleted() ? (
+                <div>
+                  <Button onClick={handleReset}>Reset</Button>
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className=" w-full p-10">
+                  <div>{getStepContent(activeStep)}</div>
+                  <div className="flex items-end justify-end mt-80">
+                    <div className="flex justify-center">
+                      <Button disabled={activeStep === 0} onClick={handleBack}>
+                        Kembali
+                      </Button>
+                    </div>
+                    {activeStep !== steps.length &&
+                      (completed[activeStep === steps.length] ? (
+                        `Sudah Selesai`
+                      ) : (
+                        <div>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleComplete}
+                          >
+                            {completedSteps() === totalSteps() - 1
+                              ? "Kirim"
+                              : "Selanjutnyaa"}
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </NavBarList>
   );
 };

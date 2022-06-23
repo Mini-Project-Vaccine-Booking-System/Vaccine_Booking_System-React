@@ -68,7 +68,7 @@ const routes = [
   //   icon: <BsCartCheck />,
   // },
   {
-    path: "/fungsi",
+    path: "/login",
     name: "Logout",
     icon: <IoLogOut />,
     
@@ -80,7 +80,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const NavBarList = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
     hidden: {

@@ -36,7 +36,7 @@ const menuItemAnimation = {
 };
 
 const SiderBar = ({ route, showAnimation, isOpen, setIsOpen }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     setIsOpen(true);
