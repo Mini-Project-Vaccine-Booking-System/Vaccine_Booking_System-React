@@ -1,163 +1,79 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
+import { AiOutlineCalendar } from "react-icons/ai";
+import { IoCalendarClearOutline, IoTimeOutline } from "react-icons/io5";
+import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
 
-export const KonfirmasiDataTiket = () => {
-  const vaksin = ["Sinovac", "Pfizer", "Moderna", "AstraZeneca"];
+export const KonfirmasiDataTiket = (props) => {
+  console.log("cek props di konfirmasi data tiket", props)
+  
+  let day = props.waktuAwal
+  day = day.substring(10, 8);
+  console.log(day)
 
-  const [vaksin1, setVaksin1] = useState({
-    vaksin1: "",
-    stokVaksin1: "",
-  });
+  let month = props.waktuAwal
+  month = month.substring(7, 5);
+  console.log(month)
 
-  const [vaksin2, setVaksin2] = useState({
-    vaksin2: "",
-    stokVaksin2: "",
-  });
+  let year = props.waktuAwal
+  year = year.substring(4, 0);
+  console.log(year)
 
-  const handleChangeVaksin1 = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setVaksin1({
-      ...vaksin1,
-      [name]: value,
-    });
-  };
-  console.log("cek vaksin 1", vaksin1);
+  let timeStart = props.waktuAwal
+  timeStart = timeStart.substring(16, 11);
+  console.log(timeStart)
+  
+  let timeEnd = props.waktuAkhir
+  timeEnd = timeEnd.substring(16, 11);
+  console.log(timeEnd)
 
-  const handleChangeVaksin2 = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setVaksin2({
-      ...vaksin2,
-      [name]: value,
-    });
-  };
-  console.log("cek vaksin 2", vaksin2);
   return (
-    <div className="h-105">
-      <div>
-        <h3>Sesi Vaksin</h3>
-        <div class="grid grid-cols-6 gap-4">
-          <div class="col-start-1 col-end-7 ">
-            <TextField
-              id="date"
-              label="Masukan Tanggal Awal"
-              type="date"
-              fullWidth
-              defaultValue="2022-05-06"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+    <div className="">
+      <div className="w-11/12 mx-auto">
+        <h1 className="text-20 font-600 mb-36">Konfirmasi Data Tiket</h1>
+        <div className="mb-14">
+          <h5 className="text-15 font-600 text-grey-700 text-left">Sesi Vaksin</h5>
+          <div className="mt-10">
+            <h6 className="text-left text-11">Tanggal Sesi</h6>
+            <div className="border-1 rounded-6 flex flex-row p-5">
+              <IoCalendarClearOutline 
+                size="30px"
+                style={{color: "rgba(102, 167, 255, 1)"}}/>
+              <p className="text-left text-11 mt-2 ml-20">{day} - {month} - {year}</p>
+            </div>
           </div>
-          <div class="col-start-1 col-end-4 ">
-            <TextField
-              id="date"
-              label="Masukan Tanggal Awal"
-              type="date"
-              defaultValue="2022-05-06"
-              sx={{ width: 220 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </div>
-          <div class="col-end-7 col-span-3 ">
-            <TextField
-              id="date"
-              label="Masukan Tanggal Awal"
-              type="date"
-              defaultValue="2022-05-06"
-              sx={{ width: 220 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+          <div className="mt-14">
+            <h6 className="text-left text-11">Waktu Sesi</h6>
+            <div className="border-1 rounded-6 flex flex-row p-5">
+              <IoTimeOutline 
+                size="30px"
+                style={{color: "rgba(102, 167, 255, 1)"}}/>
+              <p className="text-left text-11 mt-2 ml-20">{timeStart} - {timeEnd}</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* batas */}
-      <div className="mt-10">
         <div>
-          <h1>Pilih Jenis Vaksin</h1>
-          <div>
-            <div className="flex flex-row">
-              <FormControl fullWidth>
-                <InputLabel id="jenisVaksin1">Jenis Vaksin</InputLabel>
-                <Select
-                  className="mb-2 mr-1"
-                  labelId="jenisVaksin1"
-                  id="jenisVaksin1"
-                  name="vaksin1"
-                  // value={age}
-                  label="Jenis Vaksin"
-                  onChange={handleChangeVaksin1}
-                >
-                  {vaksin.map((vaksin) => (
-                    <MenuItem id={vaksin} value={vaksin}>
-                      {vaksin}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl sx={{ width: 85 }}>
-                {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                <TextField
-                  labelId="stokVaksin1"
-                  id="stokVaksin1"
-                  label="Stok"
-                  name="stokVaksin1"
-                  type="number"
-                  full
-                  // value={tanggalAwal}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChangeVaksin1}
-                />
-              </FormControl>
+          <h5 className="text-15 font-600 text-grey-700 text-left">Jenis Vaksin dan Stok</h5>
+          <div className="flex flex-row mt-10">
+            <div className="border-1 rounded-6 w-3/4 flex flex-row p-5">
+              <TbVaccineBottle 
+                size="30px"
+                style={{color: "rgba(102, 167, 255, 1)"}}/>
+              <p className="text-left text-11 mt-2 ml-20 mr-32">{props.vaksin1.vaksin1}</p>
             </div>
-
-            <div className="flex flex-row">
-              <FormControl fullWidth>
-                <InputLabel id="jenisVaksin2">Jenis Vaksin</InputLabel>
-                <Select
-                  className="mb-2 mr-1"
-                  labelId="jenisVaksin2"
-                  id="jenisVaksin2"
-                  name="vaksin2"
-                  // value={age}
-                  label="Jenis Vaksin"
-                  onChange={handleChangeVaksin2}
-                >
-                  {vaksin.map((vaksin) => (
-                    <MenuItem id={vaksin} value={vaksin}>
-                      {vaksin}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl sx={{ width: 85 }}>
-                {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                <TextField
-                  labelId="stokVaksin2"
-                  id="stokVaksin2"
-                  label="Stok"
-                  name="stokVaksin2"
-                  type="number"
-                  // value={tanggalAwal}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleChangeVaksin2}
-                />
-              </FormControl>
+            <div className="border-1 rounded-6 flex flex-row p-5 ml-10">
+              <p className="text-11 mt-2 mx-10">{props.vaksin1.stokVaksin1}</p>
+            </div>
+          </div>
+          <div className="flex flex-row mt-10">
+            <div className="border-1 rounded-6 w-3/4 flex flex-row p-5">
+              <TbVaccineBottle 
+                size="30px"
+                style={{color: "rgba(102, 167, 255, 1)"}}/>
+              <p className="text-left text-11 mt-2 ml-20 mr-32">{props.vaksin2.vaksin2}</p>
+            </div>
+            <div className="border-1 rounded-6 flex flex-row p-5 ml-10">
+              <p className="text-11 mt-2 mx-10">{props.vaksin2.stokVaksin2}</p>
             </div>
           </div>
         </div>

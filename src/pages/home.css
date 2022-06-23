@@ -1,5 +1,5 @@
 * {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
 }
 
 .cardPositifCovid {
@@ -16,6 +16,10 @@
 
 .fontTiny {
   font-size: 12px;
+}
+
+.gejala {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .MuiTypography-root {

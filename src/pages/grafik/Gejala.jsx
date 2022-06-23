@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import "../home.css"
 
 export const Gejala = (props) => {
 
@@ -63,8 +64,8 @@ export const Gejala = (props) => {
 
 
   return (
-    <div>
-      <div className="">
+    <div className="gejala p-10 rounded-lg">
+      <div>
         <p>Masing-masing orang memiliki respons yang berbeda terhadap COVID-19. Sebagian besar orang yang terpapar virus ini akan mengalami gejala ringan hingga sedang, dan akan pulih tanpa perlu dirawat di rumah sakit.</p><br></br>
         <p>Gejala yang paling umum :</p>
         <ul className="list-disc ml-14">

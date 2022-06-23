@@ -24,36 +24,93 @@ function getSteps() {
   ];
 }
 
-
-export const AturTiketVaksin = (props) => {
-  // const [tanggalAwal, setTanggalAwal] = usestate();
-  // const [tanggalAkhir, setTanggalAkhir] = usestate();
-
-  // const FORMAT = "yyyy/MM/dd"
-  const { aturTanggalVaksin1, aturJenisVkasin2, konfirmasiDataTiket } = props;
-  const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState({});
-  const [sendForm, setSendForm] = useState({
-    aturTanggalVaksin1,
-    aturJenisVkasin2,
-    konfirmasiDataTiket
-  });
+export const AturTiketVaksin = () => {
 
   function getStepContent(step) {
-    const isLastStep = (activeStep === steps.length - 1);
     switch (step) {
       case 0:
-        return <TanggalVaksin {...sendForm} activeStep={activeStep}/>;
+        return <TanggalVaksin 
+          handleChangeWaktuAwal={handleChangeWaktuAwal} 
+          handleChangeWaktuAkhir={handleChangeWaktuAkhir}/>;
       case 1:
-        return <FormTiketVaksin />;
+        return <FormTiketVaksin 
+          vaksin={vaksin}
+          handleChangeVaksin1={handleChangeVaksin1}
+          handleChangeVaksin2={handleChangeVaksin2}/>;
       case 2:
-        return <KonfirmasiDataTiket />;
+        return <KonfirmasiDataTiket 
+          waktuAwal={waktuAwal}
+          waktuAkhir={waktuAkhir}
+          vaksin1={vaksin1}
+          vaksin2={vaksin2}/>;
       case 3:
         return <TiketVaksinBerhasil />;
       default:
         return "tidak di ketahui";
     }
   }
+
+  // =========FUNCTION ATUR TANGGAL VAKSIN===============
+
+  const [waktuAwal, setWaktuAwal] = useState("");
+  const [waktuAkhir, setWaktuAkhir] = useState("");
+
+  const handleChangeWaktuAwal = (e) => {
+    // console.log("di etarget", e.target.value)
+    setWaktuAwal(e.target.value);
+  };
+
+  const handleChangeWaktuAkhir = (e) => {
+    // console.log("di etarget", e.target.value)
+    setWaktuAkhir(e.target.value);
+  };
+
+  console.log("cek waktu awal", waktuAwal)
+  console.log("cek waktu akhir", waktuAkhir)
+
+  // =====================================================
+  // =========FUNCTION ATUR JENIS VAKSIN==================
+
+  const vaksin = [
+    'Sinovac',
+    'Pfizer',
+    'Moderna',
+    'AstraZeneca'
+  ]
+
+  const [vaksin1, setVaksin1] = useState({
+    vaksin1: "",
+    stokVaksin1: ""
+  })
+  
+  const [vaksin2, setVaksin2] = useState({
+    vaksin2: "",
+    stokVaksin2: ""
+  })
+
+  const handleChangeVaksin1 = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setVaksin1({
+      ...vaksin1, [name]: value
+    })
+  }
+  console.log("cek vaksin 1", vaksin1)
+
+
+  const handleChangeVaksin2 = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setVaksin2({
+      ...vaksin2, [name]: value
+    })
+  }
+  console.log("cek vaksin 2", vaksin2)
+
+  // =====================================================
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState({});
   const steps = getSteps();
 
   const totalSteps = () => {
@@ -72,18 +129,16 @@ export const AturTiketVaksin = (props) => {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = (newValues) => {
+  const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
-    setSendForm(...sendForm, ...newValues);
   };
 
-  const handleBack = (newValues) => {
+  const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    setSendForm(...sendForm, ...newValues);
   };
 
   const handleStep = (step) => () => {
@@ -103,10 +158,10 @@ export const AturTiketVaksin = (props) => {
   };
 
   return (
-    <Container className=" w-full text-right ">
-      <div className="p- h-screen mt-5">
+    <Container className=" w-full text-right mt-32">
+      <div className="h-screen mt-5 ">
         <div className="text-center">
-          <Box>
+          <Box className="">
             <Stepper alternativeLabel activeStep={activeStep}>
               {steps.map((label, index) => (
                 <Step key={label}>
@@ -122,16 +177,15 @@ export const AturTiketVaksin = (props) => {
           </Box>
         </div>
         <div className="p-10 text-center flex justify-center">
-          {/* <h1>Atur Tanggal Vaksin</h1> */}
-          <div className="flex content-end">
+          <div className="flex content-end w-full">
             {allStepsCompleted() ? (
               <div>
                 <Button onClick={handleReset}>Reset</Button>
               </div>
             ) : (
-              <div className=" w-512 h-208 ">
+              <div className=" w-full p-10">
                 <div>{getStepContent(activeStep)}</div>
-                <div className="flex items-end justify-end pt-113">
+                <div className="flex items-end justify-end mt-80">
                   <div className="flex justify-center">
                     <Button disabled={activeStep === 0} onClick={handleBack}>
                       Kembali

@@ -16,6 +16,19 @@ function Berita() {
   const { source, title, description, author, url, urlToImage, publishedAt, content} = location.state
 
   console.log(location.state)
+  // console.log(publishedAt)
+
+  // let day = publishedAt.getDate()
+
+  // console.log("cek hari", day)
+
+  // let day = publishedAt
+  // day = day.substring(10, 8);
+  // console.log(day)
+
+  // let time = publishedAt
+  // time = time.substring(16, 11);
+  // console.log(time)
 
   const [dataBerita, setDataBerita] = useState(initialValue)
 

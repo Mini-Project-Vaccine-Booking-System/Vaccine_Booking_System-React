@@ -7,29 +7,29 @@ import { AturTiketVaksin } from "./AturTiketVaksin";
 
 const VaksinContext = createContext();
 
-export const TanggalVaksin = () => {
-  // console.log("cek props di tanggal vaksin", props)
+export const TanggalVaksin = (props) => {
+  console.log("cek props di tanggal vaksin", props)
 
-  const [waktuAwal, setWaktuAwal] = useState("");
-  const [waktuAkhir, setWaktuAkhir] = useState("");
+  // const [waktuAwal, setWaktuAwal] = useState("");
+  // const [waktuAkhir, setWaktuAkhir] = useState("");
 
-  const handleChangeWaktuAwal = (e) => {
-    // console.log("di etarget", e.target.value)
-    setWaktuAwal(e.target.value);
-  };
+  // const handleChangeWaktuAwal = (e) => {
+  //   // console.log("di etarget", e.target.value)
+  //   setWaktuAwal(e.target.value);
+  // };
 
-  const handleChangeWaktuAkhir = (e) => {
-    // console.log("di etarget", e.target.value)
-    setWaktuAkhir(e.target.value);
-  };
+  // const handleChangeWaktuAkhir = (e) => {
+  //   // console.log("di etarget", e.target.value)
+  //   setWaktuAkhir(e.target.value);
+  // };
 
-  console.log("waktu awal", waktuAwal);
-  console.log("waktu akhir", waktuAkhir);
+  // console.log("waktu awal", waktuAwal);
+  // console.log("waktu akhir", waktuAkhir);
 
   return (
-    <VaksinContext.Provider value={waktuAwal}>
-      <div className="">
-        <h1>Atur Tanggal Vaksin</h1>
+    <VaksinContext.Provider>
+      <div className="aturTanggalVaksin">
+        <h1 className="text-20 font-600 mb-36">Atur Tanggal Vaksin</h1>
         <div className="p-5">
           <TextField
             fullWidth
@@ -42,7 +42,7 @@ export const TanggalVaksin = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={handleChangeWaktuAwal}
+            onChange={props.handleChangeWaktuAwal}
           />
         </div>
         <div className="p-5">
@@ -57,11 +57,8 @@ export const TanggalVaksin = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={handleChangeWaktuAkhir}
+            onChange={props.handleChangeWaktuAkhir}
           />
-        </div>
-        <div className="hidden">
-          <KonfirmasiDataTiket waktuAwal={waktuAwal} waktuAkhir={waktuAkhir} />
         </div>
       </div>
     </VaksinContext.Provider>

@@ -8,6 +8,7 @@ import { KelolaPesananTiket } from "./pages/kelolaPesananTiket/KelolaPesananTike
 import { AturVaksin } from "./pages/aturVaksin/aturVaksin";
 import { FiturDua } from "./pages/FiturDua";
 import Berita from "./pages/berita/Berita";
+import Login from "./pages/login/Login"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <NavBarList>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fitur/tiketVaksin" element={<AturTiketVaksin />} />
           <Route path="/fitur/kelolaPesananTiket" element={<KelolaPesananTiket />} />
