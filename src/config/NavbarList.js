@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavLink } from "react-router-dom";
 
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaTicketAlt, FaBookOpen } from "react-icons/fa";
-import { MdMessage, MdDashboard } from "react-icons/md";
+import { MdMessage, MdDashboard, MdOutlineEventAvailable } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
 import { AiFillHeart, AiTwotoneFileExclamation, AiFillSetting } from "react-icons/ai";
@@ -44,6 +44,11 @@ const routes = [
         path: "/fitur/tiketVaksin",
         name: "Atur Sesi Tiket Vaksin ",
         icon: <FaTicketAlt />,
+      },
+      {
+        path: "/fitur/sesiTersedia",
+        name: "Sesi Tersedia ",
+        icon: <MdOutlineEventAvailable />,
       },
       {
         path: "/fitur/kelolaPesananTiket",

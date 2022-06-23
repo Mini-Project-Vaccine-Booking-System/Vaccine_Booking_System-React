@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { IoCalendarClearOutline, IoTimeOutline } from "react-icons/io5";
 import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
+import { Button } from "@mui/material";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export const KonfirmasiDataTiket = (props) => {
   console.log("cek props di konfirmasi data tiket", props)
@@ -27,8 +32,42 @@ export const KonfirmasiDataTiket = (props) => {
   timeEnd = timeEnd.substring(16, 11);
   console.log(timeEnd)
 
+  const handleSubmit = (e) => {
+    // e.preventDefault();
+    const sesiData = {
+      waktu_awal: props.waktuAwal,
+      waktu_akhir: props.waktuAkhir,
+      vaksin1: props.vaksin1.vaksin1,
+      stokVaksin1: props.vaksin1.stokVaksin1,
+      vaksin2: props.vaksin2.vaksin2,
+      stokVaksin2: props.vaksin2.stokVaksin2,
+    };
+    axios
+      .post("https://62a33b8121232ff9b21be1dd.mockapi.io/session", sesiData)
+      .then((response) => {
+        console.log(response.status);
+        console.log(response.data.token);
+
+        if (response.status === 201) {
+          toast.success("Data BERHASIL ditambahkan");
+        } else {
+          toast.error("Data GAGAL ditambahkan");
+        }
+      });
+    // setRefresh()
+    // setData((prevData) => [
+    //   ...prevData,
+    //   {
+    //     id: "26",
+    //     nama_vaksin: "nama_vaksin 5",
+    //     stok: "744",
+    //   },
+    // ]);
+  };
+
   return (
     <div className="">
+      <ToastContainer />
       <div className="w-11/12 mx-auto">
         <h1 className="text-20 font-600 mb-36">Konfirmasi Data Tiket</h1>
         <div className="mb-14">
@@ -76,6 +115,22 @@ export const KonfirmasiDataTiket = (props) => {
               <p className="text-11 mt-2 mx-10">{props.vaksin2.stokVaksin2}</p>
             </div>
           </div>
+        </div>
+        <div className="mt-20 flex justify-end">
+          <Button
+              style={{
+                backgroundColor: "rgba(2, 109, 225, 1)",
+                padding: "10px 20px",
+                fontSize: "14px",
+                fontFamily: "Inter",
+                borderRadius: "6px",
+              }}
+              variant="contained"
+              // startIcon={<AddIcon />}
+              onClick={handleSubmit}
+            >
+              Konfirm
+          </Button>
         </div>
       </div>
     </div>
