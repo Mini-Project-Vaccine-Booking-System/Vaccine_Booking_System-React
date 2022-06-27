@@ -49,9 +49,18 @@ export const AturVaksin = () => {
   const [loading, setLoading] = useState(false);
   const getData = async () => {
     setLoading(true);
-    const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
+    // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
+    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
     try {
-      const res = await axios.get(url);
+      const res = await axios.get(url, {
+        headers: {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Credentials' : true,
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json',
+        }
+      });
+      console.log(res.data);
       setData(res.data);
       setError(null);
     } catch (err) {
@@ -215,7 +224,7 @@ export const AturVaksin = () => {
     <NavBarList>
       <div>
         <ToastContainer />
-        <div className="aturVaksin m-10 ">
+        <div className="aturVaksin p-10 ">
           <p className="navigasi">
             Menu &#62;{" "}
             <span className="font-semibold underline">Atur Vaksin</span>

@@ -38,9 +38,9 @@ export const KonfirmasiDataTiket = (props) => {
       waktu_awal: props.waktuAwal,
       waktu_akhir: props.waktuAkhir,
       vaksin1: props.vaksin1.vaksin1,
-      stokVaksin1: props.vaksin1.stokVaksin1,
+      stok_vaksin1: props.vaksin1.stokVaksin1,
       vaksin2: props.vaksin2.vaksin2,
-      stokVaksin2: props.vaksin2.stokVaksin2,
+      stok_vaksin2: props.vaksin2.stokVaksin2,
     };
     axios
       .post("https://62a33b8121232ff9b21be1dd.mockapi.io/session", sesiData)

@@ -57,18 +57,18 @@ export default function CardBerita({item}) {
     return (
         <div>
             <div 
-                  className="w-192 h-112 rounded-lg bg-cover bg-center z-0 mb-14" 
+                  className="lg:w-192 lg:h-112 w-full h-112 rounded-lg bg-cover bg-center z-0 mb-14" 
                   style={{
                     backgroundImage: `url(${newUrlImage})`
                   }}
                 >
                   <div 
-                    className="w-192 h-112 rounded-lg z-10 p-7"
+                    className="lg:w-192 lg:h-112 w-full h-112 rounded-lg z-10 p-7"
                     style={{
                       background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
                     }}
                   >
-                    <h6 className="text-white text-11 font-500" onClick={() => handleDetail(item.title)}>{item.title.length > 40 ? 
+                    <h6 className="text-white text-11 font-500 cursor-pointer" onClick={() => handleDetail(item.title)}>{item.title.length > 40 ? 
                       `${item.title.substring(0, 40)}...` : item.title}</h6>
                     <p className="fontTiny text-white font-200">{newDescription.length > 60 ? 
                       `${newDescription.substring(0, 60)}...` : newDescription}</p>
