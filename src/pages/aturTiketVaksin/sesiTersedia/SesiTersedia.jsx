@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import NavBarList from "../../../config/NavbarList";
+import "./sesiTersedia.css"
 
 
 export const SesiTersedia = () => {
@@ -24,8 +25,8 @@ export const SesiTersedia = () => {
 
     return(
         <NavBarList>
-            <div>
-                <div className='kelolaPesananTiket m-10'>
+            <div className="sesiTersedia">
+                <div className='m-10'>
                     <ToastContainer />
                     <p className='navigasi'>Menu &#62; <span className='font-semibold underline'>Sesi Tersedia</span></p>
                     <h1 className='text-3xl font-medium'>Sesi Tersedia</h1>

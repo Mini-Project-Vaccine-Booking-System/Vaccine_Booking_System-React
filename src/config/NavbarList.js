@@ -157,7 +157,7 @@ const NavBarList = ({ children }) => {
             width: isOpen ? "400px" : "55px",
 
             transition: {
-              duration: 0.5,
+              duration: 0.3,
               type: "spring",
               damping: 15,
             },

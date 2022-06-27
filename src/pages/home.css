@@ -30,3 +30,21 @@
 .MuiButtonBase-root {
   font-family: "Inter", sans-serif !important;
 }
+
+.home {
+  height: 905px;
+  overflow: scroll;
+}
+
+.home::-webkit-scrollbar {
+  display: none;
+}
+
+.berita {
+  height: 910px;
+  overflow: scroll;
+}
+
+.berita::-webkit-scrollbar {
+  display: none;
+}

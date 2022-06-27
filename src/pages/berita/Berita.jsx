@@ -48,7 +48,7 @@ function Berita() {
 
   return (
     <NavBarList>
-      <>
+      <div className='berita'>
       <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title}</span></p>
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
@@ -66,7 +66,7 @@ function Berita() {
             <h2 className="text-17 font-600 ml-10 mt-4 text-grey-700">Berita Terkait</h2>
           </div>
           <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
-          <div className='flex flex-row flex-wrap p-10 justify-evenly lg:justify-start'>
+          <div className='mt-10 ml-8 mb-32 flex flex-col'>
           {dataBerita.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
             {/* <div 
               className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
@@ -104,7 +104,7 @@ function Berita() {
           </div>
         </div>
       </div>
-      </>
+      </div>
     </NavBarList>
   )
 }

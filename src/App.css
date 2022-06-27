@@ -6,11 +6,16 @@
 
 .main-container {
   display: flex;
+  /* overflow: hidden; */
+  /* height: 500px; */
 }
+
 main {
   /* padding: 10px; */
   /* margin-left:25%; */
   width: 100%;
+  height: 910px;
+  /* background-color: red; */
   /* width: 100vw;
   height: 100vh; */
 }
@@ -26,8 +31,8 @@ main {
   background: rgba(102, 167, 255, 0.1);
   color: rgb(0, 0, 0);
   width: 25%;
-  height: 1000px;
-  overflow-y: auto;
+  /* height: 910px; */
+  overflow: hidden;
   /* position:fixed;
   z-index: 9999; */
 }

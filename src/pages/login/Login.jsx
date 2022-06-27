@@ -6,6 +6,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
 import "./login.css"
 // import App  from "../../App"
 
@@ -17,23 +21,58 @@ import { TextField, FormControl, InputLabel } from '@mui/material';
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Login(props) {
-  const [open, setOpen] = React.useState(false);
-  console.log("propsss",props)
+  // const [open, setOpen] = React.useState(false);
+  // console.log("propsss",props)
 
-  const handleClickOpen = (props) => {
-    setOpen(true);
+  // const handleClickOpen = (props) => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+  // const [data, setData] = useState()
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+    showPassword: false,
+  });
+
+  const handleInput = e => {
+      const name = e.target.name;
+      const value = e.target.value;
+
+      setValues({
+          ...values, [name]: value
+      })
+  }
+
+  console.log("data login", values)
+
+  // ================================================
+
+
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
-
 
   return (
     <div className='login'>
@@ -80,21 +119,32 @@ export default function Login(props) {
                   label="Email"
                   name='email'
                   type="text"
-                  // onChange={handleChange}
+                  onChange={handleInput}
                 />
               </FormControl>
             </div>
             <div>
               <p className='mb-5'>Password</p>
-              <FormControl fullWidth>
-                <TextField
-                  fullWidth
-                  labelId="passsword"
-                  id="passsword"
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  name='password'
+                  id="outlined-adornment-password"
+                  type={values.showPassword ? 'text' : 'password'}
+                  onChange={handleInput}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
                   label="Password"
-                  name='passsword'
-                  type="text"
-                  // onChange={handleChange}
                 />
               </FormControl>
             </div>

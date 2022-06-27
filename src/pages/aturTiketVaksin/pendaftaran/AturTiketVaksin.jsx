@@ -160,8 +160,8 @@ export const AturTiketVaksin = () => {
 
   return (
     <NavBarList>
-      <Container className=" w-full text-right mt-32">
-        <div className="h-screen mt-5 ">
+      <Container className=" w-full text-right pt-32">
+        <div className="mt-5 ">
           <div className="text-center">
             <Box className="">
               <Stepper alternativeLabel activeStep={activeStep}>
@@ -187,7 +187,7 @@ export const AturTiketVaksin = () => {
               ) : (
                 <div className=" w-full p-10">
                   <div>{getStepContent(activeStep)}</div>
-                  <div className="flex items-end justify-end mt-80">
+                  <div className="flex items-end justify-end mt-40">
                     <div className="flex justify-center">
                       <Button disabled={activeStep === 0} onClick={handleBack}>
                         Kembali
