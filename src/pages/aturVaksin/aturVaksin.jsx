@@ -54,11 +54,12 @@ export const AturVaksin = () => {
     try {
       const res = await axios.get(url, {
         headers: {
-          'Access-Control-Allow-Origin' : '*',
-          'Access-Control-Allow-Credentials' : true,
-          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json',
-        }
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json",
+        },
       });
       console.log(res.data);
       setData(res.data);
@@ -250,58 +251,57 @@ export const AturVaksin = () => {
               Tambah Jenis Vaksin
             </Button>
           </div>
-
-          <div class="flex flex-col">
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
-                  <table class="min-w-full">
-                    <thead class="bg-blue-400">
-                      <tr>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-center"
-                        >
-                          No
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-center"
-                        >
-                          Nama Vaksin
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-center"
-                        >
-                          Jumlah Stok
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-center"
-                        >
-                          Aksi
-                        </th>
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <div className="w-screen flex justify-center items-center mt-10">
-                        <CircularProgress />
-                      </div>
-                    ) : (
+          {loading ? (
+            <div className=" flex justify-center items-center mt-10">
+              <CircularProgress />
+            </div>
+          ) : (
+            <div class="flex flex-col">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                    <table class="min-w-full">
+                      <thead class="bg-blue-400">
+                        <tr>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-white px-6 py-4 text-center"
+                          >
+                            No
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-white px-6 py-4 text-center"
+                          >
+                            Nama Vaksin
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-white px-6 py-4 text-center"
+                          >
+                            Jumlah Stok
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-white px-6 py-4 text-center"
+                          >
+                            Aksi
+                          </th>
+                        </tr>
+                      </thead>
                       <tbody>
                         {data.map((vaksin) => (
-                          <tr class="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
+                          <tr className="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
                               {vaksin.id}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap pl-12">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap pl-12">
                               {vaksin.nama_vaksin}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                               {vaksin.stok}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                               <IconButton
                                 aria-label="edit"
                                 size="large"
@@ -332,12 +332,12 @@ export const AturVaksin = () => {
                           </tr>
                         ))}
                       </tbody>
-                    )}
-                  </table>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="modalAturVaksin">
             {showModalTambahVaksin ? (
