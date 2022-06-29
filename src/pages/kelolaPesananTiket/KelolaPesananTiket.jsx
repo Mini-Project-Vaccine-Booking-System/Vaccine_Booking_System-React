@@ -1,12 +1,21 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { TextField, FormControl, InputLabel, CircularProgress } from "@mui/material";
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import "./kelolaPesananTiket.css";
 import NavBarList from "../../config/NavbarList";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Delete from "@mui/icons-material/Delete";
 
 export const KelolaPesananTiket = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -150,7 +159,7 @@ export const KelolaPesananTiket = () => {
               {loading ? (
                 <div className="flex justify-center item-center">
                   {/* <h1>Loading...</h1> */}
-                  <CircularProgress/>
+                  <CircularProgress />
                 </div>
               ) : (
                 <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
@@ -193,15 +202,17 @@ export const KelolaPesananTiket = () => {
                         >
                           Waktu Akhir
                         </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-white px-6 py-4 text-left"
+                        >
+                          Aksi
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((bookings) => (
-                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
-                        onClick={() => {
-                          setShowModalEditVaksin(true);
-                          handleSelectEdit(bookings.id);
-                        }}>
+                        <tr>
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {bookings.id}
                           </td>
@@ -219,6 +230,33 @@ export const KelolaPesananTiket = () => {
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {bookings.waktu_akhir}
+                          </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {/* <IconButton
+                              aria-label="delete"
+                              size="large"
+                              color="error"
+                            >
+                              <DeleteIcon
+                                onClick={() => {
+                                  setShowModalEditVaksin(false);
+                                  setShowModalDeleteVaksin(true);
+                                }}
+                              />
+                            </IconButton> */}
+                            <IconButton
+                              aria-label="edit"
+                              size="large"
+                              color="success"
+                            >
+                              <EditIcon
+                                fontSize="inherit"
+                                onClick={() => {
+                                  setShowModalEditVaksin(true);
+                                  handleSelectEdit(bookings.id);
+                                }}
+                              />
+                            </IconButton>
                           </td>
                         </tr>
                       ))}
