@@ -2,12 +2,12 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NavBarList from "./config/NavbarList";
-import { Dashboard } from "./pages/Dashboard";
+// import { Dashboard } from "./pages/Dashboard";
 import { AturTiketVaksin } from "./pages/aturTiketVaksin/pendaftaran/AturTiketVaksin";
 import { KelolaPesananTiket } from "./pages/kelolaPesananTiket/KelolaPesananTiket";
 import { AturVaksin } from "./pages/aturVaksin/aturVaksin";
 import { SesiTersedia } from "./pages/aturTiketVaksin/sesiTersedia/SesiTersedia";
-import { FiturDua } from "./pages/FiturDua";
+// import { FiturDua } from "./pages/FiturDua";
 import Berita from "./pages/berita/Berita";
 import Login from "./pages/login/Login"
 

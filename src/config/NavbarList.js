@@ -14,7 +14,7 @@ import { TextField, FormControl, InputLabel } from '@mui/material';
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import SiderBar from "../components/Sidebar";
+import SiderBar from "../components/Sidebar/Sidebar";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';

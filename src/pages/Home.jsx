@@ -15,9 +15,10 @@ import { Pencegahan } from "./grafik/Pencegahan";
 
 import "./home.css"
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import CardBerita from "./berita/cardBerita";
 import NavBarList from "../config/NavbarList";
-import { initialValue } from "./initialValue";
+// import { initialValue } from "./initialValue";
 
 
 function TabPanel(props) {
@@ -94,7 +95,7 @@ export default function Home(props) {
   // console.log("data sembuh", totalSembuh)
   // console.log("data meninggal", totalMeninggal)
 
-  const [dataBerita, setDataBerita] = useState(initialValue)
+  const [dataBerita, setDataBerita] = useState([])
 
   useEffect(() => {
       axios.get("https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb").then((res) => {
@@ -109,8 +110,8 @@ export default function Home(props) {
 
   }, []);
 
-
   console.log("test state", dataBerita)  
+  console.log(Cookies.get('jwt'))
 
   return (
     <NavBarList>
@@ -199,7 +200,7 @@ export default function Home(props) {
               <p className="fontTiny ml-8 my-5">Informasi mengenai COVID-19 dan vaksinasi</p>
 
               <div className="mt-10 ml-8 mb-32 flex flex-col">
-                {dataBerita.slice(0, 3).map((berita) => <CardBerita item={berita}/>)}
+                {dataBerita?.slice(0, 3).map((berita) => <CardBerita item={berita}/>)}
                 <div className="lg:w-192 w-full mt-10">
                   <Button
                     style={{

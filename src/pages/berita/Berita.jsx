@@ -7,7 +7,7 @@ import CardBerita from './cardBerita'
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Axios } from "axios";
-import { initialValue } from '../initialValue'
+// import { initialValue } from '../initialValue'
 import NavBarList from "../../config/NavbarList";
 
 
@@ -31,7 +31,7 @@ function Berita() {
   // time = time.substring(16, 11);
   // console.log(time)
 
-  const [dataBerita, setDataBerita] = useState(initialValue)
+  const [dataBerita, setDataBerita] = useState([])
 
   useEffect(() => {
       axios.get("https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb").then((res) => {
@@ -67,7 +67,7 @@ function Berita() {
           </div>
           <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
           <div className='mt-10 ml-8 mb-32 flex flex-col'>
-          {dataBerita.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
+          {dataBerita?.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
             {/* <div 
               className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
               style={{
