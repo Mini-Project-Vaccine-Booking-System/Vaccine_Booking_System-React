@@ -10,6 +10,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import { login } from '../../services/AuthService';
 import "./login.css"
 // import App  from "../../App"
 
@@ -19,6 +21,7 @@ import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { TextField, FormControl, InputLabel } from '@mui/material';
 
+import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -39,6 +42,12 @@ export default function Login(props) {
   //   setOpen(false);
   // };
   // const [data, setData] = useState()
+
+  const [errorMessageEmail, setErrorMessageEmail] = useState("");
+  const [errorMessagePassword, setErrorMessagePassword] = useState("");
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -49,19 +58,46 @@ export default function Login(props) {
       const name = e.target.name;
       const value = e.target.value;
 
+      if (name === "email") {
+        if (emailRegex.test(value)) {
+          setErrorMessageEmail("")
+        } else {
+          setErrorMessageEmail("Email Tidak Sesuai !!!")
+        }
+      } else if (name === "password") {
+        if(passwordRegex.test(value)) {
+          setErrorMessagePassword("")
+        } else {
+          setErrorMessagePassword("Password Tidak Sesuai !!!")
+        }
+      }
+
       setValues({
           ...values, [name]: value
       })
   }
-
   console.log("data login", values)
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    if(errorMessageEmail !== "") {
+      alert("Terdapat data yang tidak sesuai")
+    } else if(errorMessagePassword !== "") {
+      alert("Terdapat data yang tidak sesuai")
+    } else {
+      alert("Login Success")
+      // axios.post("https://booking-vaksin-alta.herokuapp.com/api/auth/login", {
+      //   email: values.email,
+      //   password: values.password
+      // })
+      // .then((response) => {
+      //   console.log(response.status);
+      //   console.log(response.data.token);
+      // })
+    }
+  }
+
   // ================================================
-
-
-  // const handleChange = (prop) => (event) => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
 
   const handleClickShowPassword = () => {
     setValues({
@@ -109,64 +145,73 @@ export default function Login(props) {
           <p>Halo, petugas fasilitas kesehatan</p>
           <p>Masukkan data yang dibutuhkan untuk dapat mengakses akunmu</p>
           <div className='mt-40'>
-            <div className='mb-12'>
-              <p className='mb-5'>Email</p>
-              <FormControl fullWidth>
-                <TextField
-                  fullWidth
-                  labelId="email"
-                  id="email"
-                  label="Email"
-                  name='email'
-                  type="text"
-                  onChange={handleInput}
-                />
-              </FormControl>
-            </div>
-            <div>
-              <p className='mb-5'>Password</p>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                <OutlinedInput
-                  name='password'
-                  id="outlined-adornment-password"
-                  type={values.showPassword ? 'text' : 'password'}
-                  onChange={handleInput}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className='mb-12'>
+                <p className='mb-5'>Email</p>
+                <FormControl fullWidth>
+                  <TextField
+                    required
+                    error={(errorMessageEmail === "") ? false : true}
+                    fullWidth
+                    labelId="email"
+                    id="email"
+                    label="Email"
+                    name='email'
+                    type="text"
+                    onChange={handleInput}
+                    helperText={errorMessageEmail}
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <p className='mb-5'>Password</p>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                  <OutlinedInput
+                    required
+                    error={(errorMessagePassword === "") ? false : true}
+                    name='password'
+                    id="outlined-adornment-password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    onChange={handleInput}
+                    helperText={errorMessagePassword}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                  <FormHelperText error>
+                    {errorMessagePassword}
+                  </FormHelperText>
+                </FormControl>
+              </div>
+              <div>
+                <input type="submit" value="Login" className='bg-blue-700 text-white w-full h-24 text-10 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 mt-20 ease-linear transition-all duration-150'></input>
+              </div>
+            </form>
           </div>
-          <Link to="/">
+          {/* <Link to="/">
             <button
               className="bg-blue-700 text-white w-full h-24 text-10 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 mt-20 ease-linear transition-all duration-150"
               type="button"
             >
               Login
             </button>
-          </Link>
+          </Link> */}
         </div>
         <div className='py-20 mx-auto gambarLogin'>
           <img src='https://cdn.discordapp.com/attachments/816934520837898244/989119966815072256/Gambar.png' className='mt-51'></img>
         </div>
       </div>
-        {/* <Router>
-          <Routes>
-            <Route path="/app" element={<App/>}/>
-          </Routes>
-      </Router> */}
     </div>
   );
 

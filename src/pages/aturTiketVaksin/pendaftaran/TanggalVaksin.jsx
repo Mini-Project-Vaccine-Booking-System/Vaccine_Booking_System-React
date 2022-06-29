@@ -8,7 +8,7 @@ import { AturTiketVaksin } from "./AturTiketVaksin";
 const VaksinContext = createContext();
 
 export const TanggalVaksin = (props) => {
-  console.log("cek props di tanggal vaksin", props)
+  // console.log("cek props di tanggal vaksin", props)
 
   // const [waktuAwal, setWaktuAwal] = useState("");
   // const [waktuAkhir, setWaktuAkhir] = useState("");
@@ -26,6 +26,18 @@ export const TanggalVaksin = (props) => {
   // console.log("waktu awal", waktuAwal);
   // console.log("waktu akhir", waktuAkhir);
 
+  const defaultDay = new Date().getDate()
+  const defaultMonth = new Date().getMonth()
+  const defaultYear = new Date().getFullYear()
+  const defaultTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  const defaultValue = defaultYear + "-0" + defaultMonth + "-" + defaultDay + "T" + defaultTime
+  // console.log("cek tanggal", defaultDate)
+  // console.log("cek Hari", defaultDay)
+  // console.log("cek bulan", defaultMonth)
+  // console.log("cek tahun", defaultYear)
+  // console.log("cek waktu", defaultTime)
+  // console.log("cek all", defaultValue)
+
   return (
     <VaksinContext.Provider>
       <div className="aturTanggalVaksin">
@@ -36,7 +48,7 @@ export const TanggalVaksin = (props) => {
             id="date"
             label="Masukan Waktu Awal"
             type="datetime-local"
-            defaultValue="2022-05-06T00:00"
+            defaultValue={defaultValue}
             // value={tanggalAwal}
             // sx={{ width: 220 }}
             InputLabelProps={{
@@ -51,7 +63,7 @@ export const TanggalVaksin = (props) => {
             id="date"
             label="Masukan Waktu Akhir"
             type="datetime-local"
-            defaultValue="2022-05-06T00:00"
+            defaultValue={defaultValue}
             // value={tanggalAkhir}
             // sx={{ width: 220 }}
             InputLabelProps={{

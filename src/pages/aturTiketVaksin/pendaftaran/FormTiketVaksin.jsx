@@ -48,6 +48,7 @@ export const FormTiketVaksin = (props) => {
           <FormControl fullWidth sx={{ m: 1 }}>
             <InputLabel id="jenisVaksin1">Jenis Vaksin</InputLabel>
             <Select
+              required
               labelId="jenisVaksin1"
               id="jenisVaksin1"
               name='vaksin1'
@@ -67,6 +68,7 @@ export const FormTiketVaksin = (props) => {
           <FormControl sx={{ m: 1, width: 85 }}>
             {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
             <TextField
+              required
               labelId="stokVaksin1"
               id="stokVaksin1"
               label="Stok"

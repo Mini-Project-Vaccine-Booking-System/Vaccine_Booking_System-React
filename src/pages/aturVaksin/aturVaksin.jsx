@@ -49,8 +49,8 @@ export const AturVaksin = () => {
   const [loading, setLoading] = useState(false);
   const getData = async () => {
     setLoading(true);
-    // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
+    const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
+    // const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
     try {
       const res = await axios.get(url, {
         headers: {
@@ -100,8 +100,8 @@ export const AturVaksin = () => {
   const handleSubmit = (e) => {
     // e.preventDefault();
     const vaksinData = {
-      nama_vaksin: dataVaksin.namaVaksin,
-      stok: dataVaksin.stokVaksin,
+      nama: dataVaksin.namaVaksin,
+      quantity: dataVaksin.stokVaksin,
     };
     axios
       .post("https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine", vaksinData)
@@ -131,6 +131,7 @@ export const AturVaksin = () => {
     console.log("cek id delete", id);
     //GETDATA By ID
     axios
+      // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
       .then((res) => {
         setDataDelete(res.data);
@@ -169,6 +170,7 @@ export const AturVaksin = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
+      // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
       .then((res) => {
         setDataEdit(res.data);
@@ -200,9 +202,9 @@ export const AturVaksin = () => {
     // e.preventDefault();
     console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
-      nama_vaksin: dataEdit.nama_vaksin,
-      stok: dataEdit.stok,
-      id: dataEdit.id,
+      nama: dataEdit.nama,
+      quantity: dataEdit.quantity,
+      idVaksin: dataEdit.idVaksin,
     };
     axios
       .put(
@@ -293,13 +295,13 @@ export const AturVaksin = () => {
                         {data.map((vaksin) => (
                           <tr className="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
-                              {vaksin.id}
+                              {vaksin.idVaksin}
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap pl-12">
-                              {vaksin.nama_vaksin}
+                              {vaksin.nama}
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
-                              {vaksin.stok}
+                              {vaksin.quantity}
                             </td>
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                               <IconButton
@@ -311,7 +313,7 @@ export const AturVaksin = () => {
                                   fontSize="inherit"
                                   onClick={() => {
                                     setShowModalEditVaksin(true);
-                                    handleSelectEdit(vaksin.id);
+                                    handleSelectEdit(vaksin.idVaksin);
                                   }}
                                 />
                               </IconButton>
@@ -324,7 +326,7 @@ export const AturVaksin = () => {
                                   fontSize="inherit"
                                   onClick={() => {
                                     setShowModalDeleteVaksin(true);
-                                    handleSelectDelete(vaksin.id);
+                                    handleSelectDelete(vaksin.idVaksin);
                                   }}
                                 />
                               </IconButton>
@@ -425,9 +427,9 @@ export const AturVaksin = () => {
                             labelId="nama_vaksin"
                             id="nama_vaksin"
                             // label="Nama Vaksin"
-                            name="nama_vaksin"
+                            name="nama"
                             type="text"
-                            value={dataEdit.nama_vaksin}
+                            value={dataEdit.nama}
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>
@@ -437,9 +439,9 @@ export const AturVaksin = () => {
                             labelId="stok"
                             id="stok"
                             // label="Stok"
-                            name="stok"
+                            name="quantity"
                             type="number"
-                            value={dataEdit.stok}
+                            value={dataEdit.quantity}
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>
@@ -458,7 +460,7 @@ export const AturVaksin = () => {
                           type="button"
                           onClick={() => {
                             setShowModalEditVaksin(false);
-                            handleSubmitEdit(dataEdit.id);
+                            handleSubmitEdit(dataEdit.idVaksin);
                           }}
                         >
                           Edit Vaksin
@@ -488,7 +490,7 @@ export const AturVaksin = () => {
                         <p className="px-10">
                           Apakah anda yakin ingin menghapus vaksin{" "}
                           <span className="font-bold underline decoration-blue-800">
-                            {dataDelete.nama_vaksin}
+                            {dataDelete.nama}
                           </span>
                           ?
                         </p>
@@ -500,7 +502,7 @@ export const AturVaksin = () => {
                           type="button"
                           onClick={() => {
                             setShowModalDeleteVaksin(false);
-                            handleDelete(dataDelete.id);
+                            handleDelete(dataDelete.idVaksin);
                           }}
                         >
                           Ya

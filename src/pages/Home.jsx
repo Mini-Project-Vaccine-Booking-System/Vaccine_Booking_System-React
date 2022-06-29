@@ -6,6 +6,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { Gejala } from "./grafik/Gejala";
 import { Perawatan } from "./grafik/Perawatan";
@@ -198,6 +200,23 @@ export default function Home(props) {
 
               <div className="mt-10 ml-8 mb-32 flex flex-col">
                 {dataBerita.slice(0, 3).map((berita) => <CardBerita item={berita}/>)}
+                <div className="lg:w-192 w-full mt-10">
+                  <Button
+                    style={{
+                      backgroundColor: "rgba(2, 109, 225, 1)",
+                      padding: "10px 20px",
+                      fontSize: "14px",
+                      fontFamily: "Inter",
+                      borderRadius: "10px",
+                    }}
+                    fullWidth
+                    variant="contained"
+                    endIcon={<ChevronRightIcon />}
+                    // onClick={() => setShowModalTambahVaksin(true)}
+                  >
+                    Tampilkan Lebih Banyak
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

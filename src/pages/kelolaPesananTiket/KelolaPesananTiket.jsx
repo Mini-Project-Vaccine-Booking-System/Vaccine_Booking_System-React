@@ -39,22 +39,22 @@ export const KelolaPesananTiket = () => {
 
   const [dataDelete, setDataDelete] = useState([]);
 
-  const handleSelectDelete = (id) => {
-    console.log("cek id delete", id);
-    //GETDATA By ID
-    axios
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/bookings/${id}`)
-      .then((res) => {
-        setDataDelete(res.data);
-        console.log("data deleteeee", res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Data gak ketemu");
-        setError("Data gak ketemu");
-      });
-    console.log("data delete di state", dataDelete);
-  };
+  // const handleSelectDelete = (id) => {
+  //   console.log("cek id delete", id);
+  //   //GETDATA By ID
+  //   axios
+  //     .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/bookings/${id}`)
+  //     .then((res) => {
+  //       setDataDelete(res.data);
+  //       console.log("data deleteeee", res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       console.log("Data gak ketemu");
+  //       setError("Data gak ketemu");
+  //     });
+  //   console.log("data delete di state", dataDelete);
+  // };
 
   const handleDelete = (id) => {
     axios
@@ -193,17 +193,15 @@ export const KelolaPesananTiket = () => {
                         >
                           Waktu Akhir
                         </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-left"
-                        >
-                          Aksi
-                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((bookings) => (
-                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          setShowModalEditVaksin(true);
+                          handleSelectEdit(bookings.id);
+                        }}>
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {bookings.id}
                           </td>
@@ -221,25 +219,6 @@ export const KelolaPesananTiket = () => {
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {bookings.waktu_akhir}
-                          </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            <button
-                              className="mr-10"
-                              onClick={() => {
-                                setShowModalEditVaksin(true);
-                                handleSelectEdit(bookings.id);
-                              }}
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => {
-                                handleSelectDelete(bookings.id);
-                                setShowModalDeleteVaksin(true);
-                              }}
-                            >
-                              Delete
-                            </button>
                           </td>
                         </tr>
                       ))}
@@ -264,6 +243,14 @@ export const KelolaPesananTiket = () => {
                       <h3 className="text-3xl font-semibold my-10 mx-auto">
                         Edit Data Booking
                       </h3>
+                    </div>
+                    <div className="px-12 mt-5 border-b border-solid border-slate-200 pb-5">
+                      <p>ID Booking : {dataEdit.booking_id}</p>
+                      <p className="text-12">NIK : {dataEdit.nik}</p>
+                      <p>Nama : {dataEdit.nama}</p>
+                      <p>Tanggal : {dataEdit.waktu_awal}</p>
+                      <p>Waktu : </p>
+                      <p>Vaksin : {dataEdit.vaksin}</p>
                     </div>
                     {/*body*/}
                     <div className="relative p-6 flex flex-col">
@@ -332,14 +319,14 @@ export const KelolaPesananTiket = () => {
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                       <button
-                        className="text-red-500 px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                        className="text-blue-600 px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => setShowModalEditVaksin(false)}
                       >
                         Tutup
                       </button>
                       <button
-                        className="bg-blue-600 text-white  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => {
                           setShowModalEditVaksin(false);
@@ -347,6 +334,15 @@ export const KelolaPesananTiket = () => {
                         }}
                       >
                         Edit Booking
+                      </button>
+                      <button
+                        className="bg-red-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        onClick={() => {
+                          setShowModalEditVaksin(false);
+                          setShowModalDeleteVaksin(true);
+                        }}
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
@@ -373,7 +369,7 @@ export const KelolaPesananTiket = () => {
                       <p className="px-10">
                         Apakah anda yakin ingin menghapus booking id{" "}
                         <span className="font-bold underline decoration-blue-800">
-                          {dataDelete.booking_id}
+                          {dataEdit.booking_id}
                         </span>
                         ?
                       </p>
@@ -385,7 +381,7 @@ export const KelolaPesananTiket = () => {
                         type="button"
                         onClick={() => {
                           setShowModalDeleteVaksin(false);
-                          handleDelete(dataDelete.id);
+                          handleDelete(dataEdit.id);
                         }}
                       >
                         Ya
