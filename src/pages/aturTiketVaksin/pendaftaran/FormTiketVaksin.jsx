@@ -4,41 +4,7 @@ import { useState } from 'react'
 
 export const FormTiketVaksin = (props) => {
 
-  // const vaksin = [
-  //   'Sinovac',
-  //   'Pfizer',
-  //   'Moderna',
-  //   'AstraZeneca'
-  // ]
 
-  // const [vaksin1, setVaksin1] = useState({
-  //   vaksin1: "",
-  //   stokVaksin1: ""
-  // })
-  
-  // const [vaksin2, setVaksin2] = useState({
-  //   vaksin2: "",
-  //   stokVaksin2: ""
-  // })
-
-  // const handleChangeVaksin1 = (e) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   setVaksin1({
-  //     ...vaksin1, [name]: value
-  //   })
-  // }
-  // console.log("cek vaksin 1", vaksin1)
-
-
-  // const handleChangeVaksin2 = (e) => {
-  //   const name = e.target.name;
-  //   const value = e.target.value;
-  //   setVaksin2({
-  //     ...vaksin2, [name]: value
-  //   })
-  // }
-  // console.log("cek vaksin 2", vaksin2)
 
   return (
     <div className=''>

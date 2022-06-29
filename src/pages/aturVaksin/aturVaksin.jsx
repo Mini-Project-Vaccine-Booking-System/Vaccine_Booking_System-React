@@ -26,25 +26,11 @@ import NavBarList from "../../config/NavbarList";
 export const AturVaksin = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    console.log("datax ", data);
+    // console.log("datax ", data);
   }, [data]);
 
   const [error, setError] = useState("");
   const [refresh, setRefresh] = useReducer((x) => x + 1, 0);
-  //   useEffect(() => {
-  //       //GETDATA
-  //       console.log("fetching data")
-  //       axios.get("https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine").then((res) => {
-  //           setData(res.data)
-  //           console.log(res.data);
-  //       })
-  //       .catch((err) => {
-  //           console.log(err);
-  //           console.log("Data gak ketemu")
-  //           setError("Data gak ketemu")
-  //       })
-
-  //  }, []);
 
   const [loading, setLoading] = useState(false);
   const getData = async () => {
@@ -91,14 +77,11 @@ export const AturVaksin = () => {
       ...dataVaksin,
       [e.target.name]: value,
     });
-    // console.log("cek value", value)
   };
-  // console.log("cek dataVaksin", dataVaksin)
 
   const [responseStatus, setResponseStatus] = useState();
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
     const vaksinData = {
       nama: dataVaksin.namaVaksin,
       quantity: dataVaksin.stokVaksin,
@@ -106,7 +89,7 @@ export const AturVaksin = () => {
     axios
       .post("https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine", vaksinData)
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         console.log(response.data.token);
 
         if (response.status === 201) {
@@ -115,43 +98,30 @@ export const AturVaksin = () => {
           toast.error("Data GAGAL ditambahkan");
         }
       });
-    // setRefresh()
-    // setData((prevData) => [
-    //   ...prevData,
-    //   {
-    //     id: "26",
-    //     nama_vaksin: "nama_vaksin 5",
-    //     stok: "744",
-    //   },
-    // ]);
   };
 
   const [dataDelete, setDataDelete] = useState([]);
   const handleSelectDelete = (id) => {
-    console.log("cek id delete", id);
+    // console.log("cek id delete", id);
     //GETDATA By ID
     axios
       // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
       .then((res) => {
         setDataDelete(res.data);
-        console.log("data deleteeee", res.data);
+        // console.log("data deleteeee", res.data);
       })
       .catch((err) => {
         console.log(err);
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-    console.log("data delete di state", dataDelete);
   };
 
   const handleDelete = (id) => {
     axios
       .delete(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
       .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
-
         if (response.status === 200) {
           toast.success("Data BERHASIL dihapus");
         } else {
@@ -161,16 +131,11 @@ export const AturVaksin = () => {
   };
 
   const [dataEdit, setDataEdit] = useState([]);
-  const [errorEdit, setErrorEdit] = useState("");
-
-  // const [namaVaksin, setNamaVaksin] = ("");
-  // const [stokVaksin, setStokVaksin] = ("");
 
   const handleSelectEdit = (id) => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
       .then((res) => {
         setDataEdit(res.data);
@@ -180,11 +145,7 @@ export const AturVaksin = () => {
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-    // setNamaVaksin(dataEdit.nama_vaksin)
-    // setStokVaksin(dataEdit.stok)
   };
-  console.log("cek data edit", dataEdit);
-  // console.log("cek data namaavaksin", namaVaksin);
 
   const handleChangeUpdate = (e) => {
     const value = e.target.value;
@@ -192,15 +153,9 @@ export const AturVaksin = () => {
       ...dataEdit,
       [e.target.name]: value,
     });
-    // setNamaVaksin(dataEdit.namaVaksin)
-    // setStokVaksin(dataEdit.stokVaksin)
-    console.log("cek value", value);
-    console.log("cek dataEditNew", dataEdit.namaVaksin);
   };
 
   const handleSubmitEdit = (id) => {
-    // e.preventDefault();
-    console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
       nama: dataEdit.nama,
       quantity: dataEdit.quantity,
