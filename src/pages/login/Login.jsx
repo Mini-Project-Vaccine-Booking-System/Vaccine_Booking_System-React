@@ -11,9 +11,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
-// import { login } from '../../services/AuthService';
+
+import axiosInstance from '../../networks/api';
 import "./login.css"
-// import App  from "../../App"
+
 
 import { AiFillHeart, AiTwotoneFileExclamation, AiFillSetting } from "react-icons/ai";
 import { IoMdNotifications } from "react-icons/io"
@@ -22,8 +23,8 @@ import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { TextField, FormControl, InputLabel } from '@mui/material';
 
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -43,6 +44,9 @@ export default function Login(props) {
   // };
   // const [data, setData] = useState()
 
+  const navigate = useNavigate();
+  const [loginSuccess, setLoginSuccess] = useState("");
+  const [loginFailed, setLoginFailed] = useState("");
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -64,13 +68,14 @@ export default function Login(props) {
         } else {
           setErrorMessageEmail("Email Tidak Sesuai !!!")
         }
-      } else if (name === "password") {
-        if(passwordRegex.test(value)) {
-          setErrorMessagePassword("")
-        } else {
-          setErrorMessagePassword("Password Tidak Sesuai !!!")
-        }
-      }
+      } 
+      //   else if (name === "password") {
+      //   if(passwordRegex.test(value)) {
+      //     setErrorMessagePassword("")
+      //   } else {
+      //     setErrorMessagePassword("Password Tidak Sesuai !!!")
+      //   }
+      // }
 
       setValues({
           ...values, [name]: value
@@ -85,15 +90,27 @@ export default function Login(props) {
     } else if(errorMessagePassword !== "") {
       alert("Terdapat data yang tidak sesuai")
     } else {
-      alert("Login Success")
-      // axios.post("https://booking-vaksin-alta.herokuapp.com/api/auth/login", {
-      //   email: values.email,
-      //   password: values.password
-      // })
-      // .then((response) => {
-      //   console.log(response.status);
-      //   console.log(response.data.token);
-      // })
+
+      axiosInstance
+        .post("/auth/local", {
+          identifier: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          navigate("/");
+          console.log("cek respon login" , response)
+          Cookies.set(response.data.jwt);
+
+          // if(response.status !== 200) {
+          //   setLoginFailed("Email atau Password Salah")
+          // }
+        })
+        .catch((error) => {
+          setLoginFailed("Email atau Password Salah !!!")
+          console.log(error);
+        });
+
+
     }
   }
 
@@ -198,6 +215,7 @@ export default function Login(props) {
                 <input type="submit" value="Login" className='bg-blue-700 text-white w-full h-24 text-10 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 mt-20 ease-linear transition-all duration-150'></input>
               </div>
             </form>
+            <p className='mt-10 text-right text-red font-400'>{loginFailed}</p>
           </div>
           {/* <Link to="/">
             <button
