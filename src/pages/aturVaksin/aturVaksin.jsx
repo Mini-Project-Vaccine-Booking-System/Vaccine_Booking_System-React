@@ -37,6 +37,7 @@ export const AturVaksin = () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
     const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
+    // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url, {
         headers: {

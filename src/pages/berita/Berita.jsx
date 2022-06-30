@@ -49,7 +49,7 @@ function Berita() {
   return (
     <NavBarList>
       <div className='berita'>
-      <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title}</span></p>
+      <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title.substring(0, 25)}...</span></p>
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
           <div class="p-10 flex flex-col items-start"> 
@@ -57,7 +57,7 @@ function Berita() {
             <h2 class="font-bold sm:text-3xl text-xs title-font text-gray-900 mt-4 mb-4">{title}</h2>
             <h5 class="text-gray-500 mb-7" >Penulis : {author} | Editor : Unknown</h5>
             <img src={urlToImage}/>
-            <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 195)}.... Baca selengkapknya di <a href={url} target="_blank">{url}</a></p>
+            <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 195)}.... Baca selengkapknya di <a href={url} target="_blank"><span className='font-500 underline'>{url}</span></a></p>
           </div> 
         </div>
         <div className=' lg:ml-12'>

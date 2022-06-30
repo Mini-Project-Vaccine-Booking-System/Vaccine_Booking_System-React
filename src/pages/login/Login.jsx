@@ -99,7 +99,7 @@ export default function Login(props) {
         .then((response) => {
           navigate("/");
           console.log("cek respon login" , response)
-          Cookies.set(response.data.jwt);
+          Cookies.set("jwt", response.data.jwt);
 
           // if(response.status !== 200) {
           //   setLoginFailed("Email atau Password Salah")
