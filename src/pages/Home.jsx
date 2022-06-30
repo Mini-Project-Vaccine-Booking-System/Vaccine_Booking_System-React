@@ -78,7 +78,6 @@ export default function Home(props) {
   };
 
   
-  
   useEffect(() => {
     axios.request(options).then(function (response) {
       // console.log(response.data[18]);
