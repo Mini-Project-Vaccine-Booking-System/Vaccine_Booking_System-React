@@ -11,7 +11,11 @@ import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
 import { IoLogOut } from "react-icons/io5"
 import { IoMdNotifications } from "react-icons/io"
 import { TextField, FormControl, InputLabel } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar/Sidebar";
@@ -124,6 +128,36 @@ const NavBarList = ({ children }) => {
   const handleCloseLog = () => {
     setOpenLog(false);
   };
+
+  //Hanlde PopUp Settings
+  const navigate = useNavigate();
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('jwt', { path: '/'});
+    // setTimeout(() => {
+    //   navigate("/login");
+    // }, 2500);
+  }
+
+  const handleNavigate = () => {
+    navigate("/login");
+  }
+
+
   return (
     <>
       <AppBar 
@@ -140,8 +174,42 @@ const NavBarList = ({ children }) => {
               </div>
               <div className='flex flex-row-reverse justify-end items-center'>
                 <div className='flex flex-row justify-end items-center navbar-icon'>
-                  <IoMdNotifications className='mr-10'/>
-                  <AiFillSetting />
+                  <IoMdNotifications/>
+                  <div>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleMenu}
+                      color="inherit"
+                    >
+                      <AiFillSetting size="21px"/>
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={() => {
+                          handleLogout();
+                          handleNavigate();
+                        }}
+                      >Logout
+                      </MenuItem>
+                    </Menu>
+                  </div>
                 </div>
                 <div className='flex flex-row items-center'>
                   <BiSearch className="search-icon"/>

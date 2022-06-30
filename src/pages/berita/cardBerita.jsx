@@ -57,13 +57,13 @@ export default function CardBerita({item}) {
     return (
         <div>
             <div 
-                  className="lg:w-192 lg:h-112 w-full h-112 rounded-lg bg-cover bg-center z-0 mb-14" 
+                  className="lg:w-11/12 lg:h-112 w-full h-112 rounded-lg bg-cover bg-center z-0 mb-14" 
                   style={{
                     backgroundImage: `url(${newUrlImage})`
                   }}
                 >
                   <div 
-                    className="lg:w-192 lg:h-112 w-full h-112 rounded-lg z-10 p-7"
+                    className="lg:w-full lg:h-112 w-full h-112 rounded-lg z-10 p-7"
                     style={{
                       background: "linear-gradient(360deg, rgba(49, 56, 96, 0.16) 0%, rgba(21, 25, 40, 0.88) 100%)"
                     }}
