@@ -111,7 +111,6 @@ export default function Home(props) {
   }, []);
 
   console.log("test state", dataBerita)  
-  console.log(Cookies.get('jwt'))
 
   return (
     <NavBarList>
@@ -201,7 +200,7 @@ export default function Home(props) {
 
               <div className="mt-10 ml-8 mb-32 flex flex-col">
                 {dataBerita?.slice(0, 3).map((berita) => <CardBerita item={berita}/>)}
-                <div className="lg:w-192 w-full mt-10">
+                <div className="lg:w-11/12 w-full mt-10">
                   <Button
                     style={{
                       backgroundColor: "rgba(2, 109, 225, 1)",
