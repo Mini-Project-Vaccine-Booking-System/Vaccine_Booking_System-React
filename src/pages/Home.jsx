@@ -211,6 +211,7 @@ export default function Home(props) {
                     fullWidth
                     variant="contained"
                     endIcon={<ChevronRightIcon />}
+                    href="/berita/AllBerita"
                     // onClick={() => setShowModalTambahVaksin(true)}
                   >
                     Tampilkan Lebih Banyak

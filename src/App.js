@@ -8,6 +8,7 @@ import { KelolaPesananTiket } from "./pages/kelolaPesananTiket/KelolaPesananTike
 import { AturVaksin } from "./pages/aturVaksin/aturVaksin";
 import { SesiTersedia } from "./pages/aturTiketVaksin/sesiTersedia/SesiTersedia";
 import Berita from "./pages/berita/Berita";
+import AllBerita from "./pages/berita/AllBerita";
 import Login from "./pages/login/Login"
 import { PrivateRoute } from "./PrivateRoute";
 
@@ -25,6 +26,7 @@ function App() {
               <Route path="/fitur/kelolaPesananTiket" element={<KelolaPesananTiket />} />
               <Route path="/fitur/aturVaksin" element={<AturVaksin />} />
               <Route path="/berita/:title" element={<Berita />} />
+              <Route path="/berita/AllBerita" element={<AllBerita />} />
             </Route>
             <Route path="*" element={<> 404 Not Found</>} />
           </Routes>
