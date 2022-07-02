@@ -167,6 +167,7 @@ export default function Login(props) {
                 <p className='mb-5'>Email</p>
                 <FormControl fullWidth>
                   <TextField
+                    focused
                     required
                     error={(errorMessageEmail === "") ? false : true}
                     fullWidth

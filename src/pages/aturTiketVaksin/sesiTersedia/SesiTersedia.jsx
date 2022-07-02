@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBarList from "../../../config/NavbarList";
 import "./sesiTersedia.css";
+import { TbEdit } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
 
 export const SesiTersedia = () => {
   const [data, setData] = useState([]);
@@ -35,8 +37,8 @@ export const SesiTersedia = () => {
 
   const getData = async () => {
     setLoading(true);
-    const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/session";
-    // const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
+    // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/session";
+    const url = "https://booking-vaksin-alta.herokuapp.com/api/session/user/14";
     try {
       const res = await axios.get(url, {});
       console.log(res.data);
@@ -52,12 +54,18 @@ export const SesiTersedia = () => {
     getData();
   }, []);
 
+  // const filteredData = data.filter(sesi => {
+  //   return sesi.user.idUser === 14
+  // })
+
+  // console.log("data difilter", filteredData)
+
   // handleDelete
 
   const handleSelectDelete = (id) => {
     console.log("cek id delete", id);
     axios
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/session/${id}`)
+      .get(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
       .then((res) => {
         setDataDelete(res.data);
         console.log("data DtaaasesiTersedia", res.data);
@@ -72,7 +80,7 @@ export const SesiTersedia = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://62a33b8121232ff9b21be1dd.mockapi.io/session/${id}`)
+      .delete(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
       .then((response) => {
         console.log("datax berhasil di hapus",response.status);
         // console.log(response.data.token);
@@ -83,15 +91,19 @@ export const SesiTersedia = () => {
           toast.error("Data GAGAL dihapus");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
 
   // endHandleDelete
+
 
   const handleSelectEdit = (id) => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/session/${id}`)
+      .get(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
       .then((res) => {
         setDataEdit(res.data);
       })
@@ -100,8 +112,8 @@ export const SesiTersedia = () => {
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-  };
-  console.log("cek data edit", dataEdit);
+    };
+    console.log("cek data edit", dataEdit);
 
   const handleChangeUpdate = (e) => {
     const value = e.target.value;
@@ -109,24 +121,26 @@ export const SesiTersedia = () => {
       ...dataEdit,
       [e.target.name]: value,
     });
-    // console.log("cek value", value);
+
+    // console.log("cek value", e.target.name+value);
     // console.log("cek dataEditNew", dataEdit.namaVaksin);
   };
 
+  const newDate = dataEdit?.date?.substring(0,10);
+  console.log("new Date", newDate)
+
   const handleSubmitEdit = (id) => {
-    console.log("cek data edit di handlesubmit", dataEdit);
+    // console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
-      id: dataEdit.id,
-      stok_vaksin1: dataEdit.stok_vaksin1,
-      stok_vaksin2: dataEdit.stok_vaksin2,
-      vaksin1: dataEdit.vaksin1,
-      vaksin2: dataEdit.vaksin2,
-      waktu_akhir: dataEdit.waktu_akhir,
-      waktu_awal: dataEdit.waktu_awal,
+      id_health: 14,
+      nama: dataEdit.vaksin.nama,
+      date: dataEdit.date.substring(0, 10),
+      start: dataEdit.start,
+      end: dataEdit.end,
     };
     axios
       .put(
-        `https://62a33b8121232ff9b21be1dd.mockapi.io/session/${id}`,
+        `https://booking-vaksin-alta.herokuapp.com/api/session/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -139,6 +153,9 @@ export const SesiTersedia = () => {
           toast.error("Data GAGAL diubah");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
 
   return (
@@ -168,6 +185,12 @@ export const SesiTersedia = () => {
                             class="text-sm font-medium text-white px-6 py-4 text-left"
                           >
                             No
+                          </th>
+                          <th
+                            scope="col"
+                            class="text-sm font-medium text-white px-6 py-4 text-left"
+                          >
+                            Tanggal
                           </th>
                           <th
                             scope="col"
@@ -205,42 +228,52 @@ export const SesiTersedia = () => {
                         {data.map((session) => (
                           <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                              {session.id}
+                              {session.idSession}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.waktu_awal}
+                              {session.date.substring(0, 10)}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.waktu_akhir}
+                              {session.start}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.vaksin1}
+                              {session.end}
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {session.vaksin.nama}
                               <br></br>
                               {session.vaksin2}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.stok_vaksin1}
+                              {session.vaksin.quantity}
                               <br></br>
                               {session.stok_vaksin2}
                             </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              <button
-                                className="mr-10"
-                                onClick={() => {
-                                  setShowModalEditVaksin(true);
-                                  handleSelectEdit(session.id)
-                                }}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setShowModalDeleteVaksin(true);
-                                  handleSelectDelete(session.id)
-                                }}
-                              >
-                                Delete
-                              </button>
+                            <td class="text-sm text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              <div className="flex flex-row gap-5">
+                                <TbEdit
+                                  style={{
+                                    cursor: "pointer"
+                                  }}
+                                  size="25px"
+                                  color="rgba(135, 187, 134, 1)"
+                                  onClick={() => {
+                                    setShowModalEditVaksin(true);
+                                    handleSelectEdit(session.idSession)
+                                  }}
+                                />
+                                <MdDelete
+                                  style={{
+                                    cursor: "pointer"
+                                  }}
+                                  size="25px"
+                                  color="rgba(218, 125, 125, 1)"
+                                  onClick={() => {
+                                    setShowModalDeleteVaksin(true);
+                                    handleSelectDelete(session.idSession)
+                                  }}
+                                />
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -263,76 +296,93 @@ export const SesiTersedia = () => {
                         <h3 className="my-10 mx-auto">Edit Vaksin</h3>
                       </div>
                       {/*body*/}
-                      <div className="relative p-6 flex-auto">
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="waktu_awal"
-                            id="waktu_awal"
-                            // label="Nama Vaksin"
-                            name="waktu_awal"
-                            type="datetime-local"
-                            value={dataEdit.waktu_awal}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="waktu_akhir"
-                            id="waktu_akhir"
-                            // label="Nama Vaksin"
-                            name="waktu_akhir"
-                            type="datetime-local"
-                            value={dataEdit.waktu_akhir}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="vaksin1"
-                            id="vaksin1"
-                            // label="Nama Vaksin"
-                            name="vaksin1"
-                            type="text"
-                            value={dataEdit.vaksin1}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="vaksin2"
-                            id="vaksin2"
-                            // label="Nama Vaksin"
-                            name="vaksin2"
-                            type="text"
-                            value={dataEdit.vaksin2}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="stok_vaksin1"
-                            id="stok_vaksin1"
-                            // label="Nama Vaksin"
-                            name="stok_vaksin1"
-                            type="number"
-                            value={dataEdit.stok_vaksin1}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
+                      <div className="p-6 flex flex-col">
                         <FormControl sx={{ m: 1, width: 200 }}>
                           {/* <InputLabel id="stok">adasdas</InputLabel> */}
                           <TextField
-                            labelId="stok_vaksin2"
-                            id="stok_vaksin2"
+                            disabled
+                            labelId="idSession"
+                            id="idSession"
                             // label="Stok"
-                            name="stok_vaksin2"
+                            name="idSession"
                             type="number"
-                            value={dataEdit.stok_vaksin2}
+                            value={dataEdit.idSession}
+                            onChange={handleChangeUpdate}
+                          />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: 400 }}>
+                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                          <TextField
+                            labelId="date"
+                            id="date"
+                            // label="Nama Vaksin"
+                            name="date"
+                            type="date"
+                            value={newDate}
+                            onChange={handleChangeUpdate}
+                          />
+                        </FormControl>
+                        <input 
+                          className="border-1 border-gray-400 rounded-2 p-5 m-5"
+                          type="time" 
+                          step="1"
+                          name="start"
+                          value={dataEdit.start}
+                          onChange={handleChangeUpdate}
+                        >
+                        </input>
+                        <input 
+                          className="border-1 border-gray-400 rounded-2 p-5 m-5"
+                          type="time" 
+                          step="1"
+                          name="end"
+                          value={dataEdit.end}
+                          onChange={handleChangeUpdate}
+                        >
+                        </input>
+                        {/* <FormControl sx={{ m: 1, width: 400 }}>
+                          <TextField
+                            labelId="start"
+                            id="start"
+                            name="start"
+                            type="time"
+                            step="1"
+                            value={dataEdit.start}
+                            onChange={handleChangeUpdate}
+                          />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: 400 }}>
+                          <TextField
+                            labelId="end"
+                            id="end"
+                            name="end"
+                            type="time"
+                            step="1"
+                            value={dataEdit.end}
+                            onChange={handleChangeUpdate}
+                          />
+                        </FormControl> */}
+                        <FormControl sx={{ m: 1, width: 400 }}>
+                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                          <TextField
+                            labelId="vaksin"
+                            id="vaksin"
+                            // label="Nama Vaksin"
+                            name="vaksin"
+                            type="text"
+                            value={dataEdit.vaksin?.nama}
+                            onChange={handleChangeUpdate}
+                          />
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: 400 }}>
+                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                          <TextField
+                            labelId="quantity"
+                            id="quantity"
+                            // label="Nama Vaksin"
+                            name="quantity"
+                            type="number"
+                            value={dataEdit.vaksin?.quantity}
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>
@@ -340,18 +390,18 @@ export const SesiTersedia = () => {
                       {/*footer*/}
                       <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                         <button
-                          className="text-red-500 background-transparent px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                          className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => setShowModalEditVaksin(false)}
                         >
                           Tutup
                         </button>
                         <button
-                          className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                          className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => {
                             setShowModalEditVaksin(false);
-                            handleSubmitEdit(dataEdit.id);
+                            handleSubmitEdit(dataEdit.idSession);
                           }}
                         >
                           Edit Vaksin
@@ -381,7 +431,7 @@ export const SesiTersedia = () => {
                         <p className="px-10">
                           Apakah anda yakin ingin menghapus vaksin{" "}
                           <span className="font-bold underline decoration-blue-800">
-                            {dataDelete.nama}
+                            {dataDelete.idSession}
                           </span>
                           ?
                         </p>
@@ -393,7 +443,7 @@ export const SesiTersedia = () => {
                           type="button"
                           onClick={() => {
                             setShowModalDeleteVaksin(false);
-                            handleDelete(dataDelete.id);
+                            handleDelete(dataDelete.idSession);
                           }}
                         >
                           Ya

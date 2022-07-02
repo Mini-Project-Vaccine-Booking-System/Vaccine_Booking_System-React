@@ -30,13 +30,14 @@ export const TanggalVaksin = (props) => {
   const defaultMonth = new Date().getMonth()
   const defaultYear = new Date().getFullYear()
   const defaultTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-  const defaultValue = defaultYear + "-0" + defaultMonth + "-" + defaultDay + "T" + defaultTime
+  // const defaultValue = defaultYear + "-" + ('0' + defaultMonth).slice(-2) + "-" + ('0' + defaultDay).slice(-2) + "T" + defaultTime
+  const defaultValue = defaultYear + "-" + ('0' + defaultMonth).slice(-2) + "-" + ('0' + defaultDay).slice(-2)
   // console.log("cek tanggal", defaultDate)
   // console.log("cek Hari", defaultDay)
-  // console.log("cek bulan", defaultMonth)
+  console.log("cek bulan", defaultMonth)
   // console.log("cek tahun", defaultYear)
   // console.log("cek waktu", defaultTime)
-  // console.log("cek all", defaultValue)
+  console.log("cek all", defaultValue)
 
   return (
     <VaksinContext.Provider>
@@ -46,31 +47,48 @@ export const TanggalVaksin = (props) => {
           <TextField
             fullWidth
             id="date"
-            label="Masukan Waktu Awal"
-            type="datetime-local"
+            label="Masukan Tanggal"
+            type="date"
             defaultValue={defaultValue}
             // value={tanggalAwal}
             // sx={{ width: 220 }}
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={props.handleChangeWaktuAwal}
+            onChange={props.handleChangeTanggal}
           />
         </div>
-        <div className="p-5">
-          <TextField
-            fullWidth
-            id="date"
-            label="Masukan Waktu Akhir"
-            type="datetime-local"
-            defaultValue={defaultValue}
-            // value={tanggalAkhir}
-            // sx={{ width: 220 }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={props.handleChangeWaktuAkhir}
-          />
+        <div className="flex flex-row">
+          <div className="p-5 w-1/2">
+            <TextField
+              fullWidth
+              id="date"
+              label="Masukan Waktu Awal"
+              type="time"
+              defaultValue="00:00"
+              // value={tanggalAwal}
+              // sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={props.handleChangeWaktuAwal}
+            />
+          </div>
+          <div className="p-5 w-1/2">
+            <TextField
+              fullWidth
+              id="date"
+              label="Masukan Waktu Akhir"
+              type="time"
+              defaultValue="00:00"
+              // value={tanggalAkhir}
+              // sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={props.handleChangeWaktuAkhir}
+            />
+          </div>
         </div>
       </div>
     </VaksinContext.Provider>

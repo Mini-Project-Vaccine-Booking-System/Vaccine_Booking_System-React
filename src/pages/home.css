@@ -32,7 +32,7 @@
 }
 
 .home {
-  height: 905px;
+  /* height: 910px; */
   overflow: scroll;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .berita {
-  height: 910px;
+  /* height: 910px; */
   overflow: scroll;
 }
 

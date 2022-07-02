@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -15,6 +15,7 @@ import { TanggalVaksin } from "./TanggalVaksin";
 import { TiketVaksinBerhasil } from "./TiketVaksinBerhasil";
 import { Container } from "@mui/material";
 import NavBarList from "../../../config/NavbarList";
+import axios from "axios";
 
 function getSteps() {
   return [
@@ -31,19 +32,19 @@ export const AturTiketVaksin = () => {
     switch (step) {
       case 0:
         return <TanggalVaksin 
+          handleChangeTanggal={handleChangeTanggal} 
           handleChangeWaktuAwal={handleChangeWaktuAwal} 
           handleChangeWaktuAkhir={handleChangeWaktuAkhir}/>;
       case 1:
         return <FormTiketVaksin 
-          vaksin={vaksin}
-          handleChangeVaksin1={handleChangeVaksin1}
-          handleChangeVaksin2={handleChangeVaksin2}/>;
+          dataVaksin={dataVaksin}
+          handleChangeVaksin1={handleChangeVaksin1}/>;
       case 2:
         return <KonfirmasiDataTiket 
+          tanggal={tanggal}
           waktuAwal={waktuAwal}
           waktuAkhir={waktuAkhir}
-          vaksin1={vaksin1}
-          vaksin2={vaksin2}/>;
+          vaksin1={vaksin1}/>;
       case 3:
         return <TiketVaksinBerhasil />;
       default:
@@ -53,9 +54,15 @@ export const AturTiketVaksin = () => {
 
   // =========FUNCTION ATUR TANGGAL VAKSIN===============
 
+  const [tanggal, setTanggal] = useState("");
   const [waktuAwal, setWaktuAwal] = useState("");
   const [waktuAkhir, setWaktuAkhir] = useState("");
 
+  const handleChangeTanggal = (e) => {
+    // console.log("di etarget", e.target.value)
+    setTanggal(e.target.value);
+
+  };
   const handleChangeWaktuAwal = (e) => {
     // console.log("di etarget", e.target.value)
     setWaktuAwal(e.target.value);
@@ -66,28 +73,33 @@ export const AturTiketVaksin = () => {
     setWaktuAkhir(e.target.value);
   };
 
+  console.log("cek tanggal", tanggal)
   console.log("cek waktu awal", waktuAwal)
   console.log("cek waktu akhir", waktuAkhir)
 
   // =====================================================
   // =========FUNCTION ATUR JENIS VAKSIN==================
 
-  const vaksin = [
-    'Sinovac',
-    'Pfizer',
-    'Moderna',
-    'AstraZeneca'
-  ]
+  const [dataVaksin, setDataVaksin] = useState([]);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    axios.get("https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14").then((res) => {
+      setDataVaksin(res.data)
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Data Pokemen gak ketemu")
+      setError("Data Pokemen gak ketemu")
+    })
+  }, []);
+
 
   const [vaksin1, setVaksin1] = useState({
     vaksin1: "",
     stokVaksin1: ""
   })
   
-  const [vaksin2, setVaksin2] = useState({
-    vaksin2: "",
-    stokVaksin2: ""
-  })
 
   const handleChangeVaksin1 = (e) => {
     const name = e.target.name;
@@ -98,15 +110,6 @@ export const AturTiketVaksin = () => {
   }
   console.log("cek vaksin 1", vaksin1)
 
-
-  const handleChangeVaksin2 = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setVaksin2({
-      ...vaksin2, [name]: value
-    })
-  }
-  console.log("cek vaksin 2", vaksin2)
 
   // =====================================================
 

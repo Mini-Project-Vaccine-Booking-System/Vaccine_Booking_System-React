@@ -13,6 +13,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./kelolaPesananTiket.css";
 import NavBarList from "../../config/NavbarList";
 
+import { TbEdit } from "react-icons/tb";
+import { AiOutlineRight } from "react-icons/ai";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Delete from "@mui/icons-material/Delete";
@@ -30,7 +33,8 @@ export const KelolaPesananTiket = () => {
   const getData = async () => {
     setLoading(true);
 
-    const url = `https://62a33b8121232ff9b21be1dd.mockapi.io/bookings`;
+    // const url = `https://62a33b8121232ff9b21be1dd.mockapi.io/bookings`;
+    const url = `https://booking-vaksin-alta.herokuapp.com/api/booking/user/14`;
     try {
       const res = await axios.get(url, {});
       console.log(res.data);
@@ -67,7 +71,7 @@ export const KelolaPesananTiket = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://62a33b8121232ff9b21be1dd.mockapi.io/bookings/${id}`)
+      .delete(`https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`)
       .then((response) => {
         console.log(response.status);
         console.log(response.data.token);
@@ -83,14 +87,12 @@ export const KelolaPesananTiket = () => {
   const [dataEdit, setDataEdit] = useState([]);
   const [errorEdit, setErrorEdit] = useState("");
 
-  // const [namaVaksin, setNamaVaksin] = ("");
-  // const [stokVaksin, setStokVaksin] = ("");
 
   const handleSelectEdit = (id) => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/bookings/${id}`)
+      .get(`https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`)
       .then((res) => {
         setDataEdit(res.data);
       })
@@ -99,10 +101,8 @@ export const KelolaPesananTiket = () => {
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-    // setNamaVaksin(dataEdit.nama_vaksin)
-    // setStokVaksin(dataEdit.stok)
   };
-  console.log("cek data edit", dataEdit);
+  // console.log("cek data edit", dataEdit);
   // console.log("cek data namaavaksin", namaVaksin);
 
   const handleChangeUpdate = (e) => {
@@ -111,14 +111,10 @@ export const KelolaPesananTiket = () => {
       ...dataEdit,
       [e.target.name]: value,
     });
-    // setNamaVaksin(dataEdit.namaVaksin)
-    // setStokVaksin(dataEdit.stokVaksin)
     console.log("cek value", value);
-    // console.log("cek dataEditNew", dataEdit.namaVaksin)
   };
 
   const handleSubmitEdit = (id) => {
-    // e.preventDefault();
     console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
       booking_id: dataEdit.booking_id,
@@ -129,7 +125,7 @@ export const KelolaPesananTiket = () => {
     };
     axios
       .put(
-        `https://62a33b8121232ff9b21be1dd.mockapi.io/bookings/${id}`,
+        `https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -214,24 +210,24 @@ export const KelolaPesananTiket = () => {
                       {data.map((bookings) => (
                         <tr>
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {bookings.id}
+                            {bookings.idBooking}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.booking_id}
+                            {bookings.kelompok.nik}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.nik}
+                            {bookings.kelompok.namaKelompok}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.nama}
+                            {bookings.session.date}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.waktu_awal}
+                            {bookings.session.start}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.waktu_akhir}
+                            {bookings.session.end}
                           </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          <td class="text-sm text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {/* <IconButton
                               aria-label="delete"
                               size="large"
@@ -244,7 +240,17 @@ export const KelolaPesananTiket = () => {
                                 }}
                               />
                             </IconButton> */}
-                            <IconButton
+                            <AiOutlineRight 
+                              style={{
+                                cursor: "pointer"
+                              }}
+                              color="rgba(135, 187, 134, 1)"
+                              onClick={() => {
+                                setShowModalEditVaksin(true);
+                                handleSelectEdit(bookings.idBooking);
+                              }}/>
+                              
+                            {/* <IconButton
                               aria-label="edit"
                               size="large"
                               color="success"
@@ -253,10 +259,10 @@ export const KelolaPesananTiket = () => {
                                 fontSize="inherit"
                                 onClick={() => {
                                   setShowModalEditVaksin(true);
-                                  handleSelectEdit(bookings.id);
+                                  handleSelectEdit(bookings.idBooking);
                                 }}
                               />
-                            </IconButton>
+                            </IconButton> */}
                           </td>
                         </tr>
                       ))}
@@ -283,12 +289,12 @@ export const KelolaPesananTiket = () => {
                       </h3>
                     </div>
                     <div className="px-12 mt-5 border-b border-solid border-slate-200 pb-5">
-                      <p>ID Booking : {dataEdit.booking_id}</p>
-                      <p className="text-12">NIK : {dataEdit.nik}</p>
-                      <p>Nama : {dataEdit.nama}</p>
-                      <p>Tanggal : {dataEdit.waktu_awal}</p>
-                      <p>Waktu : </p>
-                      <p>Vaksin : {dataEdit.vaksin}</p>
+                      <p>ID Booking : {dataEdit.idBooking}</p>
+                      <p className="text-12">NIK : {dataEdit.kelompok?.nik}</p>
+                      <p>Nama : {dataEdit.kelompok?.namaKelompok}</p>
+                      <p>Tanggal : {dataEdit.session?.date}</p>
+                      <p>Waktu : {dataEdit.session?.start} - {dataEdit.session?.end}</p>
+                      <p>Vaksin : {dataEdit.session?.vaksin.nama}</p>
                     </div>
                     {/*body*/}
                     <div className="relative p-6 flex flex-col">
@@ -296,24 +302,24 @@ export const KelolaPesananTiket = () => {
                         {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                         <TextField
                           disabled="true"
-                          labelId="booking_id"
-                          id="booking_id"
+                          labelId="nik"
+                          id="nik"
                           // label="Booking ID"
-                          name="booking_id"
-                          value={dataEdit.booking_id}
-                          type="text"
+                          name="nik"
+                          value={dataEdit.kelompok?.nik}
+                          type="number"
                           onChange={handleChangeUpdate}
                         />
                       </FormControl>
                       <FormControl sx={{ m: 1, width: 400 }}>
                         {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                         <TextField
-                          labelId="nik"
-                          id="nik"
-                          // label="NIK"
-                          name="nik"
-                          value={dataEdit.nik}
-                          type="number"
+                          labelId="nama"
+                          id="nama"
+                          // label="nama"
+                          name="nama"
+                          value={dataEdit.kelompok?.namaKelompok}
+                          type="text"
                           onChange={handleChangeUpdate}
                         />
                       </FormControl>
@@ -368,7 +374,7 @@ export const KelolaPesananTiket = () => {
                         type="button"
                         onClick={() => {
                           setShowModalEditVaksin(false);
-                          handleSubmitEdit(dataEdit.id);
+                          handleSubmitEdit(dataEdit.idBooking);
                         }}
                       >
                         Edit Booking
@@ -407,7 +413,7 @@ export const KelolaPesananTiket = () => {
                       <p className="px-10">
                         Apakah anda yakin ingin menghapus booking id{" "}
                         <span className="font-bold underline decoration-blue-800">
-                          {dataEdit.booking_id}
+                          {dataEdit.idBooking}
                         </span>
                         ?
                       </p>
@@ -419,7 +425,7 @@ export const KelolaPesananTiket = () => {
                         type="button"
                         onClick={() => {
                           setShowModalDeleteVaksin(false);
-                          handleDelete(dataEdit.id);
+                          handleDelete(dataEdit.idBooking);
                         }}
                       >
                         Ya
