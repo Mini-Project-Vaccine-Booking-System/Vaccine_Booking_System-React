@@ -9,6 +9,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -22,8 +23,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box } from "@mui/system";
 import { useReducer } from "react";
 import NavBarList from "../../config/NavbarList";
+import { TbEdit } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
 
 export const AturVaksin = () => {
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   useEffect(() => {
     // console.log("datax ", data);
@@ -36,25 +40,17 @@ export const AturVaksin = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin";
+    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14";
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
-      const res = await axios.get(url, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json",
-        },
-      });
+      const res = await axios.get(url);
       console.log(res.data);
       setData(res.data);
       setError(null);
     } catch (err) {
-      setError(err);
+        setError(err);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
   useEffect(() => {
@@ -84,21 +80,26 @@ export const AturVaksin = () => {
 
   const handleSubmit = (e) => {
     const vaksinData = {
+      id_health: 14,
       nama: dataVaksin.namaVaksin,
       quantity: dataVaksin.stokVaksin,
     };
     axios
-      .post("https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine", vaksinData)
+      .post("https://booking-vaksin-alta.herokuapp.com/api/vaksin", vaksinData)
       .then((response) => {
         // console.log(response.status);
         console.log(response.data.token);
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           toast.success("Data BERHASIL ditambahkan");
         } else {
           toast.error("Data GAGAL ditambahkan");
         }
       });
+
+      setTimeout(() => {
+          window.location.reload(false);
+      }, 1400);
   };
 
   const [dataDelete, setDataDelete] = useState([]);
@@ -107,7 +108,7 @@ export const AturVaksin = () => {
     //GETDATA By ID
     axios
       // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
+      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .then((res) => {
         setDataDelete(res.data);
         // console.log("data deleteeee", res.data);
@@ -121,7 +122,7 @@ export const AturVaksin = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
+      .delete(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data BERHASIL dihapus");
@@ -129,6 +130,9 @@ export const AturVaksin = () => {
           toast.error("Data GAGAL dihapus");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
 
   const [dataEdit, setDataEdit] = useState([]);
@@ -137,7 +141,7 @@ export const AturVaksin = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`)
+      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .then((res) => {
         setDataEdit(res.data);
       })
@@ -158,13 +162,13 @@ export const AturVaksin = () => {
 
   const handleSubmitEdit = (id) => {
     const vaksinDataEdit = {
+      id_health: 14,
       nama: dataEdit.nama,
       quantity: dataEdit.quantity,
-      idVaksin: dataEdit.idVaksin,
     };
     axios
       .put(
-        `https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine/${id}`,
+        `https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -177,6 +181,9 @@ export const AturVaksin = () => {
           toast.error("Data GAGAL diubah");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
 
   return (
@@ -191,9 +198,6 @@ export const AturVaksin = () => {
           <h1 className="text-3xl mb-5">Atur Vaksin</h1>
 
           <div className="w-full flex justify-end">
-            {/* <button type="button" class=" inline-block px-10 py-7 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              onClick={() => setShowModalTambahVaksin(true)}
-              >Tambah Jenis Vaksin</button> */}
             <Button
               style={{
                 backgroundColor: "rgba(2, 109, 225, 1)",
@@ -225,7 +229,7 @@ export const AturVaksin = () => {
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-center"
                           >
-                            No
+                            ID
                           </th>
                           <th
                             scope="col"
@@ -241,7 +245,7 @@ export const AturVaksin = () => {
                           </th>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-white px-6 py-4 text-center"
+                            class="text-sm font-medium text-white px-6 py-4 text-left"
                           >
                             Aksi
                           </th>
@@ -259,33 +263,31 @@ export const AturVaksin = () => {
                             <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
                               {vaksin.quantity}
                             </td>
-                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-center">
-                              <IconButton
-                                aria-label="edit"
-                                size="large"
-                                color="success"
-                              >
-                                <EditIcon
-                                  fontSize="inherit"
-                                  onClick={() => {
-                                    setShowModalEditVaksin(true);
-                                    handleSelectEdit(vaksin.idVaksin);
-                                  }}
-                                />
-                              </IconButton>
-                              <IconButton
-                                aria-label="delete"
-                                size="large"
-                                color="error"
-                              >
-                                <DeleteIcon
-                                  fontSize="inherit"
-                                  onClick={() => {
-                                    setShowModalDeleteVaksin(true);
-                                    handleSelectDelete(vaksin.idVaksin);
-                                  }}
-                                />
-                              </IconButton>
+                            <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-right">
+                              <div className="flex flex-row gap-5">
+                                  <TbEdit
+                                    style={{
+                                      cursor: "pointer"
+                                    }}
+                                    size="25px"
+                                    color="rgba(135, 187, 134, 1)"
+                                    onClick={() => {
+                                      setShowModalEditVaksin(true);
+                                      handleSelectEdit(vaksin.idVaksin)
+                                    }}
+                                  />
+                                  <MdDelete
+                                    style={{
+                                      cursor: "pointer"
+                                    }}
+                                    size="25px"
+                                    color="rgba(218, 125, 125, 1)"
+                                    onClick={() => {
+                                      setShowModalDeleteVaksin(true);
+                                      handleSelectDelete(vaksin.idVaksin)
+                                    }}
+                                  />
+                                </div>
                             </td>
                           </tr>
                         ))}

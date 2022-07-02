@@ -22,11 +22,11 @@ export const FormTiketVaksin = (props) => {
               label="Jenis Vaksin"
               onChange={props.handleChangeVaksin1}
             >
-              {props.vaksin.map((vaksin) => (
+              {props.dataVaksin.map((vaksin) => (
               <MenuItem 
-                id={vaksin} 
-                value={vaksin}>
-                {vaksin}
+                id={vaksin.idVaksin} 
+                value={vaksin.nama}>
+                {vaksin.nama}
               </MenuItem>
               ))}
             </Select>
@@ -45,44 +45,6 @@ export const FormTiketVaksin = (props) => {
                 shrink: true,
               }}
               onChange={props.handleChangeVaksin1}
-            />
-          </FormControl>
-        </div>
-
-
-        <div className='flex flex-row justify-center'>
-          <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel id="jenisVaksin2">Jenis Vaksin</InputLabel>
-            <Select
-              labelId="jenisVaksin2"
-              id="jenisVaksin2"
-              name='vaksin2'
-              // value={age}
-              label="Jenis Vaksin"
-              onChange={props.handleChangeVaksin2}
-            >
-              {props.vaksin.map((vaksin) => (
-              <MenuItem 
-                id={vaksin} 
-                value={vaksin}>
-                {vaksin}
-              </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ m: 1, width: 85 }}>
-            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-            <TextField
-              labelId="stokVaksin2"
-              id="stokVaksin2"
-              label="Stok"
-              name='stokVaksin2'
-              type="number"
-              // value={tanggalAwal}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={props.handleChangeVaksin2}
             />
           </FormControl>
         </div>

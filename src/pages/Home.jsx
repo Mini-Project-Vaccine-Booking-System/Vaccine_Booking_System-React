@@ -60,9 +60,7 @@ export default function Home(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log(props);
-
-
+ 
   const [totalKasus, setTotalKasus] = useState()
   const [totalSembuh, setTotalSembuh] = useState()
   const [totalMeninggal, setTotalMeninggal] = useState()
@@ -89,10 +87,6 @@ export default function Home(props) {
     });
     
   }, []);
-  
-  // console.log("data kasus", totalKasus)
-  // console.log("data sembuh", totalSembuh)
-  // console.log("data meninggal", totalMeninggal)
 
   const [dataBerita, setDataBerita] = useState([])
 
@@ -109,12 +103,12 @@ export default function Home(props) {
 
   }, []);
 
-  console.log("test state", dataBerita)  
+  // console.log("test state", dataBerita)  
 
   return (
     <NavBarList>
       <div className="home">
-        <div className="ml-5 mt-5 ">
+        <div className="ml-5 mt-5 w- ">
           <p className='navigasi'><span className='font-semibold '>Dashboard</span></p>
           <div className="grid lg:grid-cols-4 gap-x-2.5 grid-cols-1">
             <div className="col-span-3">
@@ -219,8 +213,6 @@ export default function Home(props) {
               </div>
             </div>
           </div>
-
-          
         </div>
       </div>
     </NavBarList>

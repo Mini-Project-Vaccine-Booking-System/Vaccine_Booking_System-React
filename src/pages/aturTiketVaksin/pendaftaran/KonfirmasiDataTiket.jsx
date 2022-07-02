@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { IoCalendarClearOutline, IoTimeOutline } from "react-icons/io5";
 import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
@@ -11,49 +12,57 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const KonfirmasiDataTiket = (props) => {
   console.log("cek props di konfirmasi data tiket", props)
+
+  console.log("cek waktu milidetik", props.waktuAwal+":00")
   
-  let day = props.waktuAwal
-  day = day.substring(10, 8);
-  console.log(day)
+  // let day = props.waktuAwal
+  // day = day.substring(10, 8);
+  // console.log(day)
 
-  let month = props.waktuAwal
-  month = month.substring(7, 5);
-  console.log(month)
+  // let month = props.waktuAwal
+  // month = month.substring(7, 5);
+  // console.log(month)
 
-  let year = props.waktuAwal
-  year = year.substring(4, 0);
-  console.log(year)
+  // let year = props.waktuAwal
+  // year = year.substring(4, 0);
+  // console.log(year)
 
-  let timeStart = props.waktuAwal
-  timeStart = timeStart.substring(16, 11);
-  console.log(timeStart)
+  // let timeStart = props.waktuAwal
+  // timeStart = timeStart.substring(16, 11);
+  // console.log(timeStart)
   
-  let timeEnd = props.waktuAkhir
-  timeEnd = timeEnd.substring(16, 11);
-  console.log(timeEnd)
+  // let timeEnd = props.waktuAkhir
+  // timeEnd = timeEnd.substring(16, 11);
+  // console.log(timeEnd)
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     // e.preventDefault();
     const sesiData = {
-      waktu_awal: props.waktuAwal,
-      waktu_akhir: props.waktuAkhir,
-      vaksin1: props.vaksin1.vaksin1,
-      stok_vaksin1: props.vaksin1.stokVaksin1,
-      vaksin2: props.vaksin2.vaksin2,
-      stok_vaksin2: props.vaksin2.stokVaksin2,
+      id_health: 14,
+      date: props.tanggal,
+      start: props.waktuAwal+":00",
+      end: props.waktuAkhir+":00",
+      nama: props.vaksin1.vaksin1,
+      // stok_vaksin1: props.vaksin1.stokVaksin1,
+
     };
     axios
-      .post("https://62a33b8121232ff9b21be1dd.mockapi.io/session", sesiData)
+      .post("https://booking-vaksin-alta.herokuapp.com/api/session", sesiData)
       .then((response) => {
         console.log(response.status);
         console.log(response.data.token);
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           toast.success("Data BERHASIL ditambahkan");
         } else {
           toast.error("Data GAGAL ditambahkan");
         }
       });
+
+      setTimeout(() => {
+        navigate("/fitur/sesiTersedia")
+      }, 1800);
     // setRefresh()
     // setData((prevData) => [
     //   ...prevData,
@@ -78,7 +87,7 @@ export const KonfirmasiDataTiket = (props) => {
               <IoCalendarClearOutline 
                 size="30px"
                 style={{color: "rgba(102, 167, 255, 1)"}}/>
-              <p className="text-left text-11 mt-2 ml-20">{day} - {month} - {year}</p>
+              <p className="text-left text-11 mt-2 ml-20">{props.tanggal}</p>
             </div>
           </div>
           <div className="mt-14">
@@ -87,7 +96,7 @@ export const KonfirmasiDataTiket = (props) => {
               <IoTimeOutline 
                 size="30px"
                 style={{color: "rgba(102, 167, 255, 1)"}}/>
-              <p className="text-left text-11 mt-2 ml-20">{timeStart} - {timeEnd}</p>
+              <p className="text-left text-11 mt-2 ml-20">{props.waktuAwal} - {props.waktuAkhir}</p>
             </div>
           </div>
         </div>
@@ -102,17 +111,6 @@ export const KonfirmasiDataTiket = (props) => {
             </div>
             <div className="border-1 rounded-6 flex flex-row p-5 ml-10">
               <p className="text-11 mt-2 mx-10">{props.vaksin1.stokVaksin1}</p>
-            </div>
-          </div>
-          <div className="flex flex-row mt-10">
-            <div className="border-1 rounded-6 w-3/4 flex flex-row p-5">
-              <TbVaccineBottle 
-                size="30px"
-                style={{color: "rgba(102, 167, 255, 1)"}}/>
-              <p className="text-left text-11 mt-2 ml-20 mr-32">{props.vaksin2.vaksin2}</p>
-            </div>
-            <div className="border-1 rounded-6 flex flex-row p-5 ml-10">
-              <p className="text-11 mt-2 mx-10">{props.vaksin2.stokVaksin2}</p>
             </div>
           </div>
         </div>
