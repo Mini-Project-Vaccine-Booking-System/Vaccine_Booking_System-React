@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import NavBarList from '../../config/NavbarList';
 import { MdArrowRightAlt } from "react-icons/md";
+import { BsArrowRight } from 'react-icons/bs';
 import {MdKeyboardArrowRight} from "react-icons/md";
+import "../home.css"
+import { Link } from 'react-router-dom';
 
 export default function AllBerita() {
   const [news, setNews] = useState([]);
@@ -21,29 +24,35 @@ export default function AllBerita() {
 
   return (
     <NavBarList>
-    <div>
-    <a class="mt-80 ml-14 text-gray-600" href="/">Dashboard</a> Berita
-      <h1 class="p-8 max-w-md mt-12 mx-14 rounded-lg bg-blue-400 text-white text-center text-xs font-semibold">Berita COVID-19 dan Vaksinasi Terkini</h1>
+      <div>
+      <p className='navigasi ml-14 mt-12'><Link to="/">Dashboard &#62; </Link><span className='font-semibold'>Berita</span></p>
+        <h1 class="p-8 mt-12 mx-14 rounded-lg bg-blue-400 text-white text-center text-xs font-semibold">Berita COVID-19 dan Vaksinasi Terkini</h1>
       </div>
-    <div class="flex justify-center flex-col mt-20">
-    {news && 
-      news.map((item) => (
-    <div class="flex justify-center flex-col md:flex-row mt-2 mx-14 mb-14  max-w-md p-8 rounded-md bg-blue-50 shadow-lg">
-        <img class="w-96 rounded-lg" src={item.urlToImage} alt="" />
-        <div class="ml-8 flex flex-col">
-        <p class="text-gray-600">Vaksinasi</p>
-        <h5 class="text-gray-900 text-sm mb-5"> {item.title}</h5>
-        {item.text}
-        <p class="text-gray-600">{item.content}</p>    
-        
-        <a class="flex-row-reverse mt-16 mb-4 text-blue-400 text-right hover:text-blue-500 transition duration-300 ease-in-out" href={item.url}>
-        Baca selengkapnya<MdArrowRightAlt/>
-        </a> 
-          
-        </div>
-    </div>
-    ))}
-    </div>
+      <div class="flex justify-center flex-col mt-20">
+        {news && 
+          news.map((item) => (
+          <div class="grid lg:grid-cols-5 grid-cols-2 mt-2 mx-14 mb-14 p-8 rounded-md allBerita shadow-lg">
+              <img class="rounded-lg mb-5" src={item.urlToImage} alt="" />
+              <div class="lg:ml-8 lg:col-span-4 col-span-2">
+                <div>
+                  <p class="text-gray-600 fontTiny">Vaksinasi</p>
+                  <h5 class="text-gray-900 text-sm mb-5 font-600"> {item.title}</h5>
+                  <p class="text-gray-600 text-10">{item.content}</p>  
+                </div>
+                <a href={item.url}>
+                  <div className='flex flex-row-reverse items-center mt-20'>
+                    <BsArrowRight 
+                      className='text-blue-400'
+                      size="18px"/>
+                    <p class=" text-blue-400 hover:text-blue-500 mr-5 transition duration-300 ease-in-out">
+                    Baca selengkapnya
+                    </p>   
+                  </div>
+                </a>
+              </div>
+          </div>
+        ))}
+      </div>
     </NavBarList>
   )
 }

@@ -1,4 +1,4 @@
-import { CircularProgress, FormControl, TextField } from "@mui/material";
+import { CircularProgress, FormControl, TextField, InputLabel, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,10 +10,11 @@ import { MdDelete } from "react-icons/md";
 
 export const SesiTersedia = () => {
   const [data, setData] = useState([]);
+  const [dataVaksin, setDataVaksin] = useState([])
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showModalEditVaksin, setShowModalEditVaksin] = useState(false);
-  const [showModalDeleteVaksin, setShowModalDeleteVaksin] = useState(false);
+  const [showModalEditSesi, setShowModalEditSesi] = useState(false);
+  const [showModalDeleteSesi, setShowModalDeleteSesi] = useState(false);
   const [dataDelete, setDataDelete] = useState([]);
   const [dataEdit, setDataEdit] = useState([]);
 
@@ -54,11 +55,17 @@ export const SesiTersedia = () => {
     getData();
   }, []);
 
-  // const filteredData = data.filter(sesi => {
-  //   return sesi.user.idUser === 14
-  // })
-
-  // console.log("data difilter", filteredData)
+  useEffect(() => {
+    axios.get("https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14").then((res) => {
+      setDataVaksin(res.data)
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Data Pokemen gak ketemu")
+      setError("Data Pokemen gak ketemu")
+    })
+  }, []);
 
   // handleDelete
 
@@ -258,7 +265,7 @@ export const SesiTersedia = () => {
                                   size="25px"
                                   color="rgba(135, 187, 134, 1)"
                                   onClick={() => {
-                                    setShowModalEditVaksin(true);
+                                    setShowModalEditSesi(true);
                                     handleSelectEdit(session.idSession)
                                   }}
                                 />
@@ -269,7 +276,7 @@ export const SesiTersedia = () => {
                                   size="25px"
                                   color="rgba(218, 125, 125, 1)"
                                   onClick={() => {
-                                    setShowModalDeleteVaksin(true);
+                                    setShowModalDeleteSesi(true);
                                     handleSelectDelete(session.idSession)
                                   }}
                                 />
@@ -285,7 +292,7 @@ export const SesiTersedia = () => {
             </div>
           )}
           <div>
-            {showModalEditVaksin ? (
+            {showModalEditSesi ? (
               <>
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                   <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -293,7 +300,7 @@ export const SesiTersedia = () => {
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                       {/*header*/}
                       <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                        <h3 className="my-10 mx-auto">Edit Vaksin</h3>
+                        <h3 className="my-10 mx-auto">Edit Sesi</h3>
                       </div>
                       {/*body*/}
                       <div className="p-6 flex flex-col">
@@ -341,30 +348,28 @@ export const SesiTersedia = () => {
                         >
                         </input>
                         {/* <FormControl sx={{ m: 1, width: 400 }}>
-                          <TextField
-                            labelId="start"
-                            id="start"
-                            name="start"
-                            type="time"
-                            step="1"
-                            value={dataEdit.start}
+                          <Select
+                            required
+                            labelId="vaksin"
+                            id="vaksin"
+                            name='vaksin'
+                            displayEmpty
+                            // value="Sinovac"
+                            label={dataEdit.vaksin?.nama}
                             onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          <TextField
-                            labelId="end"
-                            id="end"
-                            name="end"
-                            type="time"
-                            step="1"
-                            value={dataEdit.end}
-                            onChange={handleChangeUpdate}
-                          />
+                          >
+                            {dataVaksin.map((vaksin) => (
+                            <MenuItem 
+                              id={vaksin.idVaksin} 
+                              value={vaksin.nama}>
+                              {vaksin.nama}
+                            </MenuItem>
+                            ))}
+                          </Select>
                         </FormControl> */}
                         <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                           <TextField
+                            disabled
                             labelId="vaksin"
                             id="vaksin"
                             // label="Nama Vaksin"
@@ -392,7 +397,7 @@ export const SesiTersedia = () => {
                         <button
                           className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={() => setShowModalEditVaksin(false)}
+                          onClick={() => setShowModalEditSesi(false)}
                         >
                           Tutup
                         </button>
@@ -400,7 +405,7 @@ export const SesiTersedia = () => {
                           className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => {
-                            setShowModalEditVaksin(false);
+                            setShowModalEditSesi(false);
                             handleSubmitEdit(dataEdit.idSession);
                           }}
                         >
@@ -415,7 +420,7 @@ export const SesiTersedia = () => {
             ) : //AKHIR MODAL EDIT VAKSIN
             null}
 
-            {showModalDeleteVaksin ? (
+            {showModalDeleteSesi ? (
               // MODAL DELETE VAKSIN
               <>
                 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -429,7 +434,7 @@ export const SesiTersedia = () => {
                       {/*body*/}
                       <div className="relative p-12 flex-auto">
                         <p className="px-10">
-                          Apakah anda yakin ingin menghapus vaksin{" "}
+                          Apakah anda yakin ingin menghapus sesi dengan id{" "}
                           <span className="font-bold underline decoration-blue-800">
                             {dataDelete.idSession}
                           </span>
@@ -442,7 +447,7 @@ export const SesiTersedia = () => {
                           className="text-red-500 background-transparent px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                           type="button"
                           onClick={() => {
-                            setShowModalDeleteVaksin(false);
+                            setShowModalDeleteSesi(false);
                             handleDelete(dataDelete.idSession);
                           }}
                         >
@@ -451,7 +456,7 @@ export const SesiTersedia = () => {
                         <button
                           className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={() => setShowModalDeleteVaksin(false)}
+                          onClick={() => setShowModalDeleteSesi(false)}
                         >
                           Tidak
                         </button>

@@ -48,3 +48,7 @@
 .berita::-webkit-scrollbar {
   display: none;
 }
+
+.allBerita {
+  background-color: rgba(2, 109, 225, 0.05);
+}

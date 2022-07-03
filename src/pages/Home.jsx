@@ -108,7 +108,7 @@ export default function Home(props) {
   return (
     <NavBarList>
       <div className="home">
-        <div className="ml-5 mt-5 w- ">
+        <div className="ml-5 mt-5">
           <p className='navigasi'><span className='font-semibold '>Dashboard</span></p>
           <div className="grid lg:grid-cols-4 gap-x-2.5 grid-cols-1">
             <div className="col-span-3">

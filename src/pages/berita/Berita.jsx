@@ -1,12 +1,13 @@
 import React from 'react'
-import {articles} from './data'
-import Header from './Header'
+// import {articles} from './data'
+// import Header from './Header'
 import "../home.css"
 import CardBerita from './cardBerita'
 
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Axios } from "axios";
+import { Link } from 'react-router-dom';
 // import { initialValue } from '../initialValue'
 import NavBarList from "../../config/NavbarList";
 
@@ -49,7 +50,7 @@ function Berita() {
   return (
     <NavBarList>
       <div className='berita'>
-      <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title.substring(0, 25)}...</span></p>
+      <p className='navigasi ml-10 mt-10'><Link to="/">Dashboard &#62; </Link><Link to="/berita/AllBerita">Berita &#62; </Link><span className='font-semibold'>{title.substring(0, 25)}...</span></p>
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
           <div class="p-10 flex flex-col items-start"> 
