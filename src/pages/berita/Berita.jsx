@@ -17,7 +17,7 @@ function Berita() {
   const location = useLocation()
   const { source, title, description, author, url, urlToImage, publishedAt, content} = location.state
 
-  console.log(location.state)
+  // console.log(location.state)
   // console.log(publishedAt)
 
   // let day = publishedAt.getDate()
@@ -35,7 +35,7 @@ function Berita() {
   const [dataBerita, setDataBerita] = useState([])
 
   useEffect(() => {
-      axios.get("https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb").then((res) => {
+      axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
           setDataBerita(res.data.articles)
           console.log(res.data.articles);
       })

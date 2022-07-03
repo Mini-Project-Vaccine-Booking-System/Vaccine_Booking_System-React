@@ -149,15 +149,15 @@ export const KelolaPesananTiket = () => {
           <span className="font-semibold underline">Kelola Pesanan</span>
         </p>
         <h1 className="text-3xl font-medium">Kelola Pesanan</h1>
+        {loading ? (
+          <div className="flex justify-center item-center">
+            {/* <h1>Loading...</h1> */}
+            <CircularProgress />
+          </div>
+        ) : (
         <div class="flex flex-col">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-              {loading ? (
-                <div className="flex justify-center item-center">
-                  {/* <h1>Loading...</h1> */}
-                  <CircularProgress />
-                </div>
-              ) : (
                 <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
                   <table class="min-w-full">
                     <thead class="bg-blue-400">
@@ -166,13 +166,7 @@ export const KelolaPesananTiket = () => {
                           scope="col"
                           class="text-sm font-medium text-white px-6 py-4 text-left"
                         >
-                          No
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-left"
-                        >
-                          Booking ID
+                          ID
                         </th>
                         <th
                           scope="col"
@@ -184,7 +178,13 @@ export const KelolaPesananTiket = () => {
                           scope="col"
                           class="text-sm font-medium text-white px-6 py-4 text-left"
                         >
-                          Name
+                          Nama
+                        </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-white px-6 py-4 text-left"
+                        >
+                          Tanggal
                         </th>
                         <th
                           scope="col"
@@ -208,7 +208,7 @@ export const KelolaPesananTiket = () => {
                     </thead>
                     <tbody>
                       {data.map((bookings) => (
-                        <tr>
+                        <tr className="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {bookings.idBooking}
                           </td>
@@ -219,7 +219,7 @@ export const KelolaPesananTiket = () => {
                             {bookings.kelompok.namaKelompok}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.session.date}
+                            {bookings.session.date.substring(0, 10)}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {bookings.session.start}
@@ -269,10 +269,10 @@ export const KelolaPesananTiket = () => {
                     </tbody>
                   </table>
                 </div>
-              )}
             </div>
           </div>
         </div>
+        )}
 
         <div className="modalKelolaPesananTiket">
           {showModalEditVaksin ? (

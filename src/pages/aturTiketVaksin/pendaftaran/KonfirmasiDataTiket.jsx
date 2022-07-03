@@ -44,6 +44,7 @@ export const KonfirmasiDataTiket = (props) => {
       start: props.waktuAwal+":00",
       end: props.waktuAkhir+":00",
       nama: props.vaksin1.vaksin1,
+      stok: props.vaksin1.stokVaksin1,
       // stok_vaksin1: props.vaksin1.stokVaksin1,
 
     };

@@ -27,6 +27,7 @@ import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 
 export const AturVaksin = () => {
+  const API_URL = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate()
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -40,7 +41,7 @@ export const AturVaksin = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14";
+    const url = API_URL+"/vaksin/user/14";
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);
@@ -85,7 +86,7 @@ export const AturVaksin = () => {
       quantity: dataVaksin.stokVaksin,
     };
     axios
-      .post("https://booking-vaksin-alta.herokuapp.com/api/vaksin", vaksinData)
+      .post(API_URL+"/vaksin", vaksinData)
       .then((response) => {
         // console.log(response.status);
         console.log(response.data.token);
@@ -108,7 +109,7 @@ export const AturVaksin = () => {
     //GETDATA By ID
     axios
       // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
         setDataDelete(res.data);
         // console.log("data deleteeee", res.data);
@@ -122,7 +123,7 @@ export const AturVaksin = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .delete(API_URL+`/vaksin/${id}`)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data BERHASIL dihapus");
@@ -141,7 +142,7 @@ export const AturVaksin = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
         setDataEdit(res.data);
       })
@@ -168,7 +169,7 @@ export const AturVaksin = () => {
     };
     axios
       .put(
-        `https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`,
+        API_URL+`/vaksin/${id}`,
         vaksinDataEdit
       )
       .then((response) => {

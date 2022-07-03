@@ -9,6 +9,7 @@ import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 
 export const SesiTersedia = () => {
+  const API_URL = process.env.REACT_APP_BASE_URL
   const [data, setData] = useState([]);
   const [dataVaksin, setDataVaksin] = useState([])
   const [error, setError] = useState("");
@@ -39,7 +40,7 @@ export const SesiTersedia = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/session";
-    const url = "https://booking-vaksin-alta.herokuapp.com/api/session/user/14";
+    const url = API_URL+"/session/user/14";
     try {
       const res = await axios.get(url, {});
       console.log(res.data);
@@ -56,7 +57,7 @@ export const SesiTersedia = () => {
   }, []);
 
   useEffect(() => {
-    axios.get("https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14").then((res) => {
+    axios.get(API_URL+"/vaksin/user/14").then((res) => {
       setDataVaksin(res.data)
       console.log(res.data);
     })
@@ -72,7 +73,7 @@ export const SesiTersedia = () => {
   const handleSelectDelete = (id) => {
     console.log("cek id delete", id);
     axios
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
+      .get(API_URL+`/session/${id}`)
       .then((res) => {
         setDataDelete(res.data);
         console.log("data DtaaasesiTersedia", res.data);
@@ -87,7 +88,7 @@ export const SesiTersedia = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
+      .delete(API_URL+`/session/${id}`)
       .then((response) => {
         console.log("datax berhasil di hapus",response.status);
         // console.log(response.data.token);
@@ -110,7 +111,7 @@ export const SesiTersedia = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/session/${id}`)
+      .get(API_URL+`/session/${id}`)
       .then((res) => {
         setDataEdit(res.data);
       })
@@ -144,10 +145,11 @@ export const SesiTersedia = () => {
       date: dataEdit.date.substring(0, 10),
       start: dataEdit.start,
       end: dataEdit.end,
+      stok: dataEdit.stok
     };
     axios
       .put(
-        `https://booking-vaksin-alta.herokuapp.com/api/session/${id}`,
+        API_URL+`/session/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -248,13 +250,10 @@ export const SesiTersedia = () => {
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               {session.vaksin.nama}
-                              <br></br>
-                              {session.vaksin2}
+
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.vaksin.quantity}
-                              <br></br>
-                              {session.stok_vaksin2}
+                              {session.stok}
                             </td>
                             <td class="text-sm text-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               <div className="flex flex-row gap-5">
@@ -382,12 +381,12 @@ export const SesiTersedia = () => {
                         <FormControl sx={{ m: 1, width: 400 }}>
                           {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                           <TextField
-                            labelId="quantity"
-                            id="quantity"
+                            labelId="stok"
+                            id="stok"
                             // label="Nama Vaksin"
-                            name="quantity"
+                            name="stok"
                             type="number"
-                            value={dataEdit.vaksin?.quantity}
+                            value={dataEdit.stok}
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>

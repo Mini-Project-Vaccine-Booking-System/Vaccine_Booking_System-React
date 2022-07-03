@@ -68,10 +68,10 @@ export default function Home(props) {
 
   const options = {
     method: 'GET',
-    url: 'https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/npm-covid-data/countries',
+    url: process.env.REACT_APP_COVID_API_URL,
     headers: {
-      'X-RapidAPI-Key': '612f0de54fmsh24ff3f455ff749ap183ef2jsn4cfb894cc75f',
-      'X-RapidAPI-Host': 'vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com'
+      'X-RapidAPI-Key': process.env.REACT_APP_COVID_API_KEY,
+      'X-RapidAPI-Host': process.env.REACT_APP_COVID_API_HOST
     }
   };
 
@@ -91,7 +91,7 @@ export default function Home(props) {
   const [dataBerita, setDataBerita] = useState([])
 
   useEffect(() => {
-      axios.get("https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb").then((res) => {
+      axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
           setDataBerita(res.data.articles)
           console.log(res.data.articles);
       })

@@ -13,7 +13,7 @@ export default function AllBerita() {
   useEffect(() => {
     const loadNews = async () => {
       const response = await axios.get(
-        "https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb"
+        process.env.REACT_APP_NEWS_API
       );
       setNews(response.data.articles);
     };
