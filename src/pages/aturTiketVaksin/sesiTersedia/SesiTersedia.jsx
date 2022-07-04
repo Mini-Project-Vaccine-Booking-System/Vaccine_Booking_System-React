@@ -303,19 +303,7 @@ export const SesiTersedia = () => {
                       </div>
                       {/*body*/}
                       <div className="p-6 flex flex-col">
-                        <FormControl sx={{ m: 1, width: 200 }}>
-                          {/* <InputLabel id="stok">adasdas</InputLabel> */}
-                          <TextField
-                            disabled
-                            labelId="idSession"
-                            id="idSession"
-                            // label="Stok"
-                            name="idSession"
-                            type="number"
-                            value={dataEdit.idSession}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
+                        <p className="ml-6 -mb-4 text-9">Tanggal</p>
                         <FormControl sx={{ m: 1, width: 400 }}>
                           {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                           <TextField
@@ -328,6 +316,7 @@ export const SesiTersedia = () => {
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>
+                        <p className="ml-6 -mb-4 text-9">Waktu Awal</p>
                         <input 
                           className="border-1 border-gray-400 rounded-2 p-5 m-5"
                           type="time" 
@@ -337,6 +326,7 @@ export const SesiTersedia = () => {
                           onChange={handleChangeUpdate}
                         >
                         </input>
+                        <p className="ml-6 -mb-4 text-9">Waktu Akhir</p>
                         <input 
                           className="border-1 border-gray-400 rounded-2 p-5 m-5"
                           type="time" 
@@ -366,6 +356,7 @@ export const SesiTersedia = () => {
                             ))}
                           </Select>
                         </FormControl> */}
+                        <p className="ml-6 -mb-4 text-9">Nama Vaksin</p>
                         <FormControl sx={{ m: 1, width: 400 }}>
                           <TextField
                             disabled
@@ -378,6 +369,7 @@ export const SesiTersedia = () => {
                             onChange={handleChangeUpdate}
                           />
                         </FormControl>
+                        <p className="ml-6 -mb-4 text-9">Stok</p>
                         <FormControl sx={{ m: 1, width: 400 }}>
                           {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                           <TextField

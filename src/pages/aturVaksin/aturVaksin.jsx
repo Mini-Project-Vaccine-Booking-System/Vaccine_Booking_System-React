@@ -41,7 +41,7 @@ export const AturVaksin = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = API_URL+"/vaksin/user/14";
+    const url = API_URL+`/vaksin/user/14`;
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);

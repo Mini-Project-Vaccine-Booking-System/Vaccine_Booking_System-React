@@ -2,8 +2,18 @@
   font-family: "Inter", sans-serif;
 }
 
-.navigasi {
+.text-8 {
   font-size: 13px;
+}
+
+.text-9 {
+  font-size: 15px;
+}
+
+@media (max-width: 599px) {
+  .text-9 {
+    font-size: 13px;
+  }
 }
 
 .kelolaPesananTiket h1 {
