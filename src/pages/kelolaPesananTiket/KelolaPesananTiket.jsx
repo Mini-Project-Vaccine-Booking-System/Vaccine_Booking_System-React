@@ -41,8 +41,8 @@ export const KelolaPesananTiket = () => {
     const url = API_URL+`/booking/user/14`;
     try {
       const res = await axios.get(url, {});
-      console.log(res.data);
-      setData(res.data);
+      console.log(res.data.data);
+      setData(res.data.data);
       setError(null);
     } catch (err) {
       setError(err);
@@ -101,7 +101,7 @@ export const KelolaPesananTiket = () => {
     axios
       .get(API_URL+`/booking/${id}`)
       .then((res) => {
-        setDataEdit(res.data);
+        setDataEdit(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -155,8 +155,8 @@ export const KelolaPesananTiket = () => {
 
   useEffect(() => {
     axios.get(API_URL+"/session/user/14").then((res) => {
-      setDataSession(res.data)
-      console.log(res.data);
+      setDataSession(res.data.data)
+      // console.log(res.data);
     })
     .catch((err) => {
       console.log(err);

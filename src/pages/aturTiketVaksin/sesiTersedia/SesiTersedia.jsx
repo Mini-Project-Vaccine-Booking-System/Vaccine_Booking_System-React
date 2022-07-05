@@ -43,8 +43,8 @@ export const SesiTersedia = () => {
     const url = API_URL+"/session/user/14";
     try {
       const res = await axios.get(url, {});
-      console.log(res.data);
-      setData(res.data);
+      console.log(res.data.data);
+      setData(res.data.data);
       setError(null);
     } catch (err) {
       setError(err);
@@ -56,15 +56,34 @@ export const SesiTersedia = () => {
     getData();
   }, []);
 
+  // Sorting Data
+  const [order, setOrder] = useState("ASC");
+  const sorting = (col) => {
+    if (order === "ASC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] > b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] < b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("ASC");
+    }
+  };
+
   useEffect(() => {
     axios.get(API_URL+"/vaksin/user/14").then((res) => {
-      setDataVaksin(res.data)
-      console.log(res.data);
+      setDataVaksin(res.data.data)
+      console.log(res.data.data);
     })
     .catch((err) => {
       console.log(err);
-      console.log("Data Pokemen gak ketemu")
-      setError("Data Pokemen gak ketemu")
+      console.log("Data gak ketemu")
+      setError("Data gak ketemu")
     })
   }, []);
 
@@ -75,15 +94,15 @@ export const SesiTersedia = () => {
     axios
       .get(API_URL+`/session/${id}`)
       .then((res) => {
-        setDataDelete(res.data);
-        console.log("data DtaaasesiTersedia", res.data);
+        setDataDelete(res.data.data);
+        // console.log("data DtaaasesiTersedia", res.data);
       })
       .catch((err) => {
         console.log(err);
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-    console.log("data delete di state", dataDelete);
+    // console.log("data delete di state", dataDelete);
   };
 
   const handleDelete = (id) => {
@@ -113,7 +132,7 @@ export const SesiTersedia = () => {
     axios
       .get(API_URL+`/session/${id}`)
       .then((res) => {
-        setDataEdit(res.data);
+        setDataEdit(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -192,36 +211,42 @@ export const SesiTersedia = () => {
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("idSession")}
                           >
                             No
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("date")}
                           >
                             Tanggal
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("start")}
                           >
                             Waktu Awal
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("end")}
                           >
                             Waktu Akhir
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("vaksin.nama")}
                           >
                             Jenis Vaksin
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
+                            onClick={() => sorting("stok")}
                           >
                             Stok Vaksin
                           </th>
@@ -235,7 +260,7 @@ export const SesiTersedia = () => {
                       </thead>
                       <tbody>
                         {data.map((session) => (
-                          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                          <tr key={session.idSession} class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                               {session.idSession}
                             </td>
@@ -250,7 +275,6 @@ export const SesiTersedia = () => {
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               {session.vaksin.nama}
-
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               {session.stok}

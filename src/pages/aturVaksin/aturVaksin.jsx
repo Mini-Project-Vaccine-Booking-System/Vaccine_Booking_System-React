@@ -58,6 +58,25 @@ export const AturVaksin = () => {
     getData();
   }, [refresh]);
 
+  // Sorting Data
+  const [order, setOrder] = useState("ASC");
+  const sorting = (col) => {
+    if (order === "ASC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] > b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] < b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("ASC");
+    }
+  };
+
   const [showModalTambahVaksin, setShowModalTambahVaksin] =
     React.useState(false);
   const [showModalEditVaksin, setShowModalEditVaksin] = React.useState(false);
@@ -229,12 +248,14 @@ export const AturVaksin = () => {
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-center"
+                            onClick={() => sorting("idVaksin")}
                           >
                             ID
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-center"
+                            onClick={() => sorting("nama")}
                           >
                             Nama Vaksin
                           </th>
