@@ -240,7 +240,7 @@ export const SesiTersedia = () => {
                               {session.idSession}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {session.date.substring(0, 10)}
+                              {session.date?.substring(0, 10)}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                               {session.start}
@@ -302,107 +302,109 @@ export const SesiTersedia = () => {
                         <h3 className="my-10 mx-auto">Edit Sesi</h3>
                       </div>
                       {/*body*/}
-                      <div className="p-6 flex flex-col">
-                        <p className="ml-6 -mb-4 text-9">Tanggal</p>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="date"
-                            id="date"
-                            // label="Nama Vaksin"
-                            name="date"
-                            type="date"
-                            value={newDate}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <p className="ml-6 -mb-4 text-9">Waktu Awal</p>
-                        <input 
-                          className="border-1 border-gray-400 rounded-2 p-5 m-5"
-                          type="time" 
-                          step="1"
-                          name="start"
-                          value={dataEdit.start}
-                          onChange={handleChangeUpdate}
-                        >
-                        </input>
-                        <p className="ml-6 -mb-4 text-9">Waktu Akhir</p>
-                        <input 
-                          className="border-1 border-gray-400 rounded-2 p-5 m-5"
-                          type="time" 
-                          step="1"
-                          name="end"
-                          value={dataEdit.end}
-                          onChange={handleChangeUpdate}
-                        >
-                        </input>
-                        {/* <FormControl sx={{ m: 1, width: 400 }}>
-                          <Select
-                            required
-                            labelId="vaksin"
-                            id="vaksin"
-                            name='vaksin'
-                            displayEmpty
-                            // value="Sinovac"
-                            label={dataEdit.vaksin?.nama}
+                      <form onSubmit = {() => {
+                              setShowModalEditSesi(false);
+                              handleSubmitEdit(dataEdit.idSession);
+                            }}>
+                        <div className="p-6 flex flex-col">
+                          <p className="ml-6 -mb-4 text-9">Tanggal</p>
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                            <TextField
+                              labelId="date"
+                              id="date"
+                              // label="Nama Vaksin"
+                              name="date"
+                              type="date"
+                              value={newDate}
+                              onChange={handleChangeUpdate}
+                            />
+                          </FormControl>
+                          <p className="ml-6 -mb-4 text-9">Waktu Awal</p>
+                          <input 
+                            className="border-1 border-gray-400 rounded-2 p-5 m-5"
+                            type="time" 
+                            step="1"
+                            name="start"
+                            value={dataEdit.start}
                             onChange={handleChangeUpdate}
                           >
-                            {dataVaksin.map((vaksin) => (
-                            <MenuItem 
-                              id={vaksin.idVaksin} 
-                              value={vaksin.nama}>
-                              {vaksin.nama}
-                            </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl> */}
-                        <p className="ml-6 -mb-4 text-9">Nama Vaksin</p>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          <TextField
-                            disabled
-                            labelId="vaksin"
-                            id="vaksin"
-                            // label="Nama Vaksin"
-                            name="vaksin"
-                            type="text"
-                            value={dataEdit.vaksin?.nama}
+                          </input>
+                          <p className="ml-6 -mb-4 text-9">Waktu Akhir</p>
+                          <input 
+                            className="border-1 border-gray-400 rounded-2 p-5 m-5"
+                            type="time" 
+                            step="1"
+                            name="end"
+                            value={dataEdit.end}
                             onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <p className="ml-6 -mb-4 text-9">Stok</p>
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="stok"
-                            id="stok"
-                            // label="Nama Vaksin"
-                            name="stok"
-                            type="number"
-                            value={dataEdit.stok}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                      </div>
-                      {/*footer*/}
-                      <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                        <button
-                          className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => setShowModalEditSesi(false)}
-                        >
-                          Tutup
-                        </button>
-                        <button
-                          className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => {
-                            setShowModalEditSesi(false);
-                            handleSubmitEdit(dataEdit.idSession);
-                          }}
-                        >
-                          Edit Vaksin
-                        </button>
-                      </div>
+                          >
+                          </input>
+                          {/* <FormControl sx={{ m: 1, width: 400 }}>
+                            <Select
+                              required
+                              labelId="vaksin"
+                              id="vaksin"
+                              name='vaksin'
+                              displayEmpty
+                              // value="Sinovac"
+                              label={dataEdit.vaksin?.nama}
+                              onChange={handleChangeUpdate}
+                            >
+                              {dataVaksin.map((vaksin) => (
+                              <MenuItem 
+                                id={vaksin.idVaksin} 
+                                value={vaksin.nama}>
+                                {vaksin.nama}
+                              </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl> */}
+                          <p className="ml-6 -mb-4 text-9">Nama Vaksin</p>
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            <TextField
+                              disabled
+                              labelId="vaksin"
+                              id="vaksin"
+                              // label="Nama Vaksin"
+                              name="vaksin"
+                              type="text"
+                              value={dataEdit.vaksin?.nama}
+                              onChange={handleChangeUpdate}
+                            />
+                          </FormControl>
+                          <p className="ml-6 -mb-4 text-9">Stok</p>
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                            <TextField
+                              labelId="stok"
+                              id="stok"
+                              // label="Nama Vaksin"
+                              name="stok"
+                              inputProps={{min: 5, max:100}}
+                              type="number"
+                              value={dataEdit.stok}
+                              onChange={handleChangeUpdate}
+                            />
+                          </FormControl>
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModalEditSesi(false)}
+                          >
+                            Tutup
+                          </button>
+                          <button
+                            className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="submit"
+                          >
+                            Edit Vaksin
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>

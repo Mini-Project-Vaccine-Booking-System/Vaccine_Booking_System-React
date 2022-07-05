@@ -29,61 +29,62 @@ import Slide from '@mui/material/Slide';
 
 import "./navbar.css"
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    icon: <MdDashboard />,
-  },
-  {
-    path: "/fitur",
-    name: "Menu",
-    icon: <TbVaccineBottle 
-              style={{
-                marginLeft: "-3px",
-              }}
-              size="22px"/>,
-    subRoutes: [
-      {
-        path: "/fitur/tiketVaksin",
-        name: "Atur Sesi Tiket Vaksin ",
-        icon: <FaTicketAlt />,
-      },
-      {
-        path: "/fitur/sesiTersedia",
-        name: "Sesi Tersedia ",
-        icon: <MdOutlineEventAvailable />,
-      },
-      {
-        path: "/fitur/kelolaPesananTiket",
-        name: "Kelola Pesanan Tiket",
-        icon: <FaBookOpen />,
-      },
-      {
-        path: "/fitur/aturVaksin",
-        name: "Atur Vaksin",
-        icon: <TbVaccine />,
-      },
-    ],
-  },
-  // {
-  //   path: "/order",
-  //   name: "Order",
-  //   icon: <BsCartCheck />,
-  // },
-  {
-    path: "/login",
-    name: "Logout",
-    icon: <IoLogOut />,
-    
-  },
-];
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   console.log("propss", props)
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const NavBarList = ({ children }) => {
+
+  const routes = [
+    {
+      path: "/",
+      name: "Home",
+      icon: <MdDashboard />,
+    },
+    {
+      path: "/fitur",
+      name: "Menu",
+      icon: <TbVaccineBottle 
+                style={{
+                  marginLeft: "-3px",
+                }}
+                size="22px"/>,
+      subRoutes: [
+        {
+          path: "/fitur/tiketVaksin",
+          name: "Atur Sesi Tiket Vaksin ",
+          icon: <FaTicketAlt />,
+        },
+        {
+          path: "/fitur/sesiTersedia",
+          name: "Sesi Tersedia ",
+          icon: <MdOutlineEventAvailable />,
+        },
+        {
+          path: "/fitur/kelolaPesananTiket",
+          name: "Kelola Pesanan Tiket",
+          icon: <FaBookOpen />,
+        },
+        {
+          path: "/fitur/aturVaksin",
+          name: "Atur Vaksin",
+          icon: <TbVaccine />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      name: "Logout",
+      icon: <IoLogOut 
+      onClick={() => {
+        handleLogout();
+      }}/>,
+      
+    },
+  ];
+  
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
@@ -148,9 +149,6 @@ const NavBarList = ({ children }) => {
 
   const handleLogout = () => {
     Cookies.remove('jwt', { path: '/'});
-    // setTimeout(() => {
-    //   navigate("/login");
-    // }, 2500);
   }
 
   const handleNavigate = () => {
