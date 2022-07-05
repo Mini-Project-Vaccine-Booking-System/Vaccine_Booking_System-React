@@ -45,8 +45,8 @@ export const AturVaksin = () => {
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);
-      console.log(res.data);
-      setData(res.data);
+      console.log(res.data.data);
+      setData(res.data.data);
       setError(null);
     } catch (err) {
         setError(err);
@@ -111,7 +111,7 @@ export const AturVaksin = () => {
       // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
       .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
-        setDataDelete(res.data);
+        setDataDelete(res.data.data);
         // console.log("data deleteeee", res.data);
       })
       .catch((err) => {
@@ -144,7 +144,7 @@ export const AturVaksin = () => {
     axios
       .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
-        setDataEdit(res.data);
+        setDataEdit(res.data.data);
       })
       .catch((err) => {
         console.log(err);

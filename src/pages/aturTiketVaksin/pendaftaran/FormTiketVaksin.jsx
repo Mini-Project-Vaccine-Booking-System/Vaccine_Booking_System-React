@@ -22,7 +22,7 @@ export const FormTiketVaksin = (props) => {
               label="Jenis Vaksin"
               onChange={props.handleChangeVaksin1}
             >
-              {props.dataVaksin.map((vaksin) => (
+              {props?.dataVaksin?.map((vaksin) => (
               <MenuItem 
                 id={vaksin.idVaksin} 
                 value={vaksin.nama}>

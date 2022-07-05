@@ -101,8 +101,8 @@ export const AturTiketVaksin = (props) => {
     axios
       .get("https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14")
       .then((res) => {
-        setDataVaksin(res.data);
-        console.log(res.data);
+        setDataVaksin(res.data.data);
+        console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
