@@ -5,8 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBarList from "../../../config/NavbarList";
 import "./sesiTersedia.css";
+import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
+import { FaSort } from "react-icons/fa";
+
 
 export const SesiTersedia = () => {
   const API_URL = process.env.REACT_APP_BASE_URL
@@ -75,6 +78,22 @@ export const SesiTersedia = () => {
     }
   };
 
+  const [dataFilter, setDataFilter] = useState("")
+  const filtered = data.filter(session => {
+    if (dataFilter === "" || dataFilter === "Semua Vaksin") {
+      return data;
+    } else {
+        return session.vaksin?.nama === dataFilter;
+    }
+  });
+
+  // console.log("test filtering", filtered)
+
+  const handleChangeFilter = (e) => {
+    console.log("cek filter", e.target.value)
+    setDataFilter(e.target.value)
+  }
+
   useEffect(() => {
     axios.get(API_URL+"/vaksin/user/14").then((res) => {
       setDataVaksin(res.data.data)
@@ -95,14 +114,14 @@ export const SesiTersedia = () => {
       .get(API_URL+`/session/${id}`)
       .then((res) => {
         setDataDelete(res.data.data);
-        // console.log("data DtaaasesiTersedia", res.data);
+        // console.log("data delete", res.data);
       })
       .catch((err) => {
         console.log(err);
         console.log("Data gak ketemu");
         setError("Data gak ketemu");
       });
-    // console.log("data delete di state", dataDelete);
+    console.log("data delete di state", dataDelete);
   };
 
   const handleDelete = (id) => {
@@ -118,6 +137,23 @@ export const SesiTersedia = () => {
           toast.error("Data GAGAL dihapus");
         }
       });
+
+    const manageStokVaksin = {
+      id_health: dataDelete.vaksin.user.idUser,
+      nama: dataDelete.vaksin.nama,
+      quantity: parseInt(dataDelete.vaksin.quantity) + parseInt(dataDelete.stok)
+    }
+    axios
+      .put(
+        API_URL+`/vaksin/${dataDelete.vaksin.idVaksin}`,
+        manageStokVaksin
+      )
+      .then((response) => {
+        console.log(response.status);
+      }
+    );
+
+
       setTimeout(() => {
         window.location.reload(false);
     }, 1400);
@@ -154,7 +190,8 @@ export const SesiTersedia = () => {
   };
 
   const newDate = dataEdit?.date?.substring(0,10);
-  console.log("new Date", newDate)
+  // console.log("newstok", dataEdit?.stokNew)
+  // console.log("newstokInt", parseInt(dataEdit?.stokNew))
 
   const handleSubmitEdit = (id) => {
     // console.log("cek data edit di handlesubmit", dataEdit);
@@ -164,7 +201,7 @@ export const SesiTersedia = () => {
       date: dataEdit.date.substring(0, 10),
       start: dataEdit.start,
       end: dataEdit.end,
-      stok: dataEdit.stok
+      stok: (dataEdit.stokNew == null || dataEdit.stokNew == "") ? dataEdit.stok : dataEdit.stokNew
     };
     axios
       .put(
@@ -181,6 +218,44 @@ export const SesiTersedia = () => {
           toast.error("Data GAGAL diubah");
         }
       });
+
+      if (dataEdit.stokNew == null || dataEdit.stokNew == "") {
+        setDataVaksin(dataVaksin)
+      } else if (dataEdit.stokNew >= dataEdit.stok) {
+        const manageStokVaksin = {
+          id_health: dataEdit.vaksin.user.idUser,
+          nama: dataEdit.vaksin.nama,
+          quantity: parseInt(dataEdit.vaksin.quantity) - (parseInt(dataEdit.stokNew) - parseInt(dataEdit.stok))
+        }
+        axios
+        .put(
+          API_URL+`/vaksin/${dataEdit.vaksin.idVaksin}`,
+          manageStokVaksin
+        )
+        .then((response) => {
+          console.log(response.status);
+
+        });
+      } else if (dataEdit.stokNew <= dataEdit.stok) {
+        const manageStokVaksin = {
+          id_health: dataEdit.vaksin.user.idUser,
+          nama: dataEdit.vaksin.nama,
+          quantity: parseInt(dataEdit.vaksin.quantity) + (parseInt(dataEdit.stok) - parseInt(dataEdit.stokNew))
+        }
+        axios
+        .put(
+          API_URL+`/vaksin/${dataEdit.vaksin.idVaksin}`,
+          manageStokVaksin
+        )
+        .then((response) => {
+          console.log(response.status);
+
+        });
+      }
+
+
+      // setDataVaksin()
+
       setTimeout(() => {
         window.location.reload(false);
     }, 1400);
@@ -195,7 +270,38 @@ export const SesiTersedia = () => {
             Menu &#62;{" "}
             <span className="font-semibold underline">Sesi Tersedia</span>
           </p>
-          <h1 className="text-3xl font-medium">Sesi Tersedia</h1>
+          <h1 className="text-3xl font-medium mb-5">Sesi Tersedia</h1>
+          <p className="text-8 font-500 text-grey-500 mb-2 ml-1">Filter berdasarkan</p>
+          <FormControl sx={{width: 200}}>
+            <InputLabel id="demo-simple-select-label">
+              <div className="flex flex-row items-center">
+                <TbVaccineBottle
+                  style={{
+                    marginLeft: "-3px",
+                    color: "rgba(102, 167, 255, 1)",
+                  }}
+                  size="25px"/>
+                <p className="text-9 ml-5">Vaksin</p>
+              </div>
+            </InputLabel>
+            <Select
+              sx={{ borderRadius: 3}}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // value={age}
+              label="Vaksinasiii"
+              onChange={handleChangeFilter}
+            >
+              <MenuItem value="Semua Vaksin">Semua Vaksin</MenuItem>
+              {dataVaksin.map((vaksin) => (
+                <MenuItem 
+                  id={vaksin.idVaksin} 
+                  value={vaksin.nama}>
+                  {vaksin.nama}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           {loading ? (
             <div className="flex justify-center item-center">
               <CircularProgress />
@@ -204,51 +310,70 @@ export const SesiTersedia = () => {
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                  <div class="overflow-hidden bg-white shadow-lg rounded-8">
                     <table class="min-w-full">
                       <thead class="bg-blue-400">
                         <tr>
                           <th
                             scope="col"
-                            class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("idSession")}
+                            class="text-sm font-medium text-white px-6 py-4 text-center"
                           >
-                            No
+                            <div className="flex flex-row items-center justify-center">
+                              <p className="mr-2">No</p>
+                              <FaSort
+                                onClick={() => sorting("idSession")}
+                                style={{cursor: "pointer"}}/>
+                            </div>
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("date")}
                           >
-                            Tanggal
+                            <div className="flex flex-row items-center">
+                              <p className="mr-5">Tanggal</p>
+                              <FaSort
+                                onClick={() => sorting("date")}
+                                style={{cursor: "pointer"}}/>
+                            </div>
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("start")}
                           >
-                            Waktu Awal
+                            <div className="flex flex-row items-center">
+                              <p className="mr-5">Waktu Awal</p>
+                              <FaSort
+                                onClick={() => sorting("start")}
+                                style={{cursor: "pointer"}}/>
+                            </div>
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("end")}
                           >
-                            Waktu Akhir
+                            <div className="flex flex-row items-center">
+                              <p className="mr-5">Waktu Akhir</p>
+                              <FaSort
+                                onClick={() => sorting("end")}
+                                style={{cursor: "pointer"}}/>
+                            </div>
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("vaksin.nama")}
                           >
                             Jenis Vaksin
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-left"
-                            onClick={() => sorting("stok")}
                           >
-                            Stok Vaksin
+                            <div className="flex flex-row items-center">
+                              <p className="mr-5">Stok Vaksin</p>
+                              <FaSort
+                                onClick={() => sorting("stok")}
+                                style={{cursor: "pointer"}}/>
+                            </div>
                           </th>
                           <th
                             scope="col"
@@ -259,9 +384,9 @@ export const SesiTersedia = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.map((session) => (
+                        {filtered.map((session) => (
                           <tr key={session.idSession} class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
                               {session.idSession}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -397,20 +522,44 @@ export const SesiTersedia = () => {
                               onChange={handleChangeUpdate}
                             />
                           </FormControl>
-                          <p className="ml-6 -mb-4 text-9">Stok</p>
-                          <FormControl sx={{ m: 1, width: 400 }}>
-                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                            <TextField
-                              labelId="stok"
-                              id="stok"
-                              // label="Nama Vaksin"
-                              name="stok"
-                              inputProps={{min: 5, max:100}}
-                              type="number"
-                              value={dataEdit.stok}
-                              onChange={handleChangeUpdate}
-                            />
-                          </FormControl>
+                          <div className="flex flex-row">
+                            <div>
+                              <p className="ml-6 -mb-4 text-9">Stok Lama</p>
+                              <FormControl sx={{ m: 1, width: 150 }}>
+                                {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                                <TextField
+                                  size="small"
+                                  disabled
+                                  labelId="stok"
+                                  id="stok"
+                                  // label="Nama Vaksin"
+                                  name="stok"
+                                  inputProps={{min: 5, max:100}}
+                                  type="number"
+                                  value={dataEdit.stok}
+                                  onChange={handleChangeUpdate}
+                                />
+                              </FormControl>
+                            </div>
+                            <div>
+                              <p className="ml-6 -mb-4 text-9">Stok Baru</p>
+                              <FormControl sx={{ m: 1, width: 233 }}>
+                                {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                                <TextField
+                                  size="small"
+                                  labelId="stok"
+                                  id="stok"
+                                  // label="Nama Vaksin"
+                                  name="stokNew"
+                                  inputProps={{min: 5, max:100}}
+                                  type="number"
+                                  value={dataEdit.stokNew}
+                                  // defaultValue={dataEdit.stok}
+                                  onChange={handleChangeUpdate}
+                                />
+                              </FormControl>
+                            </div>
+                          </div>
                         </div>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

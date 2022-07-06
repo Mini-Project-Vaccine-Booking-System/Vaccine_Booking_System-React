@@ -9,8 +9,11 @@ import {
   IconButton,
   Select,
   MenuItem,
-  FormHelperText
+  FormHelperText,
+  InputAdornment,
+  Input
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import "./kelolaPesananTiket.css";
@@ -18,6 +21,7 @@ import NavBarList from "../../config/NavbarList";
 
 import { TbEdit } from "react-icons/tb";
 import { AiOutlineRight } from "react-icons/ai";
+import { BiSearch } from "react-icons/bi";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -53,6 +57,27 @@ export const KelolaPesananTiket = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  //Search Filter
+  const [searchInput, setSearchInput] = useState("");
+  const inputHandler = (e) => {
+    const searchData = e.target.value.toLowerCase();
+    setSearchInput(searchData)
+  }
+  console.log("cek search", searchInput)
+
+  const filtered = data.filter((search) => {
+    if (searchInput === "" ) {
+      return search;
+    } else {
+      return (
+        search.kelompok.namaKelompok.toLowerCase().includes(searchInput) || 
+        search.kelompok.nik.includes(searchInput) ||
+        search.kelompok.user.noHp.includes(searchInput) ||
+        search.idBooking.toString().includes(searchInput)
+      )
+    }
+  })
 
   const [dataDelete, setDataDelete] = useState([]);
 
@@ -120,8 +145,6 @@ export const KelolaPesananTiket = () => {
     });
     // console.log("cek value", value);
   };
-  // console.log("cek id kelompok", dataEdit.kelompok?.idKelompok);
-  // console.log("cek id session", dataEdit.session?.idSession);
 
   const handleSubmitEdit = (id) => {
     console.log("cek data edit di handlesubmit", dataEdit);
@@ -174,22 +197,33 @@ export const KelolaPesananTiket = () => {
           <span className="font-semibold underline">Kelola Pesanan</span>
         </p>
         <h1 className="text-3xl font-medium">Kelola Pesanan</h1>
+        <div className='flex flex-row items-center searchbar w-2/5 border-1 px-5 py-3 rounded-md border-grey-400 mt-20 -mb-5'>
+          <BiSearch 
+            className="mr-5"
+            size="22px"
+            color="rgba(102, 167, 255, 1)"/>
+          <input 
+            placeholder='search...' 
+            className="text-9 font-300 w-full"
+            onChange={inputHandler}>
+          </input>
+        </div>
         {loading ? (
           <div className="flex justify-center item-center">
             {/* <h1>Loading...</h1> */}
             <CircularProgress />
           </div>
         ) : (
-        <div class="flex flex-col">
+        <div class="flex flex-col ">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                <div class="overflow-hidden bg-white shadow-lg rounded-8">
                   <table class="min-w-full">
                     <thead class="bg-blue-400">
                       <tr>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-left"
+                          class="text-sm font-medium text-white px-6 py-4 text-center"
                         >
                           ID
                         </th>
@@ -232,9 +266,9 @@ export const KelolaPesananTiket = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((bookings) => (
+                      {filtered.map((bookings) => (
                         <tr className="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
-                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center text-gray-900">
                             {bookings.idBooking}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

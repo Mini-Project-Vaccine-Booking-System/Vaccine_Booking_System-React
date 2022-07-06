@@ -22,6 +22,10 @@
   font-size: 34px;
 }
 
+.kelolaPesananTiket .searchbar input:focus {
+  outline: none;
+}
+
 /* .kelolaPesananTiket {
     background-color: salmon;
     width: 80%;

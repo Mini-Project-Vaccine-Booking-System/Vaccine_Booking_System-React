@@ -241,7 +241,7 @@ export const AturVaksin = () => {
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                  <div class="overflow-hidden bg-white shadow-lg rounded-8">
                     <table class="min-w-full">
                       <thead class="bg-blue-400">
                         <tr>
@@ -414,6 +414,7 @@ export const AturVaksin = () => {
                           <FormControl sx={{ m: 1, width: 400 }}>
                             {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                             <TextField
+                              required
                               autoFocus
                               labelId="nama_vaksin"
                               id="nama_vaksin"
@@ -427,6 +428,7 @@ export const AturVaksin = () => {
                           <FormControl sx={{ m: 1, width: 200 }}>
                             {/* <InputLabel id="stok">adasdas</InputLabel> */}
                             <TextField
+                              required
                               labelId="stok"
                               id="stok"
                               // label="Stok"
