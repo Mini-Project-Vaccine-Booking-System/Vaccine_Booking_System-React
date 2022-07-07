@@ -42,6 +42,7 @@ export const AturTiketVaksin = (props) => {
             handleChangeTanggal={handleChangeTanggal}
             handleChangeWaktuAwal={handleChangeWaktuAwal}
             handleChangeWaktuAkhir={handleChangeWaktuAkhir}
+            errorMessage={errorWaktu}
           />
         );
       case 1:
@@ -49,6 +50,7 @@ export const AturTiketVaksin = (props) => {
           <FormTiketVaksin
             dataVaksin={dataVaksin}
             handleChangeVaksin1={handleChangeVaksin1}
+            errorMessage={errorStok}
           />
         );
       case 2:
@@ -61,8 +63,8 @@ export const AturTiketVaksin = (props) => {
             kirim ={handleSubmit}
           />
         );
-      // case 3:
-      //   return <TiketVaksinBerhasil  />;
+      case 3:
+        return <TiketVaksinBerhasil  />;
       default:
         return "tidak di ketahui";
     }
@@ -73,6 +75,7 @@ export const AturTiketVaksin = (props) => {
   const [tanggal, setTanggal] = useState("");
   const [waktuAwal, setWaktuAwal] = useState("");
   const [waktuAkhir, setWaktuAkhir] = useState("");
+  const [errorWaktu, setErrorWaktu] = useState("");
 
   const handleChangeTanggal = (e) => {
     // console.log("di etarget", e.target.value)
@@ -85,12 +88,18 @@ export const AturTiketVaksin = (props) => {
 
   const handleChangeWaktuAkhir = (e) => {
     // console.log("di etarget", e.target.value)
-    setWaktuAkhir(e.target.value);
+    if(e.target.value <= waktuAwal) {
+      setErrorWaktu("Waktu Invalid")
+      setWaktuAkhir(e.target.value);
+    } else if (e.target.value >= waktuAwal) {
+      setErrorWaktu("")
+      setWaktuAkhir(e.target.value);
+    }
   };
 
-  console.log("cek tanggal", tanggal);
-  console.log("cek waktu awal", waktuAwal);
-  console.log("cek waktu akhir", waktuAkhir);
+  // console.log("cek tanggal", tanggal);
+  // console.log("cek waktu awal", waktuAwal);
+  // console.log("cek waktu akhir", waktuAkhir);
 
   // =====================================================
   // =========FUNCTION ATUR JENIS VAKSIN==================
@@ -111,6 +120,7 @@ export const AturTiketVaksin = (props) => {
       });
   }, []);
 
+  const [errorStok, setErrorStok] = useState("");
   const [vaksin1, setVaksin1] = useState({
     vaksin1: "",
     stokVaksin1: "",
@@ -119,10 +129,20 @@ export const AturTiketVaksin = (props) => {
   const handleChangeVaksin1 = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setVaksin1({
-      ...vaksin1,
-      [name]: value,
-    });
+
+    if (e.target.value > 100 || e.target.value < 5) {
+      setErrorStok("Stok per-sesi min 5 dan max 100")
+      setVaksin1({
+        ...vaksin1,
+        [name]: value,
+      });
+    } else {
+      setErrorStok("")
+      setVaksin1({
+        ...vaksin1,
+        [name]: value,
+      });
+    }
   };
   console.log("cek vaksin 1", vaksin1);
 
@@ -158,6 +178,7 @@ export const AturTiketVaksin = (props) => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setCompleted({})
   };
 
   const handleStep = (step) => () => {
@@ -176,6 +197,8 @@ export const AturTiketVaksin = (props) => {
     setCompleted({});
   };
 
+  // ===========KONFIRMASI DATA TIKET====================
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -191,23 +214,34 @@ export const AturTiketVaksin = (props) => {
       // stok_vaksin1: props.vaksin1.stokVaksin1,
     };
     console.log(sesiData, "sesiData")
-    axios
-      .post("https://booking-vaksin-alta.herokuapp.com/api/session", sesiData)
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
 
-        if (response.status === 200) {
-          toast.success("Data BERHASIL ditambahkan");
-        } else {
-          toast.error("Data GAGAL ditambahkan");
-        }
-      });
-
-    setTimeout(() => {
-      navigate("/fitur/sesiTersedia");
-    }, 1800);
+    if (tanggal == "" || vaksin1.vaksin1 == "" || vaksin1.stokVaksin1 == "" || waktuAwal == "" || waktuAkhir == "") {
+      toast.error("Data GAGAL ditambahkan, harap lengkapi data")
+    } else if (waktuAkhir <= waktuAwal) {
+      toast.error("Data GAGAL ditambahkan, harap perbaiki data")
+    } else if (vaksin1.stokVaksin1 > 100 || vaksin1.stokVaksin1 < 5) {
+      toast.error("Data GAGAL ditambahkan, harap perbaiki data")
+    } else {
+        axios
+          .post("https://booking-vaksin-alta.herokuapp.com/api/session", sesiData)
+          .then((response) => {
+            console.log(response.status);
+            console.log(response.data.token);
+    
+            if (response.status === 200) {
+              toast.success("Data BERHASIL ditambahkan");
+            } else {
+              toast.error("Data GAGAL ditambahkan");
+            }
+          });
+    
+        // setTimeout(() => {
+        //   navigate("/fitur/sesiTersedia");
+        // }, 1800);
+    }  
   };
+
+  // =================================================================
 
 
   return (

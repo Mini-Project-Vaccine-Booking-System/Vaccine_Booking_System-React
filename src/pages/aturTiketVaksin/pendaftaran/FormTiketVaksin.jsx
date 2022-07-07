@@ -48,6 +48,7 @@ export const FormTiketVaksin = (props) => {
             />
           </FormControl>
         </div>
+        <p className='text-8 text-right text-red'>{props.errorMessage}</p>
       </div>
     </div>
   )
