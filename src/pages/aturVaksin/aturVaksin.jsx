@@ -27,6 +27,7 @@ import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 
 export const AturVaksin = () => {
+  const API_URL = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate()
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -40,12 +41,12 @@ export const AturVaksin = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = "https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14";
+    const url = API_URL+`/vaksin/user/14`;
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);
-      console.log(res.data);
-      setData(res.data);
+      console.log(res.data.data);
+      setData(res.data.data);
       setError(null);
     } catch (err) {
         setError(err);
@@ -56,6 +57,25 @@ export const AturVaksin = () => {
   useEffect(() => {
     getData();
   }, [refresh]);
+
+  // Sorting Data
+  const [order, setOrder] = useState("ASC");
+  const sorting = (col) => {
+    if (order === "ASC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] > b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...data].sort((a,b) => 
+        a[col] < b[col] ? 1 : -1
+      );
+      setData(sorted);
+      setOrder("ASC");
+    }
+  };
 
   const [showModalTambahVaksin, setShowModalTambahVaksin] =
     React.useState(false);
@@ -85,7 +105,7 @@ export const AturVaksin = () => {
       quantity: dataVaksin.stokVaksin,
     };
     axios
-      .post("https://booking-vaksin-alta.herokuapp.com/api/vaksin", vaksinData)
+      .post(API_URL+"/vaksin", vaksinData)
       .then((response) => {
         // console.log(response.status);
         console.log(response.data.token);
@@ -108,9 +128,9 @@ export const AturVaksin = () => {
     //GETDATA By ID
     axios
       // .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
-        setDataDelete(res.data);
+        setDataDelete(res.data.data);
         // console.log("data deleteeee", res.data);
       })
       .catch((err) => {
@@ -122,7 +142,7 @@ export const AturVaksin = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .delete(API_URL+`/vaksin/${id}`)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data BERHASIL dihapus");
@@ -141,9 +161,9 @@ export const AturVaksin = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`)
+      .get(API_URL+`/vaksin/${id}`)
       .then((res) => {
-        setDataEdit(res.data);
+        setDataEdit(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -168,7 +188,7 @@ export const AturVaksin = () => {
     };
     axios
       .put(
-        `https://booking-vaksin-alta.herokuapp.com/api/vaksin/${id}`,
+        API_URL+`/vaksin/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -221,19 +241,21 @@ export const AturVaksin = () => {
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                  <div class="overflow-hidden bg-white shadow-lg rounded-8">
                     <table class="min-w-full">
                       <thead class="bg-blue-400">
                         <tr>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-center"
+                            onClick={() => sorting("idVaksin")}
                           >
                             ID
                           </th>
                           <th
                             scope="col"
                             class="text-sm font-medium text-white px-6 py-4 text-center"
+                            onClick={() => sorting("nama")}
                           >
                             Nama Vaksin
                           </th>
@@ -312,52 +334,58 @@ export const AturVaksin = () => {
                         <h3 className="my-10 mx-auto">Tambah Vaksin</h3>
                       </div>
                       {/*body*/}
-                      <div className="relative p-6 flex-auto">
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="namaVaksin"
-                            id="namaVaksin"
-                            label="Nama Vaksin"
-                            name="namaVaksin"
-                            type="text"
-                            onChange={handleChange}
-                            // value={tanggalAwal}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 200 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="stokVaksin"
-                            id="stokVaksin"
-                            label="Jumlah Stok"
-                            name="stokVaksin"
-                            type="number"
-                            onChange={handleChange}
-                            // value={tanggalAwal}
-                          />
-                        </FormControl>
-                      </div>
-                      {/*footer*/}
-                      <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                        <button
-                          className="text-red-500 background-transparent font-500 text-sm px-6 py-2 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => setShowModalTambahVaksin(false)}
-                        >
-                          Tutup
-                        </button>
-                        <button
-                          className="bg-blue-600 text-white font-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => {
-                            setShowModalTambahVaksin(false);
-                            handleSubmit();
-                          }}
-                        >
-                          Tambah Vaksin
-                        </button>
-                      </div>
+                      <form onSubmit={() => {
+                              setShowModalTambahVaksin(false);
+                              handleSubmit();
+                            }}>
+                        <div className="relative p-6 flex-auto">
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                            <TextField
+                              autoFocus
+                              required
+                              labelId="namaVaksin"
+                              id="namaVaksin"
+                              label="Nama Vaksin"
+                              name="namaVaksin"
+                              type="text"
+                              onChange={handleChange}
+                              // value={tanggalAwal}
+                            />
+                          </FormControl>
+                          <FormControl sx={{ m: 1, width: 200 }}>
+                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                            <TextField
+                              required
+                              labelId="stokVaksin"
+                              inputProps={{min: 5, max:5000}}
+                              id="stokVaksin"
+                              label="Jumlah Stok"
+                              name="stokVaksin"
+                              type="number"
+                              max="20"
+                              onChange={handleChange}
+                              // value={tanggalAwal}
+                            />
+                          </FormControl>
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="text-red-500 background-transparent font-500 text-sm px-6 py-2 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModalTambahVaksin(false)}
+                          >
+                            Tutup
+                          </button>
+                          <button
+                            className="bg-blue-600 text-white font-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="submit"
+                          >
+                            Tambah Vaksin
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -378,52 +406,57 @@ export const AturVaksin = () => {
                         <h3 className="my-10 mx-auto">Edit Vaksin</h3>
                       </div>
                       {/*body*/}
-                      <div className="relative p-6 flex-auto">
-                        <FormControl sx={{ m: 1, width: 400 }}>
-                          {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                          <TextField
-                            labelId="nama_vaksin"
-                            id="nama_vaksin"
-                            // label="Nama Vaksin"
-                            name="nama"
-                            type="text"
-                            value={dataEdit.nama}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 200 }}>
-                          {/* <InputLabel id="stok">adasdas</InputLabel> */}
-                          <TextField
-                            labelId="stok"
-                            id="stok"
-                            // label="Stok"
-                            name="quantity"
-                            type="number"
-                            value={dataEdit.quantity}
-                            onChange={handleChangeUpdate}
-                          />
-                        </FormControl>
-                      </div>
-                      {/*footer*/}
-                      <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                        <button
-                          className="text-red-500 background-transparent px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => setShowModalEditVaksin(false)}
-                        >
-                          Tutup
-                        </button>
-                        <button
-                          className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={() => {
-                            setShowModalEditVaksin(false);
-                            handleSubmitEdit(dataEdit.idVaksin);
-                          }}
-                        >
-                          Edit Vaksin
-                        </button>
-                      </div>
+                      <form onSubmit={() => {
+                              setShowModalEditVaksin(false);
+                              handleSubmitEdit(dataEdit.idVaksin);
+                            }}>
+                        <div className="relative p-6 flex-auto">
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                            <TextField
+                              required
+                              autoFocus
+                              labelId="nama_vaksin"
+                              id="nama_vaksin"
+                              // label="Nama Vaksin"
+                              name="nama"
+                              type="text"
+                              value={dataEdit.nama}
+                              onChange={handleChangeUpdate}
+                            />
+                          </FormControl>
+                          <FormControl sx={{ m: 1, width: 200 }}>
+                            {/* <InputLabel id="stok">adasdas</InputLabel> */}
+                            <TextField
+                              required
+                              labelId="stok"
+                              id="stok"
+                              // label="Stok"
+                              inputProps={{min: 5, max:5000}}
+                              name="quantity"
+                              type="number"
+                              value={dataEdit.quantity}
+                              onChange={handleChangeUpdate}
+                            />
+                          </FormControl>
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="text-red-500 background-transparent px-6 py-2 text-sm outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModalEditVaksin(false)}
+                          >
+                            Tutup
+                          </button>
+                          <button
+                            className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="submit"
+                          >
+                            Edit Vaksin
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>

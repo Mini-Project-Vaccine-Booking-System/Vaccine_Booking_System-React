@@ -1,12 +1,13 @@
 import React from 'react'
-import {articles} from './data'
-import Header from './Header'
+// import {articles} from './data'
+// import Header from './Header'
 import "../home.css"
 import CardBerita from './cardBerita'
 
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Axios } from "axios";
+import { Link } from 'react-router-dom';
 // import { initialValue } from '../initialValue'
 import NavBarList from "../../config/NavbarList";
 
@@ -16,7 +17,7 @@ function Berita() {
   const location = useLocation()
   const { source, title, description, author, url, urlToImage, publishedAt, content} = location.state
 
-  console.log(location.state)
+  // console.log(location.state)
   // console.log(publishedAt)
 
   // let day = publishedAt.getDate()
@@ -34,7 +35,7 @@ function Berita() {
   const [dataBerita, setDataBerita] = useState([])
 
   useEffect(() => {
-      axios.get("https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=2e9cc2af6e7047f0b24b169e656471fb").then((res) => {
+      axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
           setDataBerita(res.data.articles)
           console.log(res.data.articles);
       })
@@ -49,7 +50,7 @@ function Berita() {
   return (
     <NavBarList>
       <div className='berita'>
-      <p className='navigasi ml-10 mt-10'>Dashboard &#62; Berita &#62; <span className='font-semibold'>{title.substring(0, 25)}...</span></p>
+      <p className='navigasi ml-10 mt-10'><Link to="/">Dashboard &#62; </Link><Link to="/berita/AllBerita">Berita &#62; </Link><span className='font-semibold'>{title.substring(0, 25)}...</span></p>
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
           <div class="p-10 flex flex-col items-start"> 

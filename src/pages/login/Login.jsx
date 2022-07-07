@@ -142,7 +142,7 @@ export default function Login(props) {
                 <div>
                   <h1 className="navbar-brand ml-8">VaksinQu</h1>
                 </div>
-                <div className='flex flex-row-reverse justify-end items-center'>
+                {/* <div className='flex flex-row-reverse justify-end items-center'>
                   <div className='flex flex-row justify-end items-center navbar-icon'>
                     <IoMdNotifications className='mr-10'/>
                     <AiFillSetting />
@@ -151,7 +151,7 @@ export default function Login(props) {
                     <BiSearch className="search-icon"/>
                     <input placeholder='search...'></input>
                   </div>
-                </div>
+                </div> */}
               </div>
           </Toolbar>
         </AppBar>

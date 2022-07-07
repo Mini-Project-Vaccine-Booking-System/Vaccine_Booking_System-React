@@ -6,6 +6,7 @@ import { KonfirmasiDataTiket } from "./KonfirmasiDataTiket";
 import { AturTiketVaksin } from "./AturTiketVaksin";
 
 const VaksinContext = createContext();
+console.log(VaksinContext, "VaksinContext")
 
 export const TanggalVaksin = (props) => {
   // console.log("cek props di tanggal vaksin", props)

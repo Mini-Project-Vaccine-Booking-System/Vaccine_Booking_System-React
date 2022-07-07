@@ -7,7 +7,13 @@ import {
   InputLabel,
   CircularProgress,
   IconButton,
+  Select,
+  MenuItem,
+  FormHelperText,
+  InputAdornment,
+  Input
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import "./kelolaPesananTiket.css";
@@ -15,12 +21,14 @@ import NavBarList from "../../config/NavbarList";
 
 import { TbEdit } from "react-icons/tb";
 import { AiOutlineRight } from "react-icons/ai";
+import { BiSearch } from "react-icons/bi";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Delete from "@mui/icons-material/Delete";
 
 export const KelolaPesananTiket = () => {
+  const API_URL = process.env.REACT_APP_BASE_URL
   const [showModal, setShowModal] = React.useState(false);
   const [showModalEditVaksin, setShowModalEditVaksin] = React.useState(false);
   const [showModalDeleteVaksin, setShowModalDeleteVaksin] =
@@ -34,11 +42,11 @@ export const KelolaPesananTiket = () => {
     setLoading(true);
 
     // const url = `https://62a33b8121232ff9b21be1dd.mockapi.io/bookings`;
-    const url = `https://booking-vaksin-alta.herokuapp.com/api/booking/user/14`;
+    const url = API_URL+`/booking/user/14`;
     try {
       const res = await axios.get(url, {});
-      console.log(res.data);
-      setData(res.data);
+      console.log(res.data.data);
+      setData(res.data.data);
       setError(null);
     } catch (err) {
       setError(err);
@@ -49,6 +57,27 @@ export const KelolaPesananTiket = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  //Search Filter
+  const [searchInput, setSearchInput] = useState("");
+  const inputHandler = (e) => {
+    const searchData = e.target.value.toLowerCase();
+    setSearchInput(searchData)
+  }
+  console.log("cek search", searchInput)
+
+  const filtered = data.filter((search) => {
+    if (searchInput === "" ) {
+      return search;
+    } else {
+      return (
+        search.kelompok.namaKelompok.toLowerCase().includes(searchInput) || 
+        search.kelompok.nik.includes(searchInput) ||
+        search.kelompok.user.noHp.includes(searchInput) ||
+        search.idBooking.toString().includes(searchInput)
+      )
+    }
+  })
 
   const [dataDelete, setDataDelete] = useState([]);
 
@@ -71,7 +100,7 @@ export const KelolaPesananTiket = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`)
+      .delete(API_URL+`/booking/${id}`)
       .then((response) => {
         console.log(response.status);
         console.log(response.data.token);
@@ -82,6 +111,9 @@ export const KelolaPesananTiket = () => {
           toast.error("Data GAGAL dihapus");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
 
   const [dataEdit, setDataEdit] = useState([]);
@@ -92,9 +124,9 @@ export const KelolaPesananTiket = () => {
     console.log("cek id edit", id);
     //GETDATA By ID
     axios
-      .get(`https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`)
+      .get(API_URL+`/booking/${id}`)
       .then((res) => {
-        setDataEdit(res.data);
+        setDataEdit(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -102,7 +134,7 @@ export const KelolaPesananTiket = () => {
         setError("Data gak ketemu");
       });
   };
-  // console.log("cek data edit", dataEdit);
+  console.log("cek data edit", dataEdit);
   // console.log("cek data namaavaksin", namaVaksin);
 
   const handleChangeUpdate = (e) => {
@@ -111,21 +143,18 @@ export const KelolaPesananTiket = () => {
       ...dataEdit,
       [e.target.name]: value,
     });
-    console.log("cek value", value);
+    // console.log("cek value", value);
   };
 
   const handleSubmitEdit = (id) => {
     console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
-      booking_id: dataEdit.booking_id,
-      nik: dataEdit.nik,
-      nama: dataEdit.nama,
-      waktu_awal: dataEdit.waktu_awal,
-      waktu_akhir: dataEdit.waktu_akhir,
+      id_kelompok: dataEdit.kelompok?.idKelompok,
+      id_session: dataEdit.idSession,
     };
     axios
       .put(
-        `https://booking-vaksin-alta.herokuapp.com/api/booking/${id}`,
+        API_URL+`/booking/${id}`,
         vaksinDataEdit
       )
       .then((response) => {
@@ -138,7 +167,26 @@ export const KelolaPesananTiket = () => {
           toast.error("Data GAGAL diubah");
         }
       });
+      setTimeout(() => {
+        window.location.reload(false);
+    }, 1400);
   };
+
+  // Data Session
+
+  const [dataSession, setDataSession] = useState([])
+
+  useEffect(() => {
+    axios.get(API_URL+"/session/user/14").then((res) => {
+      setDataSession(res.data.data)
+      // console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Data Pokemen gak ketemu")
+      setError("Data Pokemen gak ketemu")
+    })
+  }, []);
 
   return (
     <NavBarList>
@@ -149,30 +197,35 @@ export const KelolaPesananTiket = () => {
           <span className="font-semibold underline">Kelola Pesanan</span>
         </p>
         <h1 className="text-3xl font-medium">Kelola Pesanan</h1>
-        <div class="flex flex-col">
+        <div className='flex flex-row items-center searchbar w-2/5 border-1 px-5 py-3 rounded-md border-grey-400 mt-20 -mb-5'>
+          <BiSearch 
+            className="mr-5"
+            size="22px"
+            color="rgba(102, 167, 255, 1)"/>
+          <input 
+            placeholder='search...' 
+            className="text-9 font-300 w-full"
+            onChange={inputHandler}>
+          </input>
+        </div>
+        {loading ? (
+          <div className="flex justify-center item-center">
+            {/* <h1>Loading...</h1> */}
+            <CircularProgress />
+          </div>
+        ) : (
+        <div class="flex flex-col ">
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-              {loading ? (
-                <div className="flex justify-center item-center">
-                  {/* <h1>Loading...</h1> */}
-                  <CircularProgress />
-                </div>
-              ) : (
-                <div class="overflow-hidden bg-white p-10 shadow-lg rounded-8">
+                <div class="overflow-hidden bg-white shadow-lg rounded-8">
                   <table class="min-w-full">
                     <thead class="bg-blue-400">
                       <tr>
                         <th
                           scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-left"
+                          class="text-sm font-medium text-white px-6 py-4 text-center"
                         >
-                          No
-                        </th>
-                        <th
-                          scope="col"
-                          class="text-sm font-medium text-white px-6 py-4 text-left"
-                        >
-                          Booking ID
+                          ID
                         </th>
                         <th
                           scope="col"
@@ -184,7 +237,13 @@ export const KelolaPesananTiket = () => {
                           scope="col"
                           class="text-sm font-medium text-white px-6 py-4 text-left"
                         >
-                          Name
+                          Nama
+                        </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-white px-6 py-4 text-left"
+                        >
+                          Tanggal
                         </th>
                         <th
                           scope="col"
@@ -207,9 +266,9 @@ export const KelolaPesananTiket = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((bookings) => (
-                        <tr>
-                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {filtered.map((bookings) => (
+                        <tr className="bg-white border-b rounded-6 transition duration-300 ease-in-out hover:bg-gray-100">
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center text-gray-900">
                             {bookings.idBooking}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -219,7 +278,7 @@ export const KelolaPesananTiket = () => {
                             {bookings.kelompok.namaKelompok}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.session.date}
+                            {bookings.session.date.substring(0, 10)}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {bookings.session.start}
@@ -269,10 +328,10 @@ export const KelolaPesananTiket = () => {
                     </tbody>
                   </table>
                 </div>
-              )}
             </div>
           </div>
         </div>
+        )}
 
         <div className="modalKelolaPesananTiket">
           {showModalEditVaksin ? (
@@ -281,7 +340,7 @@ export const KelolaPesananTiket = () => {
               <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                   {/*content*/}
-                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none sm:w-360 w-288">
                     {/*header*/}
                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                       <h3 className="text-3xl font-semibold my-10 mx-auto">
@@ -289,75 +348,64 @@ export const KelolaPesananTiket = () => {
                       </h3>
                     </div>
                     <div className="px-12 mt-5 border-b border-solid border-slate-200 pb-5">
-                      <p>ID Booking : {dataEdit.idBooking}</p>
-                      <p className="text-12">NIK : {dataEdit.kelompok?.nik}</p>
-                      <p>Nama : {dataEdit.kelompok?.namaKelompok}</p>
-                      <p>Tanggal : {dataEdit.session?.date}</p>
-                      <p>Waktu : {dataEdit.session?.start} - {dataEdit.session?.end}</p>
-                      <p>Vaksin : {dataEdit.session?.vaksin.nama}</p>
+                      <p className="text-11 font-600">Biodata Peserta</p>
+                      <div className="grid grid-cols-3 mb-7">
+                        <div className="col-span-1">
+                          <p className="sm:text-11 text-10 font-500">NIK</p>
+                          <p className="text-9">ID User</p>
+                          <p className="text-9">Nama</p>
+                          <p className="text-9">Jenis Kelamin</p>
+                          <p className="text-9">Tanggal Lahir</p>
+                          <p className="text-9">Email</p>
+                          <p className="text-9">No. Telephone</p>
+                        </div>
+                        <div className="col-span-2">
+                          <p className="sm:text-11 text-10 font-500">{dataEdit.kelompok?.nik}</p>
+                          <p className="text-9">{dataEdit.kelompok?.user?.idUser}</p>
+                          <p className="text-9">{dataEdit.kelompok?.namaKelompok}</p>
+                          <p className="text-9">{dataEdit.kelompok?.gender.toUpperCase()}</p>
+                          <p className="text-9">{dataEdit.kelompok?.tglLahir.substring(0, 10)}</p>
+                          <p className="text-9">{dataEdit.kelompok?.user.email}</p>
+                          <p className="text-9">{dataEdit.kelompok?.tlp}</p>
+                        </div>
+                      </div>
+                      <p className="text-11 font-600">Waktu Vaksinasi</p>
+                      <div className="grid grid-cols-3">
+                        <div className="">
+                          <p className="text-9">ID Session</p>
+                          <p className="text-9">Tanggal</p>
+                          <p className="text-9">Waktu</p>
+                          <p className="text-9">Vaksin</p>
+                        </div>
+                        <div className="col-span-2">
+                          <p className="text-9">{dataEdit.session?.idSession}</p>
+                          <p className="text-9">{dataEdit.session?.date.substring(0, 10)}</p>
+                          <p className="text-9">{dataEdit.session?.start} - {dataEdit.session?.end}</p>
+                          <p className="text-9">{dataEdit.session?.vaksin.nama}</p>
+                        </div>
+                      </div>
                     </div>
                     {/*body*/}
                     <div className="relative p-6 flex flex-col">
-                      <FormControl sx={{ m: 1, width: 400 }}>
-                        {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                        <TextField
-                          disabled="true"
-                          labelId="nik"
-                          id="nik"
-                          // label="Booking ID"
-                          name="nik"
-                          value={dataEdit.kelompok?.nik}
-                          type="number"
+                      <p className="ml-6 text-11 font-600">Ubah Waktu Vaksinasi</p>
+                      <p className="ml-6 text-9">Sesi Tersedia</p>
+                      <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <Select
+                          // value={age}
+                          name="idSession"
                           onChange={handleChangeUpdate}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ m: 1, width: 400 }}>
-                        {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                        <TextField
-                          labelId="nama"
-                          id="nama"
-                          // label="nama"
-                          name="nama"
-                          value={dataEdit.kelompok?.namaKelompok}
-                          type="text"
-                          onChange={handleChangeUpdate}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ m: 1, width: 400 }}>
-                        {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                        <TextField
-                          labelId="nama"
-                          id="nama"
-                          // label="Nama"
-                          name="nama"
-                          type="text"
-                          value={dataEdit.nama}
-                          onChange={handleChangeUpdate}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ m: 1, width: 400 }}>
-                        {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                        <TextField
-                          labelId="waktu_awal"
-                          id="waktu_awal"
-                          // label="Waktu Awal"
-                          name="waktu_awal"
-                          type="number"
-                          value={dataEdit.waktu_awal}
-                          onChange={handleChangeUpdate}
-                        />
-                      </FormControl>
-                      <FormControl sx={{ m: 1, width: 400 }}>
-                        {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                        <TextField
-                          labelId="waktu_akhir"
-                          id="waktu_akhir"
-                          // label="Waktu Akhir"
-                          name="waktu_akhir"
-                          type="number"
-                          value={dataEdit.waktu_akhir}
-                          onChange={handleChangeUpdate}
-                        />
+                          displayEmpty
+                          inputProps={{ 'aria-label': 'Without label' }}
+                        >
+                          {dataSession.map((session) => (
+                            <MenuItem 
+                              divider
+                              id={session.idSession} 
+                              value={session.idSession}>
+                              <p className="">{session.date.substring(0, 10)} | {session.start} - {session.end} | {session.vaksin?.nama}</p>
+                            </MenuItem>
+                            ))}
+                        </Select>
                       </FormControl>
                     </div>
                     {/*footer*/}
