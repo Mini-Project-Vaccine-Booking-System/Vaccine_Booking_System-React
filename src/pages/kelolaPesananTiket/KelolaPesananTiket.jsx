@@ -73,7 +73,7 @@ export const KelolaPesananTiket = () => {
       return (
         search.kelompok.namaKelompok.toLowerCase().includes(searchInput) || 
         search.kelompok.nik.includes(searchInput) ||
-        search.kelompok.user.noHp.includes(searchInput) ||
+        // search.kelompok.user.noHp.includes(searchInput) ||
         search.idBooking.toString().includes(searchInput)
       )
     }

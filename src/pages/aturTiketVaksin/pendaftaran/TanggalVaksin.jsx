@@ -9,7 +9,7 @@ const VaksinContext = createContext();
 console.log(VaksinContext, "VaksinContext")
 
 export const TanggalVaksin = (props) => {
-  // console.log("cek props di tanggal vaksin", props)
+  console.log("cek props di tanggal vaksin", props)
 
   // const [waktuAwal, setWaktuAwal] = useState("");
   // const [waktuAkhir, setWaktuAkhir] = useState("");
@@ -46,6 +46,7 @@ export const TanggalVaksin = (props) => {
         <h1 className="text-20 font-600 mb-36">Atur Tanggal Vaksin</h1>
         <div className="p-5">
           <TextField
+            required
             fullWidth
             id="date"
             label="Masukan Tanggal"
@@ -62,6 +63,7 @@ export const TanggalVaksin = (props) => {
         <div className="flex flex-row">
           <div className="p-5 w-1/2">
             <TextField
+              required
               fullWidth
               id="date"
               label="Masukan Waktu Awal"
@@ -77,6 +79,7 @@ export const TanggalVaksin = (props) => {
           </div>
           <div className="p-5 w-1/2">
             <TextField
+              required
               fullWidth
               id="date"
               label="Masukan Waktu Akhir"
@@ -91,6 +94,7 @@ export const TanggalVaksin = (props) => {
             />
           </div>
         </div>
+        <p className="text-8 text-red">{props.errorMessage}</p>
       </div>
     </VaksinContext.Provider>
   );
