@@ -244,7 +244,7 @@ export const AturTiketVaksin = (props) => {
                       <div className="flex justify-center">
                         <Button
                           disabled={activeStep === 0}
-                          // onClick={handleBack}
+                          onClick={handleBack}
                         >
                           Kembali
                         </Button>
@@ -254,7 +254,7 @@ export const AturTiketVaksin = (props) => {
                           `Sudah Selesai`
                         ) : (
                           <div>
-                            {completedSteps() === totalSteps() - 2 ? (
+                            {completedSteps() === totalSteps() - 1 ? (
                               <Button
                                 variant="contained"
                                 color="primary"
