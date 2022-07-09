@@ -38,10 +38,7 @@ export default function CardBerita({item}) {
     const handleDetail = () => {
         navigate(`/berita/${item.title}`, {
             state: {
-                source: {
-                    id: item.source.id,
-                    name: item.source.name,
-                },
+                source: item.source,
                 title: item.title,
                 author: newAuthor,
                 description: newDescription,

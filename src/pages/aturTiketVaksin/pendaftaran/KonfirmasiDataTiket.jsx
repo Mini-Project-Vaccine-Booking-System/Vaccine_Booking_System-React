@@ -21,6 +21,21 @@ export const KonfirmasiDataTiket = (props) => {
   const [errorStok, setErrorStok] = useState("")
   const [errorWaktu, setErrorWaktu] = useState("")
 
+  // const API_URL = process.env.REACT_APP_BASE_URL
+  // const [dataVaksin, setDataVaksin] = useState([])
+  // useEffect(() => {
+  //   axios.get(API_URL+`/vaksin/${props.vaksin1.vaksin1}`).then((res) => {
+  //     setDataVaksin(res.data.data)
+  //     console.log(res.data.data);
+  //   })
+  //   .catch((err) => {
+  //     // console.log(err);
+  //     console.log("Data gak ketemu")
+  //     // setError("Data gak ketemu")
+  //   })
+  // }, []);
+  // console.log("cek data vaksin", dataVaksin)
+
   useEffect(() => {
     if (props.tanggal == "" || props.vaksin1.vaksin1 == "" || props.vaksin1.stokVaksin1 == "" || props.waktuAwal == "" || props.waktuAkhir == "") {
       setErrorDataKosong("Data Harus Dilengkapi !!!")
@@ -55,45 +70,45 @@ export const KonfirmasiDataTiket = (props) => {
   // let timeEnd = props.waktuAkhir
   // timeEnd = timeEnd.substring(16, 11);
   // console.log(timeEnd)
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    const sesiData = {
-      id_health: 14,
-      date: props.tanggal,
-      start: props.waktuAwal + ":00",
-      end: props.waktuAkhir + ":00",
-      nama: props.vaksin1.vaksin1,
-      stok: props.vaksin1.stokVaksin1,
-      // stok_vaksin1: props.vaksin1.stokVaksin1,
-    };
-    axios
-      .post("https://booking-vaksin-alta.herokuapp.com/api/session")
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
+  // const handleSubmit = (e) => {
+  //   // e.preventDefault();
+  //   const sesiData = {
+  //     id_health: 14,
+  //     date: props.tanggal,
+  //     start: props.waktuAwal + ":00",
+  //     end: props.waktuAkhir + ":00",
+  //     nama: props.vaksin1.vaksin1,
+  //     stok: props.vaksin1.stokVaksin1,
+  //     // stok_vaksin1: props.vaksin1.stokVaksin1,
+  //   };
+  //   axios
+  //     .post("https://booking-vaksin-alta.herokuapp.com/api/session")
+  //     .then((response) => {
+  //       console.log(response.status);
+  //       console.log(response.data.token);
 
-        if (response.status === 200) {
-          toast.success("Data BERHASIL ditambahkan");
-        } else {
-          toast.error("Data GAGAL ditambahkan");
-        }
-      });
+  //       if (response.status === 200) {
+  //         toast.success("Data BERHASIL ditambahkan");
+  //       } else {
+  //         toast.error("Data GAGAL ditambahkan");
+  //       }
+  //     });
 
-    // setTimeout(() => {
-    //   navigate("/fitur/sesiTersedia");
-    // }, 1800);
-    // setRefresh()
-    // setData((prevData) => [
-    //   ...prevData,
-    //   {
-    //     id: "26",
-    //     nama_vaksin: "nama_vaksin 5",
-    //     stok: "744",
-    //   },
-    // ]);
-  };
+  //   // setTimeout(() => {
+  //   //   navigate("/fitur/sesiTersedia");
+  //   // }, 1800);
+  //   // setRefresh()
+  //   // setData((prevData) => [
+  //   //   ...prevData,
+  //   //   {
+  //   //     id: "26",
+  //   //     nama_vaksin: "nama_vaksin 5",
+  //   //     stok: "744",
+  //   //   },
+  //   // ]);
+  // };
 
   // const kirim = <AturTiketVaksin send={handleSubmit} />;
   // console.log(kirim, "kirimm")
@@ -157,7 +172,7 @@ export const KonfirmasiDataTiket = (props) => {
                   style={{ color: "rgba(102, 167, 255, 1)" }}
                 />
                 <p className="text-left text-10 mt-2 ml-20 mr-32">
-                  {props.vaksin1.vaksin1}
+                  {props.vaksin}
                 </p>
               </div>
               <div className="border-1 rounded-6 flex flex-row p-5 ml-10">

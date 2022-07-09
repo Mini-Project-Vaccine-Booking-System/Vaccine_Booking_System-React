@@ -3,6 +3,7 @@ import React from 'react'
 // import Header from './Header'
 import "../home.css"
 import CardBerita from './cardBerita'
+import { gql, useQuery } from "@apollo/client";
 
 import { useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
@@ -11,12 +12,27 @@ import { Link } from 'react-router-dom';
 // import { initialValue } from '../initialValue'
 import NavBarList from "../../config/NavbarList";
 
+const GetNews = gql `
+  query MyQuery {
+    API_Berita(limit: 4) {
+      author
+      content
+      description
+      id
+      source
+      title
+      url
+      urlToImage
+    }
+  }
+`
+
 
 function Berita() {
   const axios = require("axios");
   const location = useLocation()
   const { source, title, description, author, url, urlToImage, publishedAt, content} = location.state
-
+  console.log("cek source", source)
   // console.log(location.state)
   // console.log(publishedAt)
 
@@ -32,20 +48,22 @@ function Berita() {
   // time = time.substring(16, 11);
   // console.log(time)
 
-  const [dataBerita, setDataBerita] = useState([])
+  const {data: dataBerita, loading, error} = useQuery(GetNews);
 
-  useEffect(() => {
-      axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
-          setDataBerita(res.data.articles)
-          console.log(res.data.articles);
-      })
-      .catch((err) => {
-          console.log(err);
-          console.log("Data gak ketemu")
-          // setError("Data gak ketemu")
-      })
+  // const [dataBerita, setDataBerita] = useState([])
 
-  }, []);
+  // useEffect(() => {
+  //     axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
+  //         setDataBerita(res.data.articles)
+  //         console.log(res.data.articles);
+  //     })
+  //     .catch((err) => {
+  //         console.log(err);
+  //         console.log("Data gak ketemu")
+  //         // setError("Data gak ketemu")
+  //     })
+
+  // }, []);
 
   return (
     <NavBarList>
@@ -54,11 +72,11 @@ function Berita() {
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
           <div class="p-10 flex flex-col items-start"> 
-            <h5 class="text-gray-500 mt-5">{source.name} - {publishedAt}</h5> 
+            <h5 class="text-gray-500 mt-5">{source} - {publishedAt}</h5> 
             <h2 class="font-bold sm:text-3xl text-xs title-font text-gray-900 mt-4 mb-4">{title}</h2>
             <h5 class="text-gray-500 mb-7" >Penulis : {author} | Editor : Unknown</h5>
             <img src={urlToImage}/>
-            <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 195)}.... Baca selengkapknya di <a href={url} target="_blank"><span className='font-500 underline'>{url}</span></a></p>
+            <p class="leading-relaxed mb-6 mt-10 max-w-md">{content.substring(0, 400)}.... <br></br> Baca selengkapknya di <a href={url} target="_blank"><span className='font-500 underline'>{url}</span></a></p>
           </div> 
         </div>
         <div className=' lg:ml-12'>
@@ -68,7 +86,7 @@ function Berita() {
           </div>
           <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
           <div className='mt-10 ml-8 mb-32 flex flex-col'>
-          {dataBerita?.slice(0, 4).map((berita) => <CardBerita item={berita}/>)}
+          {dataBerita?.API_Berita?.map((berita) => <CardBerita item={berita}/>)}
             {/* <div 
               className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
               style={{
