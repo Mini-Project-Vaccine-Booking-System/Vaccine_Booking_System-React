@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Axios } from "axios";
+import { gql, useQuery } from "@apollo/client";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -54,12 +55,29 @@ function a11yProps(index) {
   };
 }
 
+const GetNews = gql `
+  query MyQuery {
+    API_Berita(limit: 3) {
+      author
+      content
+      description
+      id
+      source
+      title
+      url
+      urlToImage
+    }
+  }
+`
+
 export default function Home(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // =======================DATA COVID=========================
  
   const [totalKasus, setTotalKasus] = useState()
   const [totalSembuh, setTotalSembuh] = useState()
@@ -75,7 +93,6 @@ export default function Home(props) {
     }
   };
 
-  
   useEffect(() => {
     axios.request(options).then(function (response) {
       // console.log(response.data[18]);
@@ -88,20 +105,26 @@ export default function Home(props) {
     
   }, []);
 
-  const [dataBerita, setDataBerita] = useState([])
+  // ==========================================================
+  // ===================DATA BERITA============================
 
-  useEffect(() => {
-      axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
-          setDataBerita(res.data.articles)
-          console.log(res.data.articles);
-      })
-      .catch((err) => {
-          console.log(err);
-          console.log("Data gak ketemu")
-          // setError("Data gak ketemu")
-      })
+  // const [dataBerita, setDataBerita] = useState([])
 
-  }, []);
+  const {data: dataBerita, loading, error} = useQuery(GetNews);
+  console.log("cek data berita", dataBerita)
+
+  // useEffect(() => {
+  //     axios.get(process.env.REACT_APP_NEWS_API).then((res) => {
+  //         setDataBerita(res.data.articles)
+  //         console.log(res.data.articles);
+  //     })
+  //     .catch((err) => {
+  //         console.log(err);
+  //         console.log("Data gak ketemu")
+  //         // setError("Data gak ketemu")
+  //     })
+
+  // }, []);
 
   // console.log("test state", dataBerita)  
 
@@ -192,7 +215,7 @@ export default function Home(props) {
               <p className="fontTiny ml-8 my-5">Informasi mengenai COVID-19 dan vaksinasi</p>
 
               <div className="mt-10 ml-8 mb-32 flex flex-col">
-                {dataBerita?.slice(0, 3).map((berita) => <CardBerita item={berita}/>)}
+                {dataBerita?.API_Berita.map((berita) => <CardBerita item={berita}/>)}
                 <div className="lg:w-11/12 w-full mt-10">
                   <Button
                     style={{

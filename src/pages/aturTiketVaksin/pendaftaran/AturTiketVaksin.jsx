@@ -24,7 +24,7 @@ function getSteps() {
     "Atur Tanggal Vaksin",
     "Atur Jenis Vaksin",
     "Konfirmasi Data Tiket",
-    // "Tiket Vaksin Berhasil",
+    "Tiket Vaksin Berhasil",
   ];
 }
 
@@ -59,6 +59,7 @@ export const AturTiketVaksin = (props) => {
             tanggal={tanggal}
             waktuAwal={waktuAwal}
             waktuAkhir={waktuAkhir}
+            vaksin={dataKonfirmVaksin.nama}
             vaksin1={vaksin1}
             kirim ={handleSubmit}
           />
@@ -122,13 +123,17 @@ export const AturTiketVaksin = (props) => {
 
   const [errorStok, setErrorStok] = useState("");
   const [vaksin1, setVaksin1] = useState({
+    // idVaksin : null,
     vaksin1: "",
     stokVaksin1: "",
   });
-
+  
+  const API_URL = process.env.REACT_APP_BASE_URL
+  const [dataKonfirmVaksin, setDataKonfirmVaksin] = useState([])
   const handleChangeVaksin1 = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
 
     if (e.target.value > 100 || e.target.value < 5) {
       setErrorStok("Stok per-sesi min 5 dan max 100")
@@ -143,7 +148,18 @@ export const AturTiketVaksin = (props) => {
         [name]: value,
       });
     }
-  };
+
+      axios.get(API_URL+`/vaksin/${vaksin1.vaksin1}`).then((res) => {
+        setDataKonfirmVaksin(res.data.data)
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+        console.log("Data gak ketemu")
+        // setError("Data gak ketemu")
+      })
+    };
+  console.log("cek id vaksin", dataKonfirmVaksin);
   console.log("cek vaksin 1", vaksin1);
 
   // =====================================================
@@ -178,7 +194,9 @@ export const AturTiketVaksin = (props) => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    setCompleted({})
+    // const newCompleted = completed;
+    // newCompleted[activeStep] = [activeStep -1];
+    // setCompleted(newCompleted);
   };
 
   const handleStep = (step) => () => {
@@ -200,16 +218,14 @@ export const AturTiketVaksin = (props) => {
   // ===========KONFIRMASI DATA TIKET====================
 
   const navigate = useNavigate();
-
   const handleSubmit = (e) => {
-    console.log(tanggal,"waktu awal")
-    // e.preventDefault();
+
     const sesiData = {
       id_health: 14,
       date: tanggal,
       start: waktuAwal + ":00",
       end: waktuAkhir + ":00",
-      nama: vaksin1.vaksin1,
+      nama: dataKonfirmVaksin.nama,
       stok: vaksin1.stokVaksin1,
       // stok_vaksin1: props.vaksin1.stokVaksin1,
     };
@@ -229,15 +245,46 @@ export const AturTiketVaksin = (props) => {
             console.log(response.data.token);
     
             if (response.status === 200) {
+              handleComplete();
               toast.success("Data BERHASIL ditambahkan");
             } else {
               toast.error("Data GAGAL ditambahkan");
             }
           });
+
+          const manageStokVaksin = {
+            id_health: 14,
+            nama: dataKonfirmVaksin.nama,
+            quantity: parseInt(dataKonfirmVaksin.quantity) - parseInt(vaksin1.stokVaksin1)
+          }
+          axios
+            .put(
+              API_URL+`/vaksin/${dataKonfirmVaksin.idVaksin}`,
+              manageStokVaksin
+            )
+            .then((response) => {
+              console.log(response.status);
+            }
+          );
+
+          // const manageStokVaksin = {
+          //   id_health: dataDelete.vaksin.user.idUser,
+          //   nama: dataDelete.vaksin.nama,
+          //   quantity: parseInt(dataDelete.vaksin.quantity) + parseInt(dataDelete.stok)
+          // }
+          // axios
+          //   .put(
+          //     API_URL+`/vaksin/${dataDelete.vaksin.idVaksin}`,
+          //     manageStokVaksin
+          //   )
+          //   .then((response) => {
+          //     console.log(response.status);
+          //   }
+          // );
     
         // setTimeout(() => {
         //   navigate("/fitur/sesiTersedia");
-        // }, 1800);
+        // }, 3000);
     }  
   };
 
@@ -267,9 +314,13 @@ export const AturTiketVaksin = (props) => {
             </div>
             <div className="p-10 text-center flex justify-center">
               <div className="flex content-end w-full">
-                {allStepsCompleted() ? (
-                  <div>
-                    <Button onClick={handleReset}>Reset</Button>
+                {/* {allStepsCompleted() ? ( */}
+                {activeStep == 3 ? (
+                  <div className="mx-auto">
+                    <div className="flex flex-col">
+                      <TiketVaksinBerhasil handleReset={handleReset} />
+                      {/* <Button onClick={handleReset}>Reset</Button> */}
+                    </div>
                   </div>
                 ) : (
                   <div className=" w-full p-10">
@@ -288,11 +339,14 @@ export const AturTiketVaksin = (props) => {
                           `Sudah Selesai`
                         ) : (
                           <div>
-                            {completedSteps() === totalSteps() - 1 ? (
+                            {/* {completedSteps() === totalSteps() - 1 ? ( */}
+                            {activeStep === 2 ? (
                               <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={handleSubmit}
+                                onClick={() => {
+                                  handleSubmit()
+                                }}
                               >
                                 Kirim
                               </Button>

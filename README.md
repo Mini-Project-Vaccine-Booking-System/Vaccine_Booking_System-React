@@ -5,3 +5,5 @@ install
 "apexcharts": "^3.35.3",
 "@date-io/date-fns": "^2.14.0",
 "react-toastify": "^9.0.4" (npm i react-toastify)
+"graphql": "^16.5.0",
+"@apollo/client": "^3.6.9",
