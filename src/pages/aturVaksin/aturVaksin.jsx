@@ -378,7 +378,7 @@ export const AturVaksin = () => {
                                 name="namaVaksin"
                                 type="text"
                                 onChange={handleChange}
-                                // value={tanggalAwal}
+                                value={dataVaksin.namaVaksin}
                               />
                             </FormControl>
                             <FormControl sx={{ m: 1, width: 200 }}>
@@ -392,7 +392,7 @@ export const AturVaksin = () => {
                                 name="stokVaksin"
                                 type="number"
                                 onChange={handleChange}
-                                // value={tanggalAwal}
+                                value={dataVaksin.stokVaksin}
                               />
                             </FormControl>
                         <p className="text-red text-left mx-5 text-8">{vaksinValidation}</p>
@@ -408,8 +408,7 @@ export const AturVaksin = () => {
                           </button>
                           <button
                             className="bg-blue-600 text-white font-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={handleSubmit}
+                            type="submit"
                           >
                             Tambah Vaksin
                           </button>
@@ -441,7 +440,6 @@ export const AturVaksin = () => {
                             }}>
                         <div className="relative p-6 flex-auto">
                           <FormControl sx={{ m: 1, width: 400 }}>
-                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                             <TextField
                               required
                               autoFocus
@@ -455,7 +453,6 @@ export const AturVaksin = () => {
                             />
                           </FormControl>
                           <FormControl sx={{ m: 1, width: 200 }}>
-                            {/* <InputLabel id="stok">adasdas</InputLabel> */}
                             <TextField
                               required
                               labelId="stok"

@@ -33,7 +33,7 @@
 
 .home {
   /* height: 910px; */
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .home::-webkit-scrollbar {

@@ -112,14 +112,16 @@ export default function Login(props) {
       return false;
     });
     if (isAuth === undefined) {
-      alert("data ga ada")
+      setLoginFailed("Email atau password salah !!!")
+      console.log("Email atau password salah !!!")
+    } else {
+      navigate("/");
+      Cookies.set("id", isAuth.idUser);
+      Cookies.set("nama", isAuth.nama);
+      Cookies.set("kota", isAuth.kota);
+      Cookies.set("image", isAuth.image);
+      console.log("cek manual login", isAuth)
     }
-    navigate("/");
-    Cookies.set("id", isAuth.idUser);
-    Cookies.set("nama", isAuth.nama);
-    Cookies.set("kota", isAuth.kota);
-    Cookies.set("image", isAuth.image);
-    console.log("cek manual login", isAuth)
   }
 
   // ====================================================================
