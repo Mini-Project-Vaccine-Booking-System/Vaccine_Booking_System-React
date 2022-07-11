@@ -214,24 +214,36 @@ export const AturVaksin = () => {
       nama: dataEdit.nama,
       quantity: dataEdit.quantity,
     };
-    axios
+
+    const isValid = data?.find(el => {
+      if (dataEdit.nama === el.nama) {
+        return true
+      } 
+      return false
+    });
+    if (isValid === undefined || isValid === null || isValid === "") {
+      axios
       .put(
         API_URL+`/vaksin/${id}`,
         vaksinDataEdit
-      )
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
-
-        if (response.status === 200) {
-          toast.success("Data BERHASIL diubah");
-        } else {
-          toast.error("Data GAGAL diubah");
-        }
-      });
-      setTimeout(() => {
-        // window.location.reload(false);
-    }, 1400);
+        )
+        .then((response) => {
+          console.log(response.status);
+          console.log(response.data.token);
+          
+          if (response.status === 200) {
+            toast.success("Data BERHASIL diubah");
+          } else {
+            toast.error("Data GAGAL diubah");
+          }
+        });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 1400);
+      } else {
+        toast.error("Vaksin sudah ada")
+        setVaksinValidation("Vaksin sudah ada!!")
+      }
   };
 
   return (
@@ -466,6 +478,7 @@ export const AturVaksin = () => {
                             />
                           </FormControl>
                         </div>
+                        <p className="text-red text-left mx-5 text-8">{vaksinValidation}</p>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                           <button
