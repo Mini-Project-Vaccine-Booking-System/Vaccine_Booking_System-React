@@ -49,11 +49,11 @@
   font-weight: 400;
 }
 
-.sesiTersedia {
+/* .sesiTersedia {
   height: 910px;
   overflow: scroll;
-}
+} */
 
-.sesiTersedia::-webkit-scrollbar {
+/* .sesiTersedia::-webkit-scrollbar {
   display: none;
-}
+} */
