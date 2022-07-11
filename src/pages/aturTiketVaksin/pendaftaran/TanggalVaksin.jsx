@@ -6,10 +6,10 @@ import { KonfirmasiDataTiket } from "./KonfirmasiDataTiket";
 import { AturTiketVaksin } from "./AturTiketVaksin";
 
 const VaksinContext = createContext();
-console.log(VaksinContext, "VaksinContext")
+// console.log(VaksinContext, "VaksinContext")
 
 export const TanggalVaksin = (props) => {
-  console.log("cek props di tanggal vaksin", props)
+  // console.log("cek props di tanggal vaksin", props)
 
   // const [waktuAwal, setWaktuAwal] = useState("");
   // const [waktuAkhir, setWaktuAkhir] = useState("");
@@ -33,12 +33,7 @@ export const TanggalVaksin = (props) => {
   const defaultTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
   // const defaultValue = defaultYear + "-" + ('0' + defaultMonth).slice(-2) + "-" + ('0' + defaultDay).slice(-2) + "T" + defaultTime
   const defaultValue = defaultYear + "-" + ('0' + defaultMonth).slice(-2) + "-" + ('0' + defaultDay).slice(-2)
-  // console.log("cek tanggal", defaultDate)
-  // console.log("cek Hari", defaultDay)
-  console.log("cek bulan", defaultMonth)
-  // console.log("cek tahun", defaultYear)
-  // console.log("cek waktu", defaultTime)
-  console.log("cek all", defaultValue)
+
 
   return (
     <VaksinContext.Provider>

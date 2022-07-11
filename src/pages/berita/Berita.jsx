@@ -23,6 +23,7 @@ const GetNews = gql `
       title
       url
       urlToImage
+      publishedAt
     }
   }
 `
@@ -32,21 +33,6 @@ function Berita() {
   const axios = require("axios");
   const location = useLocation()
   const { source, title, description, author, url, urlToImage, publishedAt, content} = location.state
-  console.log("cek source", source)
-  // console.log(location.state)
-  // console.log(publishedAt)
-
-  // let day = publishedAt.getDate()
-
-  // console.log("cek hari", day)
-
-  // let day = publishedAt
-  // day = day.substring(10, 8);
-  // console.log(day)
-
-  // let time = publishedAt
-  // time = time.substring(16, 11);
-  // console.log(time)
 
   const {data: dataBerita, loading, error} = useQuery(GetNews);
 
@@ -72,7 +58,7 @@ function Berita() {
       <div class="grid lg:grid-cols-4 grid-cols-1">
         <div class="flex flex-wrap col-span-3">
           <div class="p-10 flex flex-col items-start"> 
-            <h5 class="text-gray-500 mt-5">{source} - {publishedAt}</h5> 
+            <h5 class="text-gray-500 mt-5 text-9">{source} - {publishedAt}</h5> 
             <h2 class="font-bold sm:text-3xl text-xs title-font text-gray-900 mt-4 mb-4">{title}</h2>
             <h5 class="text-gray-500 mb-7" >Penulis : {author} | Editor : Unknown</h5>
             <img src={urlToImage}/>
@@ -86,7 +72,7 @@ function Berita() {
           </div>
           <p className='fontTiny ml-8'>Berita lainnya mengenai kesehatan</p>
           <div className='mt-10 ml-8 mb-32 flex flex-col'>
-          {dataBerita?.API_Berita?.map((berita) => <CardBerita item={berita}/>)}
+          {dataBerita?.API_Berita?.map((berita) => <CardBerita key={berita.id} item={berita}/>)}
             {/* <div 
               className="w-224 h-160 rounded-lg bg-cover bg-center z-0 mb-14 mr-10 lg:w-192 lg:h-112" 
               style={{

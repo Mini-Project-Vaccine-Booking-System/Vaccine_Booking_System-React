@@ -1,6 +1,6 @@
 import { CircularProgress, FormControl, TextField, InputLabel, Select, MenuItem } from "@mui/material";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBarList from "../../../config/NavbarList";
@@ -9,6 +9,7 @@ import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { FaSort } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 
 export const SesiTersedia = () => {
@@ -43,10 +44,10 @@ export const SesiTersedia = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/session";
-    const url = API_URL+"/session/user/14";
+    const url = API_URL+`/session/user/${Cookies.get('id')}`;
     try {
       const res = await axios.get(url, {});
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setData(res.data.data);
       setError(null);
     } catch (err) {
@@ -95,9 +96,9 @@ export const SesiTersedia = () => {
   }
 
   useEffect(() => {
-    axios.get(API_URL+"/vaksin/user/14").then((res) => {
+    axios.get(API_URL+`/vaksin/user/${Cookies.get('id')}`).then((res) => {
       setDataVaksin(res.data.data)
-      console.log(res.data.data);
+      // console.log(res.data.data);
     })
     .catch((err) => {
       console.log(err);
@@ -176,7 +177,7 @@ export const SesiTersedia = () => {
         setError("Data gak ketemu");
       });
     };
-    console.log("cek data edit", dataEdit);
+    // console.log("cek data edit", dataEdit);
 
   const handleChangeUpdate = (e) => {
     const value = e.target.value;

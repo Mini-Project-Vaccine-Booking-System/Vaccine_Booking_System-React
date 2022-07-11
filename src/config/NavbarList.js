@@ -16,7 +16,7 @@ import Menu from '@mui/material/Menu';
 
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar/Sidebar";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
@@ -26,6 +26,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+
 
 import "./navbar.css"
 
@@ -148,12 +149,32 @@ const NavBarList = ({ children }) => {
   };
 
   const handleLogout = () => {
-    Cookies.remove('jwt', { path: '/'});
+    Cookies.remove('nama');
+    Cookies.remove('kota');
+    Cookies.remove('image');
+    Cookies.remove('id', { path: '/'});
   }
 
   const handleNavigate = () => {
     navigate("/login");
   }
+
+  const [newImage, setNewImage] = useState('')
+  useEffect(() => {
+    setNewImage(Cookies.get('image'))
+    if (newImage === undefined || newImage === null || newImage === "") {
+      setNewImage("https://firebasestorage.googleapis.com/v0/b/mini-project-alterra-c451b.appspot.com/o/Capstone_Vaccine%20Booking%20System%2F1603039115321.jpg?alt=media&token=087b0f22-5e82-4695-a8d7-71205a72df67")
+    } else {
+      setNewImage(newImage)
+    }
+  }, []);
+
+  
+    
+
+  // console.log("cek poto di kuki", Cookies.get('image'))
+  // console.log("cek poto", newImage)
+  
 
 
   return (
@@ -255,10 +276,10 @@ const NavBarList = ({ children }) => {
               <div class="flex justify-center my-10">
                 <div class="rounded-lg shadow-lg bg-blue-400 w-176">
                   <div class="p-10">
-                    <img src="https://thumbs.dreamstime.com/b/hospital-building-modern-parking-lot-59693686.jpg" className='w-53 h-53 mb-10 rounded-lg'/>
-                    <h5 class="text-white text-sm font-medium ">RS PHC Surabaya</h5>
+                    <img src={newImage} className='w-53 h-53 mb-10 rounded-lg'/>
+                    <h5 class="text-white text-sm font-medium ">{Cookies.get('nama')}</h5>
                     <p class="text-white text-10 mb-4">
-                      Surabaya, Jawa Timur
+                      {Cookies.get('kota')}
                     </p>
                   </div>
                 </div>

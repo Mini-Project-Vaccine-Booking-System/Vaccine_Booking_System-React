@@ -25,6 +25,7 @@ import { useReducer } from "react";
 import NavBarList from "../../config/NavbarList";
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
+import Cookies from "js-cookie";
 
 export const AturVaksin = () => {
   const API_URL = process.env.REACT_APP_BASE_URL
@@ -41,11 +42,11 @@ export const AturVaksin = () => {
   const getData = async () => {
     setLoading(true);
     // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
-    const url = API_URL+`/vaksin/user/14`;
+    const url = API_URL+`/vaksin/user/${Cookies.get('id')}`;
     // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setData(res.data.data);
       setError(null);
     } catch (err) {
@@ -88,6 +89,7 @@ export const AturVaksin = () => {
     stokVaksin: "",
   });
 
+  
   const handleChange = (e) => {
     const value = e.target.value;
     setDataVaksin({
@@ -95,32 +97,58 @@ export const AturVaksin = () => {
       [e.target.name]: value,
     });
   };
-
-  const [responseStatus, setResponseStatus] = useState();
-
+  // console.log("cek value", value)
+  
+  
+  
+  const [vaksinValidation, setVaksinValidation] = useState();
   const handleSubmit = (e) => {
     const vaksinData = {
-      id_health: 14,
+      id_health: Cookies.get('id'),
       nama: dataVaksin.namaVaksin,
       quantity: dataVaksin.stokVaksin,
     };
-    axios
-      .post(API_URL+"/vaksin", vaksinData)
-      .then((response) => {
+
+    const isValid = data?.find(el => {
+      if (dataVaksin.namaVaksin === el.nama) {
+        return true
+      } 
+      return false
+    });
+    if (isValid === undefined || isValid === null || isValid === "") {
+      axios
+        .post(API_URL+"/vaksin", vaksinData)
+        .then((response) => {
         // console.log(response.status);
-        console.log(response.data.token);
-
-        if (response.status === 200) {
-          toast.success("Data BERHASIL ditambahkan");
-        } else {
-          toast.error("Data GAGAL ditambahkan");
-        }
-      });
-
-      setTimeout(() => {
-          window.location.reload(false);
-      }, 1400);
+          console.log(response.data.token);
+    
+          if (response.status === 200) {
+            toast.success("Data BERHASIL ditambahkan");
+            setTimeout(() => {
+              window.location.reload(false);
+            }, 1400);
+          } else {
+            toast.error("Data GAGAL ditambahkan");
+          }
+        });
+    } else {
+      toast.error("Vaksin sudah ada")
+      setVaksinValidation("Vaksin sudah ada!!")
+    }
   };
+
+  // const handleSubwmit = (e) => {
+  //   e.preventDefault()
+  //   const isAuth = dataUser?.find(el => {
+  //     if (el.email === values.email && el.password === values.password ) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   if (isAuth === undefined) {
+  //     alert("data ga ada")
+  //   }
+  // }
 
   const [dataDelete, setDataDelete] = useState([]);
   const handleSelectDelete = (id) => {
@@ -202,7 +230,7 @@ export const AturVaksin = () => {
         }
       });
       setTimeout(() => {
-        window.location.reload(false);
+        // window.location.reload(false);
     }, 1400);
   };
 
@@ -339,35 +367,35 @@ export const AturVaksin = () => {
                               handleSubmit();
                             }}>
                         <div className="relative p-6 flex-auto">
-                          <FormControl sx={{ m: 1, width: 400 }}>
-                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                            <TextField
-                              autoFocus
-                              required
-                              labelId="namaVaksin"
-                              id="namaVaksin"
-                              label="Nama Vaksin"
-                              name="namaVaksin"
-                              type="text"
-                              onChange={handleChange}
-                              // value={tanggalAwal}
-                            />
-                          </FormControl>
-                          <FormControl sx={{ m: 1, width: 200 }}>
-                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
-                            <TextField
-                              required
-                              labelId="stokVaksin"
-                              inputProps={{min: 5, max:5000}}
-                              id="stokVaksin"
-                              label="Jumlah Stok"
-                              name="stokVaksin"
-                              type="number"
-                              max="20"
-                              onChange={handleChange}
-                              // value={tanggalAwal}
-                            />
-                          </FormControl>
+                            <FormControl sx={{ m: 1, width: 400 }}>
+                              {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                              <TextField
+                                autoFocus
+                                required
+                                labelId="namaVaksin"
+                                id="namaVaksin"
+                                label="Nama Vaksin"
+                                name="namaVaksin"
+                                type="text"
+                                onChange={handleChange}
+                                // value={tanggalAwal}
+                              />
+                            </FormControl>
+                            <FormControl sx={{ m: 1, width: 200 }}>
+                              {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
+                              <TextField
+                                required
+                                labelId="stokVaksin"
+                                inputProps={{min: 5, max:5000}}
+                                id="stokVaksin"
+                                label="Jumlah Stok"
+                                name="stokVaksin"
+                                type="number"
+                                onChange={handleChange}
+                                // value={tanggalAwal}
+                              />
+                            </FormControl>
+                        <p className="text-red text-left mx-5 text-8">{vaksinValidation}</p>
                         </div>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -380,7 +408,8 @@ export const AturVaksin = () => {
                           </button>
                           <button
                             className="bg-blue-600 text-white font-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="submit"
+                            type="button"
+                            onClick={handleSubmit}
                           >
                             Tambah Vaksin
                           </button>

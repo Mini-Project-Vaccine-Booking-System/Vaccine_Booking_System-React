@@ -25,7 +25,8 @@ import { TextField, FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AppContext } from '../../App';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,6 +45,11 @@ export default function Login(props) {
   // };
   // const [data, setData] = useState()
 
+  // const myContext = useContext(AppContext)
+
+
+// ==============================================================================
+  const API_URL = process.env.REACT_APP_BASE_URL
   const navigate = useNavigate();
   const [loginSuccess, setLoginSuccess] = useState("");
   const [loginFailed, setLoginFailed] = useState("");
@@ -51,6 +57,21 @@ export default function Login(props) {
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+  const [dataUser, setDataUser] = useState()
+
+  useEffect(() => {
+    axios.get(API_URL+"/user").then((res) => {
+      setDataUser(res.data.data)
+      // console.log(res.data.data);
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Data gak ketemu")
+        // setError("Data gak ketemu")
+    })
+  }, []);
+  // console.log("cek data user", dataUser)
 
   const [values, setValues] = useState({
     email: '',
@@ -81,45 +102,65 @@ export default function Login(props) {
           ...values, [name]: value
       })
   }
-  console.log("data login", values)
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if(errorMessageEmail !== "") {
-      alert("Terdapat data yang tidak sesuai")
-    } else if(errorMessagePassword !== "") {
-      alert("Terdapat data yang tidak sesuai")
-    } else {
-
-      axiosInstance
-        .post("/auth/local", {
-          identifier: values.email,
-          password: values.password,
-        })
-        .then((response) => {
-          navigate("/");
-          console.log("cek respon login" , response)
-          Cookies.set("jwt", response.data.jwt);
-
-          // if(response.status !== 200) {
-          //   setLoginFailed("Email atau Password Salah")
-          // }
-        })
-        .catch((error) => {
-          setLoginFailed("Email atau Password Salah !!!")
-          console.log(error);
-        });
-
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const isAuth = dataUser?.find(el => {
+      if (el.email === values.email && el.password === values.password ) {
+        return true;
+      }
+      return false;
+    });
+    if (isAuth === undefined) {
+      alert("data ga ada")
     }
+    navigate("/");
+    Cookies.set("id", isAuth.idUser);
+    Cookies.set("nama", isAuth.nama);
+    Cookies.set("kota", isAuth.kota);
+    Cookies.set("image", isAuth.image);
+    console.log("cek manual login", isAuth)
   }
+
+  // ====================================================================
+
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  //   if(errorMessageEmail !== "") {
+  //     alert("Terdapat data yang tidak sesuai")
+  //   } else if(errorMessagePassword !== "") {
+  //     alert("Terdapat data yang tidak sesuai")
+  //   } else {
+
+  //     axiosInstance
+  //       .post("/auth/local", {
+  //         identifier: values.email,
+  //         password: values.password,
+  //       })
+  //       .then((response) => {
+  //         navigate("/");
+  //         console.log("cek respon login" , response)
+  //         Cookies.set("jwt", response.data.jwt);
+
+  //         // if(response.status !== 200) {
+  //         //   setLoginFailed("Email atau Password Salah")
+  //         // }
+  //       })
+  //       .catch((error) => {
+  //         setLoginFailed("Email atau Password Salah !!!")
+  //         console.log(error);
+  //       });
+
+
+  //   }
+  // }
 
   // ================================================
 
   const handleClickShowPassword = () => {
     setValues({
       ...values,
-      showPassword: !values.showPassword,
+      showPassword: !values?.showPassword,
     });
   };
 
@@ -190,7 +231,7 @@ export default function Login(props) {
                     error={(errorMessagePassword === "") ? false : true}
                     name='password'
                     id="outlined-adornment-password"
-                    type={values.showPassword ? 'text' : 'password'}
+                    type={values?.showPassword ? 'text' : 'password'}
                     onChange={handleInput}
                     helperText={errorMessagePassword}
                     endAdornment={

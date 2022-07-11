@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 import {
   TextField,
@@ -42,10 +43,10 @@ export const KelolaPesananTiket = () => {
     setLoading(true);
 
     // const url = `https://62a33b8121232ff9b21be1dd.mockapi.io/bookings`;
-    const url = API_URL+`/booking/user/14`;
+    const url = API_URL+`/booking/user/${Cookies.get('id')}`;
     try {
       const res = await axios.get(url, {});
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setData(res.data.data);
       setError(null);
     } catch (err) {
@@ -64,7 +65,7 @@ export const KelolaPesananTiket = () => {
     const searchData = e.target.value.toLowerCase();
     setSearchInput(searchData)
   }
-  console.log("cek search", searchInput)
+  // console.log("cek search", searchInput)
 
   const filtered = data.filter((search) => {
     if (searchInput === "" ) {
@@ -111,6 +112,21 @@ export const KelolaPesananTiket = () => {
           toast.error("Data GAGAL dihapus");
         }
       });
+
+      const manageStokVaksin = {
+        id_health: dataEdit.session.vaksin.user.idUser,
+        nama: dataEdit.session.vaksin.nama,
+        date: dataEdit.session.date,
+        start: dataEdit.session.start,
+        end: dataEdit.session.end,
+        stok: parseInt(dataEdit.session.stok) + 1
+      }
+
+      axios
+        .put(API_URL+`/session/${dataEdit.session.idSession}`, manageStokVaksin)
+        .then((response) => {
+          console.log(response.status);
+        });
       setTimeout(() => {
         window.location.reload(false);
     }, 1400);
@@ -134,7 +150,7 @@ export const KelolaPesananTiket = () => {
         setError("Data gak ketemu");
       });
   };
-  console.log("cek data edit", dataEdit);
+  // console.log("cek data edit", dataEdit);
   // console.log("cek data namaavaksin", namaVaksin);
 
   const handleChangeUpdate = (e) => {
@@ -177,7 +193,7 @@ export const KelolaPesananTiket = () => {
   const [dataSession, setDataSession] = useState([])
 
   useEffect(() => {
-    axios.get(API_URL+"/session/user/14").then((res) => {
+    axios.get(API_URL+`/session/user/${Cookies.get('id')}`).then((res) => {
       setDataSession(res.data.data)
       // console.log(res.data);
     })
@@ -278,7 +294,7 @@ export const KelolaPesananTiket = () => {
                             {bookings.kelompok.namaKelompok}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {bookings.session.date.substring(0, 10)}
+                            {bookings?.session?.date?.substring(0, 10)}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                             {bookings.session.start}
@@ -402,7 +418,7 @@ export const KelolaPesananTiket = () => {
                               divider
                               id={session.idSession} 
                               value={session.idSession}>
-                              <p className="">{session.date.substring(0, 10)} | {session.start} - {session.end} | {session.vaksin?.nama}</p>
+                              <p className="">{session.date?.substring(0, 10)} | {session.start} - {session.end} | {session.vaksin?.nama}</p>
                             </MenuItem>
                             ))}
                         </Select>

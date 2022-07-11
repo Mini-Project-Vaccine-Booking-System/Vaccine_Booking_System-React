@@ -18,6 +18,7 @@ import axios from "axios";
 import { KonfirmasiDataTiket } from "./KonfirmasiDataTiket";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function getSteps() {
   return [
@@ -30,10 +31,6 @@ function getSteps() {
 
 export const AturTiketVaksin = (props) => {
 
-  // const kirim = useContext(UserContext); 
-  // console.log(kirim,"kirim")
-
-  console.log("props AturTiketVkasin", props);
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -109,14 +106,14 @@ export const AturTiketVaksin = (props) => {
   const [error, setError] = useState("");
   useEffect(() => {
     axios
-      .get("https://booking-vaksin-alta.herokuapp.com/api/vaksin/user/14")
+      .get(API_URL+`/vaksin/user/${Cookies.get('id')}`)
       .then((res) => {
         setDataVaksin(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
-        console.log("Data Pokemen gak ketemu");
+        // console.log(err);
+        // console.log("Data Pokemen gak ketemu");
         setError("Data Pokemen gak ketemu");
       });
   }, []);
@@ -159,8 +156,6 @@ export const AturTiketVaksin = (props) => {
         // setError("Data gak ketemu")
       })
     };
-  console.log("cek id vaksin", dataKonfirmVaksin);
-  console.log("cek vaksin 1", vaksin1);
 
   // =====================================================
 
@@ -221,7 +216,7 @@ export const AturTiketVaksin = (props) => {
   const handleSubmit = (e) => {
 
     const sesiData = {
-      id_health: 14,
+      id_health: Cookies.get('id'),
       date: tanggal,
       start: waktuAwal + ":00",
       end: waktuAkhir + ":00",
@@ -229,7 +224,7 @@ export const AturTiketVaksin = (props) => {
       stok: vaksin1.stokVaksin1,
       // stok_vaksin1: props.vaksin1.stokVaksin1,
     };
-    console.log(sesiData, "sesiData")
+    // console.log(sesiData, "sesiData")
 
     if (tanggal == "" || vaksin1.vaksin1 == "" || vaksin1.stokVaksin1 == "" || waktuAwal == "" || waktuAkhir == "") {
       toast.error("Data GAGAL ditambahkan, harap lengkapi data")
@@ -239,7 +234,7 @@ export const AturTiketVaksin = (props) => {
       toast.error("Data GAGAL ditambahkan, harap perbaiki data")
     } else {
         axios
-          .post("https://booking-vaksin-alta.herokuapp.com/api/session", sesiData)
+          .post(API_URL+`/session`, sesiData)
           .then((response) => {
             console.log(response.status);
             console.log(response.data.token);
@@ -253,7 +248,7 @@ export const AturTiketVaksin = (props) => {
           });
 
           const manageStokVaksin = {
-            id_health: 14,
+            id_health: Cookies.get('id'),
             nama: dataKonfirmVaksin.nama,
             quantity: parseInt(dataKonfirmVaksin.quantity) - parseInt(vaksin1.stokVaksin1)
           }
