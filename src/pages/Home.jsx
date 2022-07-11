@@ -15,11 +15,10 @@ import { Perawatan } from "./grafik/Perawatan";
 import { Pencegahan } from "./grafik/Pencegahan";
 
 import "./home.css"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import CardBerita from "./berita/cardBerita";
 import NavBarList from "../config/NavbarList";
-// import { initialValue } from "./initialValue";
 
 
 function TabPanel(props) {
@@ -66,6 +65,7 @@ const GetNews = gql `
       title
       url
       urlToImage
+      publishedAt
     }
   }
 `
@@ -108,10 +108,9 @@ export default function Home(props) {
   // ==========================================================
   // ===================DATA BERITA============================
 
-  // const [dataBerita, setDataBerita] = useState([])
 
   const {data: dataBerita, loading, error} = useQuery(GetNews);
-  console.log("cek data berita", dataBerita)
+  // console.log("cek data berita", dataBerita)
 
   // useEffect(() => {
   //     axios.get(process.env.REACT_APP_NEWS_API).then((res) => {

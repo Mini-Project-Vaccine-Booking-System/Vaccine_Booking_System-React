@@ -14,7 +14,7 @@ import { useEffect } from "react";
 // export const UserContext = createContext();
 
 export const KonfirmasiDataTiket = (props) => {
-  console.log("cek props di konfirmasi data tiket", props)
+  // console.log("cek props di konfirmasi data tiket", props)
 
   const [errorDataKosong, setErrorDataKosong] = useState("")
   const [errorVaksin, setErrorVaksin] = useState("")
