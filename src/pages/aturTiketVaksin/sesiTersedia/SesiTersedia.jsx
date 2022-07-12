@@ -308,7 +308,7 @@ export const SesiTersedia = () => {
               <CircularProgress />
             </div>
           ) : (
-            <div class="flex flex-col">
+            <div class="flex flex-col overflow-scroll">
               <div class="sm:-mx-6 lg:-mx-8">
                 <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
                   <div class="bg-white shadow-lg rounded-8">

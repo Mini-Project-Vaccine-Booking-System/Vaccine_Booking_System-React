@@ -57,3 +57,9 @@
 /* .sesiTersedia::-webkit-scrollbar {
   display: none;
 } */
+@media (max-width: 960px) {
+  .sesiTersedia {
+    width: 100%;
+    /* overflow: scroll; */
+  } 
+}

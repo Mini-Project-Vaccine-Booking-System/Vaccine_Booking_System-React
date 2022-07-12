@@ -21,6 +21,14 @@ main {
   /* z-index: -1; */
 }
 
+@media (max-width: 960px) {
+  main{
+    width: 100%;
+    margin-left: 13%;
+    margin-top: 25px;
+    width: 87%;
+  }
+}
 .title {
   font-size: 3rem;
   display: grid;
@@ -35,18 +43,21 @@ main {
   color: rgb(0, 0, 0);
   width: 25%;
   min-height: 93vh;
-  max-height: 93vh;
+  /* max-height: 93vh; */
+  height: 100%;
   overflow: scroll;
   /* padding-bottom: 50px; */
   /* position:fixed; */
   /* z-index: 1; */
 }
 
-/* @media (max-width: 1200px) {
+@media (max-width: 960px) {
   .sidebar {
-    max-height: 90vh;
+    position: fixed;
+    z-index: 9;
+    background: rgb(218, 244, 255);
   }
-} */
+}
 
 .sidebar::-webkit-scrollbar {
   display: none;

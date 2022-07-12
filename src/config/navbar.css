@@ -1,6 +1,12 @@
 .navbar {
   width: 100%;
 }
+@media (max-width: 960px) {
+header{
+  position: sticky;
+  top: 0;
+}
+}
 
 .navbar input {
   width: 180px;

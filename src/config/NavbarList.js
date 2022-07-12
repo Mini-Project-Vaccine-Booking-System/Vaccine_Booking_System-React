@@ -181,6 +181,7 @@ const NavBarList = ({ children }) => {
     <>
       <AppBar 
         position="sticky" 
+        className='md:sticky'
         style={{
           backgroundColor: "white",
           fontFamily: "Inter",
