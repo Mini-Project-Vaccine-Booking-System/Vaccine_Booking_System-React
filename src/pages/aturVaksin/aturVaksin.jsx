@@ -214,24 +214,36 @@ export const AturVaksin = () => {
       nama: dataEdit.nama,
       quantity: dataEdit.quantity,
     };
-    axios
+
+    const isValid = data?.find(el => {
+      if (dataEdit.nama === el.nama) {
+        return true
+      } 
+      return false
+    });
+    if (isValid === undefined || isValid === null || isValid === "") {
+      axios
       .put(
         API_URL+`/vaksin/${id}`,
         vaksinDataEdit
-      )
-      .then((response) => {
-        console.log(response.status);
-        console.log(response.data.token);
-
-        if (response.status === 200) {
-          toast.success("Data BERHASIL diubah");
-        } else {
-          toast.error("Data GAGAL diubah");
-        }
-      });
-      setTimeout(() => {
-        // window.location.reload(false);
-    }, 1400);
+        )
+        .then((response) => {
+          console.log(response.status);
+          console.log(response.data.token);
+          
+          if (response.status === 200) {
+            toast.success("Data BERHASIL diubah");
+          } else {
+            toast.error("Data GAGAL diubah");
+          }
+        });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 1400);
+      } else {
+        toast.error("Vaksin sudah ada")
+        setVaksinValidation("Vaksin sudah ada!!")
+      }
   };
 
   return (
@@ -378,7 +390,7 @@ export const AturVaksin = () => {
                                 name="namaVaksin"
                                 type="text"
                                 onChange={handleChange}
-                                // value={tanggalAwal}
+                                value={dataVaksin.namaVaksin}
                               />
                             </FormControl>
                             <FormControl sx={{ m: 1, width: 200 }}>
@@ -392,7 +404,7 @@ export const AturVaksin = () => {
                                 name="stokVaksin"
                                 type="number"
                                 onChange={handleChange}
-                                // value={tanggalAwal}
+                                value={dataVaksin.stokVaksin}
                               />
                             </FormControl>
                         <p className="text-red text-left mx-5 text-8">{vaksinValidation}</p>
@@ -408,8 +420,7 @@ export const AturVaksin = () => {
                           </button>
                           <button
                             className="bg-blue-600 text-white font-500 text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={handleSubmit}
+                            type="submit"
                           >
                             Tambah Vaksin
                           </button>
@@ -441,7 +452,6 @@ export const AturVaksin = () => {
                             }}>
                         <div className="relative p-6 flex-auto">
                           <FormControl sx={{ m: 1, width: 400 }}>
-                            {/* <InputLabel id="stokVaksin1">Stok</InputLabel> */}
                             <TextField
                               required
                               autoFocus
@@ -455,7 +465,6 @@ export const AturVaksin = () => {
                             />
                           </FormControl>
                           <FormControl sx={{ m: 1, width: 200 }}>
-                            {/* <InputLabel id="stok">adasdas</InputLabel> */}
                             <TextField
                               required
                               labelId="stok"
@@ -469,6 +478,7 @@ export const AturVaksin = () => {
                             />
                           </FormControl>
                         </div>
+                        <p className="text-red text-left mx-5 text-8">{vaksinValidation}</p>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                           <button

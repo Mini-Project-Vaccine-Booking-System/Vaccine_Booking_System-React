@@ -309,9 +309,9 @@ export const SesiTersedia = () => {
             </div>
           ) : (
             <div class="flex flex-col">
-              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="sm:-mx-6 lg:-mx-8">
                 <div class="py-16 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden bg-white shadow-lg rounded-8">
+                  <div class="bg-white shadow-lg rounded-8">
                     <table class="min-w-full">
                       <thead class="bg-blue-400">
                         <tr>
