@@ -136,8 +136,6 @@ export default function Login(props) {
   };
 
   const handleSubmit = (e) => {
-    setLoading(true);
-    
     e.preventDefault();
     const isAuth = dataUser?.find((el) => {
       if (el.email === values.email && el.password === values.password) {
@@ -311,7 +309,7 @@ export default function Login(props) {
                   <input
                     type="submit"
                     value="Login"
-                    className="bg-blue-700 text-white w-full h-24 text-10 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 mt-20 ease-linear transition-all duration-150"
+                    className="bg-blue-700 cursor-pointer text-white w-full h-24 text-10 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 mt-20 ease-linear transition-all duration-150"
                   ></input>
                 </div>
               </form>
