@@ -210,13 +210,13 @@ export const AturVaksin = () => {
 
   const handleSubmitEdit = (id) => {
     const vaksinDataEdit = {
-      id_health: 14,
+      id_health: Cookies.get('id'),
       nama: dataEdit.nama,
       quantity: dataEdit.quantity,
     };
 
     const isValid = data?.find(el => {
-      if (dataEdit.nama === el.nama) {
+      if (dataEdit.nama === el.nama && dataEdit.quantity === el.quantity) {
         return true
       } 
       return false

@@ -197,7 +197,7 @@ export const SesiTersedia = () => {
   const handleSubmitEdit = (id) => {
     // console.log("cek data edit di handlesubmit", dataEdit);
     const vaksinDataEdit = {
-      id_health: 14,
+      id_health: Cookies.get('id'),
       nama: dataEdit.vaksin.nama,
       date: dataEdit.date.substring(0, 10),
       start: dataEdit.start,

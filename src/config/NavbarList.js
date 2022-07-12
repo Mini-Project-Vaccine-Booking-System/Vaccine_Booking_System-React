@@ -11,20 +11,25 @@ import { TbVaccineBottle, TbVaccine } from "react-icons/tb"
 import { IoLogOut } from "react-icons/io5"
 import { IoMdNotifications } from "react-icons/io"
 import { TextField, FormControl, InputLabel } from '@mui/material';
+
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SiderBar from "../components/Sidebar/Sidebar";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+
 import Slide from '@mui/material/Slide';
 
 
@@ -75,15 +80,15 @@ const NavBarList = ({ children }) => {
         },
       ],
     },
-    {
-      path: "/login",
-      name: "Logout",
-      icon: <IoLogOut 
-      onClick={() => {
-        handleLogout();
-      }}/>,
+    // {
+    //   path: "/login",
+    //   name: "Logout",
+    //   icon: <IoLogOut 
+    //   onClick={() => {
+    //     handleLogout();
+    //   }}/>,
       
-    },
+    // },
   ];
   
   const [isOpen, setIsOpen] = useState(true);
@@ -134,24 +139,31 @@ const NavBarList = ({ children }) => {
   //Hanlde PopUp Settings
   const navigate = useNavigate();
   const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
 
-  const handleMenu = (event) => {
+  //========================= Menu Navbar ===========================
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
-    Cookies.remove('nama');
-    Cookies.remove('kota');
-    Cookies.remove('image');
+    Cookies.remove("nama");
+    Cookies.remove("address");
+    Cookies.remove("email");
+    Cookies.remove("password");
+    Cookies.remove("kota");
+    Cookies.remove("noHp");
+    Cookies.remove("username");
+    Cookies.remove("image");
     Cookies.remove('id', { path: '/'});
   }
 
@@ -159,6 +171,8 @@ const NavBarList = ({ children }) => {
     navigate("/login");
   }
 
+
+  // =========================================================================
   const [newImage, setNewImage] = useState('')
   useEffect(() => {
     setNewImage(Cookies.get('image'))
@@ -190,43 +204,75 @@ const NavBarList = ({ children }) => {
           <Toolbar>
             <div className='flex flex-row justify-between navbar'>
               <div>
-                <h1 className="navbar-brand ml-8">VaksinQu</h1>
+                <Link to="/"><h1 className="navbar-brand ml-8">VaksinQu</h1></Link>
               </div>
               <div className='flex flex-row-reverse justify-end items-center'>
                 <div className='flex flex-row justify-end items-center navbar-icon'>
                   <IoMdNotifications/>
                   <div>
                     <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
+                      onClick={handleClick}
+                      size="small"
+                      sx={{ ml: 2 }}
+                      aria-controls={open ? 'account-menu' : undefined}
                       aria-haspopup="true"
-                      onClick={handleMenu}
-                      color="inherit"
+                      aria-expanded={open ? 'true' : undefined}
                     >
-                      <AiFillSetting size="21px"/>
+                      <Avatar alt={Cookies.get('nama')} src={newImage} sx={{ width: 32, height: 32 }}>M</Avatar>
                     </IconButton>
                     <Menu
-                      id="menu-appbar"
                       anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={Boolean(anchorEl)}
+                      id="account-menu"
+                      open={open}
                       onClose={handleClose}
+                      onClick={handleClose}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: 'visible',
+                          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          mt: 1.5,
+                          '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                          },
+                          '&:before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <Link to="/profile"><MenuItem>
+                        <Avatar alt={Cookies.get('nama')} src={newImage}/> Profile
+                      </MenuItem></Link>
+                      <Divider />
+                      {/* <MenuItem>
+                        <ListItemIcon>
+                          <Settings fontSize="small" />
+                        </ListItemIcon>
+                        Settings
+                      </MenuItem> */}
                       <MenuItem onClick={() => {
                           handleLogout();
                           handleNavigate();
-                        }}
-                      >Logout
+                        }}>
+                        <ListItemIcon>
+                          <Logout fontSize="small" />
+                        </ListItemIcon>
+                        Logout
                       </MenuItem>
                     </Menu>
                   </div>
@@ -319,6 +365,31 @@ const NavBarList = ({ children }) => {
               }
 
               return (
+                index === 2 ? 
+                <NavLink
+                  to={route.path}
+                  key={index}
+                  className="link"
+                  activeClassName="active"
+                  onClick={() => {
+                    handleLogout();
+                  }}
+                >
+                  <div className="icon">{route.icon}</div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        variants={showAnimation}
+                        initial="hidden"
+                        animate="show"
+                        exit="hidden"
+                        className="link_text"
+                      >
+                        {route.name}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </NavLink> : 
                 <NavLink
                   to={route.path}
                   key={index}

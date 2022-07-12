@@ -72,12 +72,9 @@ export default function Login(props) {
 
   const getData = async () => {
     setLoading(true);
-    // const url = "https://62a33b8121232ff9b21be1dd.mockapi.io/vaccine";
     const url = API_URL + "/user";
-    // const url = "https://vaccine-api-strapi.herokuapp.com/api/vaccines";
     try {
       const res = await axios.get(url);
-      // console.log(res.data.data);
       setDataUser(res.data.data);
     } catch (err) {
       console.log(err);
@@ -152,7 +149,12 @@ export default function Login(props) {
       navigate("/");
       Cookies.set("id", isAuth.idUser);
       Cookies.set("nama", isAuth.nama);
+      Cookies.set("address", isAuth.address);
+      Cookies.set("email", isAuth.email);
+      Cookies.set("password", isAuth.password);
       Cookies.set("kota", isAuth.kota);
+      Cookies.set("noHp", isAuth.noHp);
+      Cookies.set("username", isAuth.username);
       Cookies.set("image", isAuth.image);
       console.log("cek manual login", isAuth)
     }
