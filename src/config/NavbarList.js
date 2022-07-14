@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { NavLink } from "react-router-dom";
+import axios from 'axios';
 
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaTicketAlt, FaBookOpen } from "react-icons/fa";
 import { MdMessage, MdDashboard, MdOutlineEventAvailable } from "react-icons/md";
@@ -91,6 +92,7 @@ const NavBarList = ({ children }) => {
     // },
   ];
   
+  const API_URL = process.env.REACT_APP_BASE_URL
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
@@ -156,14 +158,6 @@ const NavBarList = ({ children }) => {
   };
 
   const handleLogout = () => {
-    Cookies.remove("nama");
-    Cookies.remove("address");
-    Cookies.remove("email");
-    Cookies.remove("password");
-    Cookies.remove("kota");
-    Cookies.remove("noHp");
-    Cookies.remove("username");
-    Cookies.remove("image");
     Cookies.remove('id', { path: '/'});
   }
 
@@ -172,23 +166,37 @@ const NavBarList = ({ children }) => {
   }
 
 
-  // =========================================================================
+  // ==========================GET USER DATA============================
+
+  const [dataUser, setDataUser] = useState([])
   const [newImage, setNewImage] = useState('')
+
   useEffect(() => {
-    setNewImage(Cookies.get('image'))
-    if (newImage === undefined || newImage === null || newImage === "") {
-      setNewImage("https://firebasestorage.googleapis.com/v0/b/mini-project-alterra-c451b.appspot.com/o/Capstone_Vaccine%20Booking%20System%2F1603039115321.jpg?alt=media&token=087b0f22-5e82-4695-a8d7-71205a72df67")
-    } else {
-      setNewImage(newImage)
-    }
+    axios
+      .get(API_URL+`/user/${Cookies.get('id')}`)
+      .then((res) => {
+        setDataUser(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Data gak ketemu");
+      });
   }, []);
 
-  
-    
+  // console.log("data user", dataUser)
 
-  // console.log("cek poto di kuki", Cookies.get('image'))
-  // console.log("cek poto", newImage)
-  
+  // useEffect(() => {
+  //   setNewImage(dataUser.image)
+  //   if (newImage !== undefined || newImage !== null || newImage !== "") {
+  //     setNewImage(dataUser.image)
+  //     // console.log("data poto ada")
+  //   } else {
+  //     setNewImage("https://firebasestorage.googleapis.com/v0/b/mini-project-alterra-c451b.appspot.com/o/Capstone_Vaccine%20Booking%20System%2F1603039115321.jpg?alt=media&token=087b0f22-5e82-4695-a8d7-71205a72df67")
+  //     // console.log("data GA poto ada")
+  //   }
+  // }, []);
+
+  // console.log("cek imgd", newImage)
 
 
   return (
@@ -218,7 +226,7 @@ const NavBarList = ({ children }) => {
                       aria-haspopup="true"
                       aria-expanded={open ? 'true' : undefined}
                     >
-                      <Avatar alt={Cookies.get('nama')} src={newImage} sx={{ width: 32, height: 32 }}>M</Avatar>
+                      <Avatar alt={Cookies.get('nama')} src={dataUser?.image} sx={{ width: 32, height: 32 }}>M</Avatar>
                     </IconButton>
                     <Menu
                       anchorEl={anchorEl}
@@ -256,7 +264,7 @@ const NavBarList = ({ children }) => {
                       anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                       <Link to="/profile"><MenuItem>
-                        <Avatar alt={Cookies.get('nama')} src={newImage}/> Profile
+                        <Avatar alt={dataUser.nama} src={dataUser.image}/> Profile
                       </MenuItem></Link>
                       <Divider />
                       {/* <MenuItem>
@@ -323,10 +331,10 @@ const NavBarList = ({ children }) => {
               <div class="flex justify-center my-10">
                 <div class="rounded-lg shadow-lg bg-blue-400 w-176">
                   <div class="p-10">
-                    <img src={newImage} className='w-53 h-53 mb-10 rounded-lg'/>
-                    <h5 class="text-white text-sm font-medium ">{Cookies.get('nama')}</h5>
+                    <img src={dataUser.image} className='w-53 h-53 mb-10 rounded-lg'/>
+                    <h5 class="text-white text-sm font-medium ">{dataUser.nama}</h5>
                     <p class="text-white text-10 mb-4">
-                      {Cookies.get('kota')}
+                      {dataUser.kota}
                     </p>
                   </div>
                 </div>

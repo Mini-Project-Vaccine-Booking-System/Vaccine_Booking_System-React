@@ -148,14 +148,6 @@ export default function Login(props) {
     } else {
       navigate("/");
       Cookies.set("id", isAuth.idUser);
-      Cookies.set("nama", isAuth.nama);
-      Cookies.set("address", isAuth.address);
-      Cookies.set("email", isAuth.email);
-      Cookies.set("password", isAuth.password);
-      Cookies.set("kota", isAuth.kota);
-      Cookies.set("noHp", isAuth.noHp);
-      Cookies.set("username", isAuth.username);
-      Cookies.set("image", isAuth.image);
       console.log("cek manual login", isAuth)
     }
   }
