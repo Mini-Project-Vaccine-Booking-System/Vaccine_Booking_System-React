@@ -117,7 +117,11 @@ export const AturVaksin = () => {
     });
     if (isValid === undefined || isValid === null || isValid === "") {
       axios
-        .post(API_URL+"/vaksin", vaksinData)
+        .post(API_URL+"/vaksin", vaksinData, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        })
         .then((response) => {
         // console.log(response.status);
           console.log(response.data.token);
@@ -170,7 +174,11 @@ export const AturVaksin = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(API_URL+`/vaksin/${id}`)
+      .delete(API_URL+`/vaksin/${id}`, {
+        headers: {
+          'Authorization' : `Bearer ${Cookies.get('jwt')}`
+        }
+      })
       .then((response) => {
         if (response.status === 200) {
           toast.success("Data BERHASIL dihapus");
@@ -225,7 +233,11 @@ export const AturVaksin = () => {
       axios
       .put(
         API_URL+`/vaksin/${id}`,
-        vaksinDataEdit
+        vaksinDataEdit, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        }
         )
         .then((response) => {
           console.log(response.status);

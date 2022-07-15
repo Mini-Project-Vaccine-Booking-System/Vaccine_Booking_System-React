@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Cookies from "js-cookie";
 
 export const PrivateRoute = () => {
-    const JWT = (Cookies.get('id'))
+    const JWT = (Cookies.get('jwt'))
 
     if (JWT !== undefined) {
         return <Outlet/>

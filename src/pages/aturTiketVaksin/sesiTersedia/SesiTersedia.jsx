@@ -127,7 +127,11 @@ export const SesiTersedia = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(API_URL+`/session/${id}`)
+      .delete(API_URL+`/session/${id}`, {
+        headers: {
+          'Authorization' : `Bearer ${Cookies.get('jwt')}`
+        }
+      })
       .then((response) => {
         console.log("datax berhasil di hapus",response.status);
         // console.log(response.data.token);
@@ -147,7 +151,11 @@ export const SesiTersedia = () => {
     axios
       .put(
         API_URL+`/vaksin/${dataDelete.vaksin.idVaksin}`,
-        manageStokVaksin
+        manageStokVaksin, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        }
       )
       .then((response) => {
         console.log(response.status);
@@ -207,7 +215,11 @@ export const SesiTersedia = () => {
     axios
       .put(
         API_URL+`/session/${id}`,
-        vaksinDataEdit
+        vaksinDataEdit, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        }
       )
       .then((response) => {
         console.log(response.status);
@@ -231,7 +243,11 @@ export const SesiTersedia = () => {
         axios
         .put(
           API_URL+`/vaksin/${dataEdit.vaksin.idVaksin}`,
-          manageStokVaksin
+          manageStokVaksin, {
+            headers: {
+              'Authorization' : `Bearer ${Cookies.get('jwt')}`
+            }
+          }
         )
         .then((response) => {
           console.log(response.status);
@@ -246,16 +262,17 @@ export const SesiTersedia = () => {
         axios
         .put(
           API_URL+`/vaksin/${dataEdit.vaksin.idVaksin}`,
-          manageStokVaksin
+          manageStokVaksin, {
+            headers: {
+              'Authorization' : `Bearer ${Cookies.get('jwt')}`
+            }
+          }
         )
         .then((response) => {
           console.log(response.status);
-
+          
         });
       }
-
-
-      // setDataVaksin()
 
       setTimeout(() => {
         window.location.reload(false);

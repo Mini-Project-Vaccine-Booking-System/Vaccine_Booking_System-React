@@ -101,7 +101,11 @@ export const KelolaPesananTiket = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(API_URL+`/booking/${id}`)
+      .delete(API_URL+`/booking/${id}`, {
+        headers: {
+          'Authorization' : `Bearer ${Cookies.get('jwt')}`
+        }
+      })
       .then((response) => {
         console.log(response.status);
         console.log(response.data.token);
@@ -123,7 +127,11 @@ export const KelolaPesananTiket = () => {
       }
 
       axios
-        .put(API_URL+`/session/${dataEdit.session.idSession}`, manageStokVaksin)
+        .put(API_URL+`/session/${dataEdit.session.idSession}`, manageStokVaksin, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        })
         .then((response) => {
           console.log(response.status);
         });
@@ -171,7 +179,11 @@ export const KelolaPesananTiket = () => {
     axios
       .put(
         API_URL+`/booking/${id}`,
-        vaksinDataEdit
+        vaksinDataEdit, {
+          headers: {
+            'Authorization' : `Bearer ${Cookies.get('jwt')}`
+          }
+        }
       )
       .then((response) => {
         console.log(response.status);
@@ -183,9 +195,9 @@ export const KelolaPesananTiket = () => {
           toast.error("Data GAGAL diubah");
         }
       });
-      setTimeout(() => {
-        window.location.reload(false);
-    }, 1400);
+    //   setTimeout(() => {
+    //     window.location.reload(false);
+    // }, 1400);
   };
 
   // Data Session
@@ -402,7 +414,7 @@ export const KelolaPesananTiket = () => {
                       </div>
                     </div>
                     {/*body*/}
-                    <div className="relative p-6 flex flex-col">
+                    {/* <div className="relative p-6 flex flex-col">
                       <p className="ml-6 text-11 font-600">Ubah Waktu Vaksinasi</p>
                       <p className="ml-6 text-9">Sesi Tersedia</p>
                       <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -423,7 +435,7 @@ export const KelolaPesananTiket = () => {
                             ))}
                         </Select>
                       </FormControl>
-                    </div>
+                    </div> */}
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                       <button
@@ -433,7 +445,7 @@ export const KelolaPesananTiket = () => {
                       >
                         Tutup
                       </button>
-                      <button
+                      {/* <button
                         className="bg-blue-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => {
@@ -442,7 +454,7 @@ export const KelolaPesananTiket = () => {
                         }}
                       >
                         Edit Booking
-                      </button>
+                      </button> */}
                       <button
                         className="bg-red-600 text-white text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         onClick={() => {

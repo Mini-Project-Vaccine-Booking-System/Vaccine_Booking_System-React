@@ -68,23 +68,23 @@ export default function Login(props) {
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   const [loading, setLoading] = useState(false);
 
-  const [dataUser, setDataUser] = useState();
+  // const [dataUser, setDataUser] = useState();
 
-  const getData = async () => {
-    setLoading(true);
-    const url = API_URL + "/user";
-    try {
-      const res = await axios.get(url);
-      setDataUser(res.data.data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+  // const getData = async () => {
+  //   setLoading(true);
+  //   const url = API_URL + "/user";
+  //   try {
+  //     const res = await axios.get(url);
+  //     setDataUser(res.data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   // useEffect(() => {
   //   axios.get(API_URL+"/user").then((res) => {
@@ -132,57 +132,58 @@ export default function Login(props) {
     // setTimeout(e, 1000);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isAuth = dataUser?.find((el) => {
-      if (el.email === values.email && el.password === values.password) {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const isAuth = dataUser?.find((el) => {
+  //     if (el.email === values.email && el.password === values.password) {
         
-        return true;
-      }
-      return false;
-    });
-    if (isAuth === undefined) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   if (isAuth === undefined) {
 
-      setLoginFailed("Email atau password salah !!!")
-      console.log("Email atau password salah !!!")
-    } else {
-      navigate("/");
-      Cookies.set("id", isAuth.idUser);
-      console.log("cek manual login", isAuth)
-    }
-  }
+  //     setLoginFailed("Email atau password salah !!!")
+  //     console.log("Email atau password salah !!!")
+  //   } else {
+  //     navigate("/");
+  //     Cookies.set("id", isAuth.idUser);
+  //     console.log("cek manual login", isAuth)
+  //   }
+  // }
 
   // ====================================================================
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   if(errorMessageEmail !== "") {
-  //     alert("Terdapat data yang tidak sesuai")
-  //   } else if(errorMessagePassword !== "") {
-  //     alert("Terdapat data yang tidak sesuai")
-  //   } else {
+  const handleSubmit = e => {
+    e.preventDefault();
+    if(errorMessageEmail !== "") {
+      alert("Terdapat data yang tidak sesuai")
+    } else if(errorMessagePassword !== "") {
+      alert("Terdapat data yang tidak sesuai")
+    } else {
 
-  //     axiosInstance
-  //       .post("/auth/local", {
-  //         identifier: values.email,
-  //         password: values.password,
-  //       })
-  //       .then((response) => {
-  //         navigate("/");
-  //         console.log("cek respon login" , response)
-  //         Cookies.set("jwt", response.data.jwt);
+      axiosInstance
+        .post("/login", {
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          navigate("/");
+          console.log("cek respon login" , response)
+          Cookies.set("jwt", response.data.token);
+          Cookies.set("id", response.data.user.idUser);
 
-  //         // if(response.status !== 200) {
-  //         //   setLoginFailed("Email atau Password Salah")
-  //         // }
-  //       })
-  //       .catch((error) => {
-  //         setLoginFailed("Email atau Password Salah !!!")
-  //         console.log(error);
-  //       });
+          if(response.status !== 200) {
+            setLoginFailed("Email atau Password Salah")
+          }
+        })
+        .catch((error) => {
+          setLoginFailed("Email atau Password Salah !!!")
+          console.log(error);
+        });
 
-  //   }
-  // }
+    }
+  }
 
   // ================================================
 

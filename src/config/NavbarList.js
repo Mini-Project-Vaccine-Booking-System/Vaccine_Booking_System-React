@@ -158,7 +158,8 @@ const NavBarList = ({ children }) => {
   };
 
   const handleLogout = () => {
-    Cookies.remove('id', { path: '/'});
+    Cookies.remove('id');
+    Cookies.remove('jwt', { path: '/'});
   }
 
   const handleNavigate = () => {
@@ -169,6 +170,7 @@ const NavBarList = ({ children }) => {
   // ==========================GET USER DATA============================
 
   const [dataUser, setDataUser] = useState([])
+  const [dataUserHealth, setDataUserHealth] = useState({})
   const [newImage, setNewImage] = useState('')
 
   useEffect(() => {

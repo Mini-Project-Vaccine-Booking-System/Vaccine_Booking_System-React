@@ -234,7 +234,11 @@ export const AturTiketVaksin = (props) => {
       toast.error("Data GAGAL ditambahkan, harap perbaiki data")
     } else {
         axios
-          .post(API_URL+`/session`, sesiData)
+          .post(API_URL+`/session`, sesiData, {
+            headers: {
+              'Authorization' : `Bearer ${Cookies.get('jwt')}`
+            }
+          })
           .then((response) => {
             console.log(response.status);
             console.log(response.data.token);
@@ -255,7 +259,11 @@ export const AturTiketVaksin = (props) => {
           axios
             .put(
               API_URL+`/vaksin/${dataKonfirmVaksin.idVaksin}`,
-              manageStokVaksin
+              manageStokVaksin, {
+                headers: {
+                  'Authorization' : `Bearer ${Cookies.get('jwt')}`
+                }
+              }
             )
             .then((response) => {
               console.log(response.status);

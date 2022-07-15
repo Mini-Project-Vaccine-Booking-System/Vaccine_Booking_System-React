@@ -20,6 +20,8 @@ export const Profile = () => {
     const API_URL = process.env.REACT_APP_BASE_URL
     const [dataUser, setDataUser] = useState([])
     const [dataUserOld, setDataUserOld] = useState([])
+    const [showModalEditProfile, setShowModalEditProfile] = useState(false)
+    const [showModalGantiPassword, setShowModalGantiPassword] = useState(false)
 
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
@@ -92,13 +94,14 @@ export const Profile = () => {
         setDataUser(dataUserOld)
       }
 
+      const KonfirmEdit = () => {
+        setShowModalEditProfile(true)
+      }
+
       const handleSubmit = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         const editProfile = {
-          email: dataUser.email,
-          username: dataUser.username,
-          password: dataUser.password,
-          role: dataUser.role,
+          email: dataUser.username,
           noHp: dataUser.noHp,
           nama: dataUser.nama,
           image: dataUser.image,
@@ -108,8 +111,12 @@ export const Profile = () => {
 
         axios
         .put(
-          API_URL+`/user/${dataUser.idUser}`,
-          editProfile
+          API_URL+`/user/health/${dataUser.idUser}`,
+          editProfile, {
+            headers: {
+                'Authorization' : `Bearer ${Cookies.get('jwt')}`
+              }
+          }
         )
         .then((response) => {
           console.log(response.status);
@@ -118,8 +125,54 @@ export const Profile = () => {
           } else {
             toast.error("Data GAGAL diubah");
           }
+        })
+        .catch((err) => {
+            toast.error("Data GAGAL diubah");
         });
       }
+
+      const [changePassword, setChangePassword] = useState({
+        passwordLama : "",
+        passwordBaru : ""
+      })
+
+      const handleChangeGantiPassword = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setChangePassword({
+            ...changePassword,
+            [name]: value,
+        });
+      }
+      console.log(changePassword)
+
+      const handleGantiPassword = () => {
+        setShowModalGantiPassword(true);
+      }
+
+      const handleSubmitPassword = (e) => {
+        // e.preventDefault()
+        const gantiPassword = {
+            currentPassword: changePassword.passwordLama,
+            newPassword: changePassword.passwordBaru
+        }
+
+        axios
+        .put(API_URL+`/user/change-password`, gantiPassword, {
+            headers: {
+                'Authorization' : `Bearer ${Cookies.get('jwt')}`
+              }
+        })
+        .then((res) => {
+            console.log(res.status);
+            toast.success("Ganti password berhasil")
+        })
+        .catch((err) => {
+            toast.error("Ganti password gagal")
+        });
+    };
+      
 
       const handleClickShowPassword = () => {
         setDataUser({
@@ -133,19 +186,9 @@ export const Profile = () => {
       };
 
 
-    // const [newImage, setNewImage] = useState('')
-    // useEffect(() => {
-    //     setNewImage(Cookies.get('image'))
-    //     if (newImage === undefined || newImage === null || newImage === "") {
-    //     setNewImage("https://firebasestorage.googleapis.com/v0/b/mini-project-alterra-c451b.appspot.com/o/Capstone_Vaccine%20Booking%20System%2F1603039115321.jpg?alt=media&token=087b0f22-5e82-4695-a8d7-71205a72df67")
-    //     } else {
-    //     setNewImage(newImage)
-    //     }
-    // }, []);
-
     return (
     <NavBarList>
-        <ToastContainer />
+    <ToastContainer />
       <div className="m-16 profile">
         <div className="w-full h-100 bg-blue-50 cover"></div>
         <div className="grid md:grid-cols-5 border-b-1 pb-20">
@@ -190,23 +233,6 @@ export const Profile = () => {
                         </td>
                     </tr>
                     <tr className="h-52 border-b-1 border-gray-200 mb-20">
-                        <td>Email</td>
-                        <td>
-                            <div className="">
-                                <TextField
-                                    fullWidth
-                                    name="email"
-                                    size="small"
-                                    className="inputRounded"
-                                    style={{ }}
-                                    variant="outlined"
-                                    value={dataUser.email}
-                                    onChange={handleInput}
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className="h-52 border-b-1 border-gray-200 mb-20">
                         <td>Username</td>
                         <td>
                             <div className="">
@@ -223,7 +249,7 @@ export const Profile = () => {
                             </div>
                         </td>
                     </tr>
-                    <tr className="h-52 border-b-1 border-gray-200 mb-20">
+                    {/* <tr className="h-52 border-b-1 border-gray-200 mb-20">
                         <td>Password</td>
                         <td>
                         <FormControl fullWidth variant="outlined" className="inputRounded">
@@ -257,7 +283,7 @@ export const Profile = () => {
                             </FormHelperText>
                         </FormControl>
                         </td>
-                    </tr>
+                    </tr> */}
                     <tr className="h-52 border-b-1 border-gray-200 mb-20">
                         <td>Kota</td>
                         <td>
@@ -312,12 +338,131 @@ export const Profile = () => {
                 </tbody>
             </table>
             <div className="flex item-center mt-10">
-                <div className="h-fit my-auto mx-auto md:mx-10">
+                <div className="flex justify-end w-full">
                     <button className="text-blue-600 border-1 border-blue-600 px-10 py-2 rounded-md m-5" type="button" onClick={handleReset}>Cancel</button>
-                    <button className="bg-blue-600 border-1 border-blue-600 text-white rounded-md m-5 px-10 py-2" type="submit">Edit</button>
+                    <button className="bg-blue-600 border-1 border-blue-600 text-white rounded-md m-5 px-10 py-2" type="button" onClick={KonfirmEdit}>Edit</button>
+                    <button className="bg-blue-600 border-1 border-blue-600 text-white rounded-md my-5 ml-5 px-10 py-2" type="button" onClick={handleGantiPassword}>Ganti Password</button>
                 </div>
             </div>
             </form>
+        </div>
+        <div>
+        {showModalEditProfile ? (
+              <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      {/*header*/}
+                      <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 className="my-10 mx-auto">Edit Profile</h3>
+                      </div>
+                      {/*body*/}
+                      <form onSubmit = {() => {
+                              setShowModalEditProfile(false);
+                              handleSubmit();
+                        }}>
+                        <div className="m-10">
+                            <p className="text-9 m-0">Apakah Anda yakin ingin mengubah data?</p>
+                          {/* <FormControl sx={{ m: 1, width: 400 }}>
+                            <TextField
+                              labelId="email"
+                              id="email"
+                              name="email"
+                              type="email"
+                              value={dataUser.email}
+                              onChange={handleInput}
+                            />
+                          </FormControl> */}
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModalEditProfile(false)}
+                          >
+                            Tutup
+                          </button>
+                          <button
+                            className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="submit"
+                          >
+                            Edit Profile
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              </>
+            ) : //AKHIR MODAL EDIT PROFILE
+            null}
+
+            {showModalGantiPassword ? (
+              <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                  <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    {/*content*/}
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                      {/*header*/}
+                      <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                        <h3 className="my-10 mx-auto">Konfirmasi Ganti Password</h3>
+                      </div>
+                      {/*body*/}
+                      <form onSubmit = {() => {
+                              setShowModalGantiPassword(false);
+                              handleSubmitPassword();
+                        }}>
+                        <div className="m-10">
+                          <p className="ml-6 -mb-4 text-9">Masukkan password lama</p>
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            <TextField
+                              labelId="passwordLama"
+                              id="passwordLama"
+                              name="passwordLama"
+                              type="password"
+                              value={changePassword.passwordLama}
+                              onChange={handleChangeGantiPassword}
+                            />
+                          </FormControl>
+                          <p className="ml-6 -mb-4 text-9">Masukkan password baru</p>
+                          <FormControl sx={{ m: 1, width: 400 }}>
+                            <TextField
+                              labelId="passwordBaru"
+                              id="passwordBaru"
+                              name="passwordBaru"
+                              type="password"
+                              value={changePassword.passwordBaru}
+                              onChange={handleChangeGantiPassword}
+                            />
+                          </FormControl>
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="text-red-500 background-transparent px-6 py-2 text-11 outline-none focus:outline-none mr-10 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => setShowModalGantiPassword(false)}
+                          >
+                            Tutup
+                          </button>
+                          <button
+                            className="bg-blue-600 text-white text-11 px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="submit"
+                          >
+                            Konfirm
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              </>
+            ) : //AKHIR MODAL EDIT VAKSIN
+            null}
         </div>
       </div>
     </NavBarList>
