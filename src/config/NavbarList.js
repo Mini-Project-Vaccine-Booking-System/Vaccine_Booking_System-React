@@ -185,21 +185,6 @@ const NavBarList = ({ children }) => {
       });
   }, []);
 
-  // console.log("data user", dataUser)
-
-  // useEffect(() => {
-  //   setNewImage(dataUser.image)
-  //   if (newImage !== undefined || newImage !== null || newImage !== "") {
-  //     setNewImage(dataUser.image)
-  //     // console.log("data poto ada")
-  //   } else {
-  //     setNewImage("https://firebasestorage.googleapis.com/v0/b/mini-project-alterra-c451b.appspot.com/o/Capstone_Vaccine%20Booking%20System%2F1603039115321.jpg?alt=media&token=087b0f22-5e82-4695-a8d7-71205a72df67")
-  //     // console.log("data GA poto ada")
-  //   }
-  // }, []);
-
-  // console.log("cek imgd", newImage)
-
 
   return (
     <>
@@ -218,7 +203,6 @@ const NavBarList = ({ children }) => {
               </div>
               <div className='flex flex-row-reverse justify-end items-center'>
                 <div className='flex flex-row justify-end items-center navbar-icon'>
-                  <IoMdNotifications/>
                   <div>
                     <IconButton
                       onClick={handleClick}
@@ -269,12 +253,6 @@ const NavBarList = ({ children }) => {
                         <Avatar alt={dataUser.nama} src={dataUser.image}/> Profile
                       </MenuItem></Link>
                       <Divider />
-                      {/* <MenuItem>
-                        <ListItemIcon>
-                          <Settings fontSize="small" />
-                        </ListItemIcon>
-                        Settings
-                      </MenuItem> */}
                       <MenuItem onClick={() => {
                           handleLogout();
                           handleNavigate();
@@ -287,10 +265,10 @@ const NavBarList = ({ children }) => {
                     </Menu>
                   </div>
                 </div>
-                <div className='flex flex-row items-center'>
+                {/* <div className='flex flex-row items-center'>
                   <BiSearch className="search-icon"/>
                   <input placeholder='search...'></input>
-                </div>
+                </div> */}
               </div>
             </div>
         </Toolbar>
@@ -323,7 +301,7 @@ const NavBarList = ({ children }) => {
               )}
             </AnimatePresence>
 
-            <div className="bars ml-6">
+            <div className="bars ml-6 cursor-pointer">
               <FaBars onClick={toggle} />
             </div>
           </div>

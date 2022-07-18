@@ -279,7 +279,7 @@ export default function Home(props) {
                 <h2 className="text-17 font-600 ml-10 mt-4">Berita</h2>
               </div>
               <p className="fontTiny ml-8 my-5">
-                Informasi mengenai COVID-19 dan vaksinasi
+                Informasi mengenai COVID-19 dan kesehatan lainnya.
               </p>
 
               <div className="mt-10 ml-8 mb-32 flex flex-col">

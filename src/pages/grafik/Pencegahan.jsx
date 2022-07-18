@@ -47,7 +47,7 @@ export const Pencegahan = (props) => {
             <img src="https://cdn.discordapp.com/attachments/816934520837898244/989023194012876882/Mask_group.png"></img>
           </div>
           <div className="mx-auto mt-12">
-            <h6 className="text-13 font-600 mb-5">Cegah COVID dan Banti Akhiri Pandemi</h6>
+            <h6 className="text-13 font-600 mb-5">Cegah COVID dan Bantu Akhiri Pandemi</h6>
             <p>Dengan : </p>
             <ul className="list-disc ml-14">
               <li>Pakai Masker</li>
