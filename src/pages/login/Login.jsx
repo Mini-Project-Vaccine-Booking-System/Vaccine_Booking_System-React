@@ -1,10 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -35,29 +29,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { AppContext } from "../../App";
+import AuthContext from "../../AuthContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Login(props) {
-  // const [open, setOpen] = React.useState(false);
-  // console.log("propsss",props)
 
-  // const handleClickOpen = (props) => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-  // const [data, setData] = useState()
-
-  // const myContext = useContext(AppContext)
-
-  // ==============================================================================
-  const API_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const [loginSuccess, setLoginSuccess] = useState("");
   const [loginFailed, setLoginFailed] = useState("");
@@ -68,36 +47,9 @@ export default function Login(props) {
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   const [loading, setLoading] = useState(false);
 
-  // const [dataUser, setDataUser] = useState();
+  const myContext = useContext(AuthContext);
 
-  // const getData = async () => {
-  //   setLoading(true);
-  //   const url = API_URL + "/user";
-  //   try {
-  //     const res = await axios.get(url);
-  //     setDataUser(res.data.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // useEffect(() => {
-  //   axios.get(API_URL+"/user").then((res) => {
-  //     setDataUser(res.data.data)
-  //     // console.log(res.data.data);
-  //   })
-  //   .catch((err) => {
-  //       console.log(err);
-  //       console.log("Data gak ketemu")
-  //       // setError("Data gak ketemu")
-  //   })
-  // }, []);
-  // console.log("cek data user", dataUser)
+  console.log("cek context", myContext)
 
   const [values, setValues] = useState({
     email: "",
@@ -132,29 +84,8 @@ export default function Login(props) {
     // setTimeout(e, 1000);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const isAuth = dataUser?.find((el) => {
-  //     if (el.email === values.email && el.password === values.password) {
-        
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  //   if (isAuth === undefined) {
 
-  //     setLoginFailed("Email atau password salah !!!")
-  //     console.log("Email atau password salah !!!")
-  //   } else {
-  //     navigate("/");
-  //     Cookies.set("id", isAuth.idUser);
-  //     console.log("cek manual login", isAuth)
-  //   }
-  // }
-
-  // ====================================================================
-
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if(errorMessageEmail !== "") {
       alert("Terdapat data yang tidak sesuai")
@@ -185,7 +116,8 @@ export default function Login(props) {
     }
   }
 
-  // ================================================
+
+  // ====================================================================
 
   const handleClickShowPassword = () => {
     setValues({

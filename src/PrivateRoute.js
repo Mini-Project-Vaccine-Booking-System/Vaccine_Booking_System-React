@@ -1,10 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import Cookies from "js-cookie";
+import AuthContext from "./AuthContext";
 
 export const PrivateRoute = () => {
-    const JWT = (Cookies.get('jwt'))
+
+    const JWT = Cookies.get('jwt')
 
     if (JWT !== undefined) {
         return <Outlet/>
