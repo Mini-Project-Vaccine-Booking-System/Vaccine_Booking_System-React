@@ -1,0 +1,49 @@
+.navbar {
+  width: 100%;
+}
+@media (max-width: 960px) {
+header{
+  position: sticky;
+  top: 0;
+}
+}
+
+.navbar input {
+  width: 180px;
+  height: 30px;
+  color: rgba(179, 179, 179, 1);
+  font-size: 12px;
+  background-color: rgba(2, 109, 225, 0.08);
+  border-radius: 0px 10px 10px 0px;
+  padding-left: 10px;
+  margin-right: 20px;
+}
+
+.navbar input:focus {
+  outline: none;
+  color: black;
+}
+
+.search-icon {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(2, 109, 225, 0.08);
+  color: rgba(138, 138, 138, 1);
+  border-radius: 10px 0px 0px 10px;
+  padding-left: 12px;
+  padding-top: 3px;
+  font-size: 20px;
+}
+
+.navbar-icon {
+  color: rgba(138, 138, 138, 1);
+  font-size: 22px;
+}
+
+.navbar-brand {
+  color: rgba(102, 167, 255, 1);
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+}
